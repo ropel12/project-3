@@ -783,6 +783,7 @@ components:
         event_id:
           type: integer
           example: 1
+          
         payment_type:
           type: integer
           example: bank_transfer
@@ -812,18 +813,9 @@ components:
     TransactionsSchemaCreateCart:
       type: object
       properties:
-        event_id:
-          type: integer
-          example: 1
         type_id:
           type: integer
           example: 1
-        type_name:
-          type: string
-          example: vip
-        type_price:
-          type: integer
-          example: 20000
     TransactionsSchemaCartGetAll:
       type: array
       items:
