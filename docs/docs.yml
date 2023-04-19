@@ -1,0 +1,1386 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: EventPlaningRestfulAPI
+  description: EventPlanning Endpoint List
+servers:
+   # Added by API Auto Mocking Plugin
+   - description: SwaggerHub API Auto Mocking
+     url: https://virtserver.swaggerhub.com/ropel12/tes/1.0.0
+   - url: https://virtserver.swaggerhub.com/ropel12/Api-Documentation/1.0.0  
+     description: testing
+   - url : https://domain.com/api
+     description: production
+components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: limit contents
+      required: true
+      schema:
+        type: integer
+        example: 5
+    offset:
+      name: offset
+      in: query
+      description: start index
+      required: true
+      schema: 
+        type: integer
+        example: 0
+    name:
+      name: name
+      in: query
+      description: filter by name
+      schema: 
+        type: string
+        example: linux
+    location:
+      name: location
+      in: query
+      description: filter by location
+      schema:
+        type:  string
+        example: jakarta
+    id:
+      name: id
+      in: path
+      description: id 
+      required: true
+      schema: 
+        type: integer
+        example: 1
+
+
+  securitySchemes:
+    bearerAuth:           
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Token obtained upon successful login"
+    CSRFToken:
+      type: apiKey
+      in: header
+      name: X-CSRF-Token
+      description: "Token obtained when accessing the GET HTTP method"
+  responses:
+    Unauthorized:
+      description: Access token is missing or invalid
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code :
+                type: integer
+                example: 401
+              message:
+                type: string
+                example: Missing or Malformed JWT
+    BadRequest:
+      description: Missing Csrf Token or Invalid Request Body or data not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                example: 400
+              message:
+                type: string
+                example: Bad Request
+    StatusOK:
+      description: Success operation
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Success operation
+    StatusOKEventUpdate:
+      description: Success operation
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Success operation
+              data:
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                    example: 1
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                example: 500
+              message:
+                type: string
+                example: Internal Server Error
+    StatusOKLogin:
+      description: Success operation
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Success operation
+              data:
+                type: object
+                properties:
+                  Token:
+                    type: string
+                    example: eyJhbGciOiJIzI1NiIsInR5cCI6IkpXVCJ9
+    StatusCreated:
+      description: Success in adding data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: StatusCreated
+              code:
+                type: integer
+                example: 201
+    StatusOkAllEvent:
+      description: Fetch all event Data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Success operation
+              data:
+                $ref: '#/components/schemas/EventsSchemaGetAll'
+    StatusOkAllEventByuid:
+      description: Fetch all event by their Id
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Success operation
+              data:
+                $ref: '#/components/schemas/EventsSchemaGetAllByUid'
+    StatusOkHistoryUser:
+      description: Fetch all user transaction history data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Success operation
+              data:
+                $ref: '#/components/schemas/EventsSchemaGetAllByUid'
+    StatusOkTransactionListEventsUser:
+      description: Fetching data of tickets that have been paid by the user.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Success operation
+              data:
+                $ref: '#/components/schemas/TransactionSchemaListEventsUser'
+                
+
+    StatusOkEventById:
+      description: Fetch details event by event id
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Success operation
+              data:
+                $ref: '#/components/schemas/EventsSchemaGetById'
+
+    StatusOkUserUpdate:
+      description: User information updated successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code: 
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: Success operation
+              data:
+                $ref: '#/components/schemas/UsersSchemaProfile'  
+    StatusOkUserProfile:
+      description: Successful retrieval of user profile data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Success Operation
+              code:
+                type: integer
+                example: 200
+              data:
+                $ref: "#/components/schemas/UsersSchemaProfile"
+    StatusCreatedTransaction:
+      description: successful created a new transaction
+      content:
+        apllication/json:
+          schema: 
+            type: object
+            properties:
+              message: 
+                type: string
+                example: Success Operation
+              code:
+                type: integer
+                example: 201
+              data: 
+                type: object
+                properties:
+                  invoice:
+                    type: string
+                    example: INV102323232
+    StatusOkTransactionCart:
+      description: Successfully retrieving user's shopping cart data 
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Success operation
+              code:
+                type: integer
+                example: 200
+              data:
+                $ref: '#/components/schemas/TransactionsSchemaCartGetAll'
+    StatusOkTransactionGetByInvoice:
+      description: Fetch transaction data by invoice
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Success operation
+              code:
+                type: integer
+                example: 200
+              data:
+                $ref: '#/components/schemas/TransactionSchemaGetByInvoice'
+    StatusOkTicketAdd:
+      description: Successfully added a new ticket
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Success operation
+              code:
+                type: integer
+                example: 201
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+    StatusOkTicketDelete:
+      description: Successfully deleted the ticket
+      content:
+        application/json:
+          schema: 
+            type: object
+            properties:
+              message:
+                type: string
+                example: Success operation
+              code:
+                type: integer
+                example: 200
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+    StatusOkTicketsUser:
+      description: fetching data of paid tickets
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Success operation
+              code:
+                type: integer
+                example: 200
+              data:
+                $ref: '#/components/schemas/TicketsSchemaUsers'
+          
+
+  requestBodies:
+    ReqUserLogin:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersSchemaLogin'
+    ReqUserRegis:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersSchemaRegister'
+    ReqUserUpdate:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/UsersSchemaUpdate"
+    ReqCreateEvent:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/EventsSchemaCreate"
+    ReqCreateComment:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventsSchemaCreateComment'
+    ReqCreateTransaction:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransactionsSchemaCreate'
+    ReqCreateCart:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransactionsSchemaCreateCart'
+
+    ReqUpdateEvent:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '#/components/schemas/EventsSchemaUpdate'
+    ReqAddTicket:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TicketsSchemaAdd"
+  schemas:       
+    UsersSchemaLogin:
+        type: object
+        properties:
+          email:
+            type: string    
+          password:
+            type: string
+        example :
+          email : satrio@gmail.com
+          password : 12345
+    UsersSchemaRegister:
+        type: object
+        properties:
+          name:
+            type: string
+            example: Satrio
+          email:
+            type: string
+            example: satrio@gmail.com 
+          password:
+            type: string
+            example: satrio123
+          address:
+            type: string
+            example: bogor
+            
+    UsersSchemaProfile:
+        type: object
+        properties:
+          csrf:
+            type: string
+            example: "weqe23i2i32i3i2i3232"
+          data :
+            type: object
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+                example: satrio@gmail.com 
+              password:
+                type: string
+                example: satrio123
+              address:
+                type: string
+                example: bogor
+              image:
+                type: string
+                example: profile.jpg    
+    UsersSchemaUpdate: 
+        type: object
+        properties:
+          name:
+            type: string
+            example: satrio
+          email:
+            type: string
+            example: satrio@gmail.com 
+          password:
+            type: string
+            example: satrio123
+          address:
+            type: string
+            example: bogor
+          image:
+            type: string
+            format: binary
+            example: |
+              11111111111111111111111111
+              11111100111111111100111111
+              11110001111100111110001111
+    
+    EventsSchemaCreate:
+        type: object
+        properties:
+            name:
+              type: string
+              example: "Webinar: Belajar dasar Linux"
+            details:
+              type: string
+              example: "Linuxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            date:
+              type: string
+              example: 2023-04-16T21:17:02
+            location:
+              type: string
+              example: senayan jakarta pusat
+            qty:
+              type: integer
+              example: 10
+            duration:
+              type: integer
+              example: 2
+            type:
+              type: array
+              example: [{type_name: regular, price: 2000}]
+              items:
+                type: object
+                properties:
+                  type_name:
+                    type: string
+                  price:
+                    type: integer
+            image:
+              type: string
+              format: binary
+              example: |
+                  11111111111111111111111111
+                  11111100111111111100111111
+                  11110001111100111110001111
+    EventsSchemaUpdate:
+      type: object
+      properties:
+         id:
+          type: string
+          example: 1
+         name:
+            type: string
+            example: "Webinar: Belajar dasar linux"
+         date:
+            type: string
+            example: 2022-01-02
+         price:
+            type: integer
+            example: 20000
+         qouta:
+            type: integer
+            example: 20
+         duration:
+            type: integer
+            example: 2
+         details:
+              type: string
+              example: "Linuxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+         type:
+              type: array
+              example: [{type_name: regular, price: 2000}]
+              items:
+                type: object
+                properties:
+                  type_name:
+                    type: string
+                  price:
+                    type: integer
+         location:
+            type: string
+            example: senayan jakarta pusat
+         quota:
+            type: integer
+            example: 10
+         image:
+            type: string
+            format: binary
+            example: |
+                  11111111111111111111111111
+                  11111100111111111100111111
+                  11110001111100111110001111
+    EventsSchemaGetAll:
+        type: object
+        properties:
+          csrf: 
+            type: string
+            example: poewqi232iwejqwe2i31312j3
+          data:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                date:
+                  type: string
+                location:
+                  type: string
+                end_date:
+                  type: string
+                hosted_by:
+                  type: string
+                image:
+                  type: string
+                participants:
+                  type: integer
+            example: 
+                - id: 1
+                  name: "Webinar: Belajar dasar linux "
+                  date: 2023-04-13T17:17:02
+                  location: Senayan 
+                  end_date: 2023-04-13T18:17:02    
+                  hosted_by: IndoxPloit
+                  image: Linux.jpg
+                  participants: 10
+                - id: 2
+                  name: "Dota2"
+                  date: 2023-04-13T17:17:02
+                  location: Senayan 
+                  end_date: 2023-04-13T18:17:02    
+                  hosted_by: Ana
+                  image: Dota2.jpg
+                  participants: 10
+    EventsSchemaGetAllByUid:
+        type: object
+        properties:
+          csrf: 
+            type: string
+            example: poewqi232iwejqwe2i31312j3
+          data:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                date:
+                  type: string
+                location:
+                  type: string
+                end_date:
+                  type: string
+                hosted_by:
+                  type: string
+                image:
+                  type: string
+                participants:
+                  type: integer
+            example:
+            - id: 1
+              name: "Webinar: Belajar dasar linux "
+              date: 2023-04-13T17:17:02
+              location: Senayan 
+              end_date: 2023-04-13T18:17:02    
+              hosted_by: satrio
+              image: Linux.jpg
+              participants: 10
+            - id: 2
+              name: "Dota2"
+              date: 2023-04-13T17:17:02
+              location: Senayan 
+              end_date: 2023-04-13T18:17:02    
+              hosted_by: satrio
+              image: Dota2.jpg
+              participants: 10   
+      
+    EventsSchemaGetById:
+      type: object
+      properties:
+        csrf:
+          type: string
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            date:
+              type: string
+            duration:
+              type: integer
+            details:
+              type: string
+            location:
+              type: string
+            qouta:
+              type: integer
+            hosted_by:
+              type: string
+            image:
+              type: string
+            type:
+              type: array
+              items:
+                type: object
+                properties:
+                  type_id:
+                    type: integer
+                  type_name:
+                    type: string
+                  price:
+                    type: integer
+            participants:
+              type: array
+              items:
+                type: string
+            comments: 
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  image:
+                    type:  string
+                  comment: 
+                    type: string
+      example:
+        csrf: poewqi232iwejqwe2i31312j3
+        data: 
+         id: 1
+         name: "Webinar: Belajar dasar linux "
+         date: 2023-04-13T21:17:02
+         price: 2000
+         details: linuxxxxxxxxxxxxxxxxxxxxxxx
+         location: Senayan 
+         duration: 2   
+         hosted_by: IndoxPloit
+         image: Linux.jpg
+         type:
+          - type_id: 1
+            type_name: Regular 
+            price: 10000
+          - type_id: 2
+            type_name: Vip 
+            price: 50000 
+         participants: [satrio,alfian,irwan]
+         comments:
+           - name: satrio
+             image: satrio.jpg
+             comment: mantappppp
+           - name: irwan
+             image: irwan.jpg
+             comment: mantappppp
+           - name: alfian
+             image: alfian.jpg
+             comment: mantapp
+
+    EventsSchemaCreateComment:
+      type: object
+      properties:
+        event_id:
+          type: integer
+        comment:
+          type: string
+      example:
+        event_id: 1
+        comment: Eventnya Bagus
+    TransactionsSchemaCreate:
+      type: object
+      required:
+        - event_id
+        - payment_type
+      properties:
+        event_id:
+          type: integer
+          example: 1
+        payment_type:
+          type: integer
+          example: bank_transfer
+        bank:
+          description: If you choose the bank transfer option, it is mandatory. If not, then it is considered optional.
+          type: string
+          example: bni || mandiri || cimb || bca || bri || maybank|| permata || mega 
+        items_detail:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              price:
+                type: integer
+              qty:
+                type: integer
+          example:
+            - name: Regular
+              price: 10000
+              qty: 1
+            - name: vip
+              price: 50000
+              qty: 2      
+              
+    TransactionsSchemaCreateCart:
+      type: object
+      properties:
+        event_id:
+          type: integer
+          example: 1
+        type_id:
+          type: integer
+          example: 1
+        type_name:
+          type: string
+          example: vip
+        type_price:
+          type: integer
+          example: 20000
+    TransactionsSchemaCartGetAll:
+      type: array
+      items:
+        type: object
+        properties:
+          event_id:
+            type: integer
+          type_id:
+            type: integer
+          type_name:
+            type: string
+          type_price:
+            type: integer
+          qty:
+            type: integer
+          sub_total:
+            type: integer
+      example:
+        - event_id: 1
+          type_id: 1
+          type_name: Regular
+          type_price: 20000
+          qty: 1
+          sub_total: 20000
+        - event_id: 1
+          type_id: 2
+          type_name: Vip
+          type_price: 60000
+          qty: 2
+          sub_total: 120000
+    TicketsSchemaAdd:
+      type: object
+      properties:
+        id_event:
+          type: integer
+          example: 1
+        type_name:
+          type: string
+          example: VIP
+        type_price:
+          type: integer
+          example: 20000 
+    TransactionSchemaListEventsUser:
+      type: object
+      properties:
+        csrf:
+          type: string
+        data:
+          type: array
+          items:
+           type: object
+           properties:
+              event_name: 
+                type: string
+              invoice:
+                type: string
+      example:
+          csrf: poewp3232323232
+          data:
+            - event_name: Web Design
+              invoice: INV01111
+            - event_name: Java Script
+              invoice: INV033333
+            - event_name: Golang
+              invoice: INV788888
+    TicketsSchemaUsers:
+      type: object
+      properties:
+        csrf:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              ticket_type:
+                type: string
+              event_name:
+                type: string
+              location:
+                type: string
+              date: 
+                type: string
+              hosted_by:
+                type:  string
+      example:
+        csrf: 23i32iiwiqeqwe22
+        data:
+         - ticket_type: Mytic
+           event_name: Web Design
+           location: JCC
+           date: 2023-04-13T21:17:02
+           hosted_by: irwan
+         - ticket_type: Legend
+           event_name: Web Design
+           location: JCC
+           date: 2023-04-13T21:17:02
+           hosted_by: irwan
+         - ticket_type: Mytic
+           event_name: Web Design
+           location: JCC
+           date: 2023-04-13T21:17:02
+           hosted_by: irwan 
+    TransactionSchemaGetByInvoice:
+      type: object
+      properties:
+        csrf:
+          type: string
+          example: pewqieoo232323232
+        data:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: 50000
+            date:
+              type: string
+              example: 2023-04-13T21:17:02
+            expire:
+              type: string
+              example: 2023-04-14T21:17:02
+            payment_method:
+              type: string
+              example: gopay
+            status:
+              type: string
+              example: unpaid
+            payment_code:
+              type: string
+              example: https://api.sandbox.midtrans.com/v2/gopay/f597999d-75e7-4c58-894a-afe87ba525c8/qr-code
+            item_details:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  price:
+                    type: integer
+                  qty:
+                    type: integer
+                  sub_total:
+                    type: integer
+              example:
+                - name: Mytic
+                  price: 20000
+                  qty: 2
+                  sub_total: 40000
+                - name: Legend
+                  price: 10000
+                  qty: 1
+                  sub_total: 10000 
+
+
+                       
+paths:
+  /login:
+    post:
+      summary: Login account for user
+      tags:
+        - Auth
+      requestBody:
+        $ref: '#/components/requestBodies/ReqUserLogin'
+      responses:
+        '200':
+          $ref: "#/components/responses/StatusOKLogin"
+        '400':
+          $ref: "#/components/responses/BadRequest" 
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /register:
+    post: 
+      summary: Register account for user
+      tags:
+        - Auth
+      requestBody:
+        $ref: '#/components/requestBodies/ReqUserRegis'
+      responses:
+        '400':
+          $ref: "#/components/responses/BadRequest"
+        '201':
+          $ref: "#/components/responses/StatusCreated"
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /users:
+    get:
+      summary: Fetch user details
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      responses:
+        '200':
+          $ref: "#/components/responses/StatusOkUserProfile"
+        '401':
+          $ref: "#/components/responses/Unauthorized"
+        '400':
+          $ref: "#/components/responses/BadRequest"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+    put:
+      summary: Updated user profile
+      security:
+        - bearerAuth: []
+        - CSRFToken: []
+      
+      tags:
+        - Users
+      requestBody:
+        $ref: "#/components/requestBodies/ReqUserUpdate"
+      responses:
+        '200':
+          $ref: "#/components/responses/StatusOkUserUpdate"
+        '401':
+          $ref: "#/components/responses/Unauthorized"
+        '400':
+          $ref: "#/components/responses/BadRequest"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+    delete:
+      summary: Delete user profile
+      security:
+        - bearerAuth: []
+        - CSRFToken: []
+      tags:
+        - Users
+      responses:
+         '200':
+          $ref: "#/components/responses/StatusOK"
+         '401':
+          $ref: "#/components/responses/Unauthorized"
+         '400':
+          $ref: "#/components/responses/BadRequest"
+         '500':
+          $ref: "#/components/responses/InternalServerError"
+  
+  /users/events:
+    get:
+      summary: Fetch all events by uid
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      responses:
+        '200':
+          $ref: '#/components/responses/StatusOkAllEventByuid'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+        
+  /users/history:
+    get:
+      summary: Fetch all user transaction history data
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+       '200':
+        $ref: '#/components/responses/StatusOkHistoryUser'
+       '400':
+        $ref: '#/components/responses/BadRequest'
+       '401':
+        $ref: '#/components/responses/Unauthorized'
+       '500':
+        $ref: '#/components/responses/InternalServerError'
+  /users/transactions: 
+    get:
+      summary: Fetching data of tickets by the user
+      parameters:
+        - name: status
+          required: true
+          in: query
+          schema:
+            type: string
+          example: "?status=unpaid || ?status=paid"
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      responses:
+        '200': 
+         $ref: '#/components/responses/StatusOkTransactionListEventsUser'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+        
+      
+  /events:
+    put:
+      summary: Update event by id
+      security:
+        - bearerAuth: []
+        - CSRFToken: []
+      tags:
+        - Events
+      requestBody:
+        $ref: '#/components/requestBodies/ReqUpdateEvent'
+      responses:
+        '200':
+         $ref: '#/components/responses/StatusOKEventUpdate'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError' 
+    post:
+      summary: Create a new event
+      security:
+        - bearerAuth: []
+        - CSRFToken: []
+      tags:
+        - Events
+      requestBody:
+        $ref: '#/components/requestBodies/ReqCreateEvent'
+      responses: 
+        '201':
+         $ref: '#/components/responses/StatusCreated'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+    get:
+      security:
+       - bearerAuth: []
+      
+      tags:
+        - Events
+      summary: fetch all events
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/name'
+        - $ref: '#/components/parameters/location'
+      responses:
+        '200':
+         $ref: '#/components/responses/StatusOkAllEvent'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+
+        
+
+  /events/{id}:
+     delete:
+      parameters:
+        - $ref: '#/components/parameters/id'
+      summary: delete event by id
+      security:
+        - bearerAuth: []
+        - CSRFToken: []
+      
+      tags:
+        - Events
+      responses:
+        '200':
+         $ref: '#/components/responses/StatusOK'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+     get: 
+        security:
+         - bearerAuth: [] 
+        summary: fetch details event by id
+        parameters:
+        - $ref: '#/components/parameters/id'
+        tags:
+          - Events
+        responses:
+          '200':
+           $ref: '#/components/responses/StatusOkEventById'
+          '400':
+           $ref: '#/components/responses/BadRequest'
+          '401':
+           $ref: '#/components/responses/Unauthorized'
+          '500':
+           $ref: '#/components/responses/InternalServerError'
+  
+  /comments:
+    post:
+      tags:
+        - Events Participants
+      summary: Create a new comment
+      security:
+        - bearerAuth: []
+        - CSRFToken: []
+      requestBody: 
+        $ref: '#/components/requestBodies/ReqCreateComment'
+      responses:
+        '201':
+          $ref: '#/components/responses/StatusCreated'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+  /transactions/checkout:
+    post:
+      security:
+        - bearerAuth: []
+        - CSRFToken: []
+      tags:
+        - Transactions
+      description: make a new transaction
+      requestBody: 
+        $ref: '#/components/requestBodies/ReqCreateTransaction'
+      responses:
+        '201':
+          $ref: '#/components/responses/StatusCreatedTransaction'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+  /transactions/cart:
+    post:
+      security:
+        - bearerAuth: []
+        - CSRFToken: []
+      tags:
+        - Transactions
+      description: make a new cart
+      requestBody:
+        $ref: '#/components/requestBodies/ReqCreateCart'
+      responses:
+        '201':
+          $ref: '#/components/responses/StatusCreated'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Transactions
+      description: fetch all cart by their id
+      responses:
+        '200':
+          $ref: "#/components/responses/StatusOkTransactionCart"
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+  /transactions/{invoice}:
+    get:
+      parameters:
+        - name: invoice
+          in: path
+          required: true
+          schema: 
+            type: string
+            example: INV232323232
+          
+      security:
+        - bearerAuth: []
+      tags:
+        - Transactions
+      description: Fetch transaction data by invoice
+      responses:
+        '200':
+         $ref: '#/components/responses/StatusOkTransactionGetByInvoice'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+      
+  /tickets:
+    post:
+      description: add a new ticket
+      tags:
+        - Tickets
+      security:
+        - bearerAuth: []
+        - CSRFToken: []
+      requestBody:
+        $ref: "#/components/requestBodies/ReqAddTicket"
+      responses:
+        '201':
+          $ref: '#/components/responses/StatusOkTicketAdd'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+  /tickets/{id}:
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/id'
+      description: delete ticket by ticket id
+      tags:
+        - Tickets
+      security:
+        - bearerAuth: []
+        - CSRFToken: []
+      responses:
+        '200':
+          $ref: "#/components/responses/StatusOkTicketDelete"
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+  /tickets/{invoice}:
+    get:
+      
+      tags:
+        - Tickets
+      parameters:
+        - name: invoice
+          required: true
+          in: path
+          schema:
+            type: string
+          example: INV1234344
+      description: fetching data of paid tickets
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/StatusOkTicketsUser'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+      
+     
