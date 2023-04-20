@@ -8,6 +8,6 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: project3
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - ~/mysql-data:/var/lib/postgresql/data
