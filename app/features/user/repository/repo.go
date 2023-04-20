@@ -37,7 +37,7 @@ func (u *user) FindByEmail(db *gorm.DB, email string) (*entity.User, error) {
 	res := entity.User{}
 	err := db.Where("email = ?", email).Find(&res).Error
 	if res.Email == "" {
-		return nil, errorr.NewBad("Email tidak terdaftar")
+		return nil, errorr.NewBad("Email not registered")
 	}
 	if err != nil {
 		if err != gorm.ErrRecordNotFound {

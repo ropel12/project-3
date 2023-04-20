@@ -19,4 +19,5 @@ func (r *Routes) RegisterRoutes() {
 	ro.Use(middleware.Logger())
 	ro.Use(middleware.Recover())
 	ro.POST("/login", r.User.Login)
+	ro.POST("/register", r.User.Register)
 }
