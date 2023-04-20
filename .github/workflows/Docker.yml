@@ -13,9 +13,11 @@ jobs:
         name: Checkout
         uses: actions/checkout@v3
       - 
-        name: create config.json
+        shell: bash
+        env:
+          CONFIG: ${{ secrets.CONFIG }}
         run: |
-          echo ${{secrets.APPCONFIG}} > config.json
+          echo "$CONFIG" > config.json
       -
         shell: bash
         env:
