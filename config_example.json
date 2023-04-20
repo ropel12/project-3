@@ -1,0 +1,26 @@
+{
+    "SERVER" : {
+    "PORT" : "8080"
+    },
+    "DATABASE":{
+        "HOST": "localhost",
+        "PORT": "3306",
+        "USERNAME": "root",
+        "PASSWORD": "",
+        "NAME": "project3"
+    },
+    "REDIS" : {
+        "HOST": "localhost",
+        "PORT": "6379",
+        "PASSWORD": "",
+        "NAME": "test"
+    },
+    "CSRFLENGTH": 20,
+    "CSRFMODE": "2",
+    "GCP": {
+        "CREDEN": "./Auth.json",
+        "PROJECTID": "project2-383416",
+        "BUCKETNAME" : "prj1ropel",
+        "PATH": ""
+    }
+}
