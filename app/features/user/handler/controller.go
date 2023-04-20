@@ -8,7 +8,6 @@ import (
 	entity "github.com/ropel12/project-3/app/features/user"
 	"github.com/ropel12/project-3/app/features/user/service"
 	"github.com/ropel12/project-3/config/dependcy"
-	"github.com/ropel12/project-3/errorr"
 	"github.com/ropel12/project-3/helper"
 	"go.uber.org/dig"
 )
@@ -34,12 +33,20 @@ func (u *User) Login(c echo.Context) error {
 		token = helper.GenerateJWT(uid, u.Dep)
 	}()
 	if err != nil {
-		if err, ok := err.(errorr.BadRequest); ok {
-			return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, err.Error(), nil))
-		} else {
-			return c.JSON(http.StatusInternalServerError, CreateWebResponse(http.StatusInternalServerError, err.Error(), nil))
-		}
+		return CreateErrorResponse(err, c)
 	}
 	wg.Wait()
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", map[string]any{"token": token}))
+}
+
+func (u *User) Register(c echo.Context) error {
+	var req entity.RegisterReq
+	if err := c.Bind(&req); err != nil {
+		u.Dep.Log.Errorf("Error service: %v", err)
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid Request Body", nil))
+	}
+	if err := u.Service.Register(c.Request().Context(), req); err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", nil))
 }
