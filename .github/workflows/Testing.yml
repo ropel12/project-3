@@ -25,4 +25,4 @@ jobs:
       run: make update
 
     - name: Run Test
-      run: make testing
+      run: make test
