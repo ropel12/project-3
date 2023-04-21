@@ -1,9 +1,11 @@
 package handler
 
 import (
+	"mime/multipart"
 	"net/http"
 	"sync"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	entity "github.com/ropel12/project-3/app/features/user"
 	"github.com/ropel12/project-3/app/features/user/service"
@@ -49,4 +51,35 @@ func (u *User) Register(c echo.Context) error {
 		return CreateErrorResponse(err, c)
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", nil))
+}
+
+func (u *User) Update(c echo.Context) error {
+	var req entity.UpdateReq
+	if err := c.Bind(&req); err != nil {
+		u.Dep.Log.Errorf("Error service: %v", err)
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid Request Body", nil))
+	}
+	req.Id = helper.GetUid(c.Get("user").(*jwt.Token))
+	var filee multipart.File
+	file, err1 := c.FormFile("image")
+	if err1 == nil {
+		files, err := file.Open()
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Cannot Load Image", nil))
+		}
+		req.Image = file.Filename
+		filee = files
+	}
+	data, err := u.Service.Update(c.Request().Context(), req, filee)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	res := map[string]any{
+		"id":       data.ID,
+		"image":    data.Image,
+		"password": data.Password,
+		"email":    data.Email,
+		"name":     data.Name,
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", res))
 }
