@@ -18,6 +18,7 @@ type (
 		FindByEmail(db *gorm.DB, email string) (*entity.User, error)
 		Delete(db *gorm.DB, user entity.User) error
 		Update(db *gorm.DB, user entity.User) (*entity.User, error)
+		GetById(db *gorm.DB, id int) (*entity.User, error)
 	}
 )
 
@@ -81,9 +82,9 @@ func (u *user) Update(db *gorm.DB, user entity.User) (*entity.User, error) {
 
 func (u *user) GetById(db *gorm.DB, id int) (*entity.User, error) {
 	res := entity.User{}
-	err := db.Find(&res).Error
+	err := db.Find(&res, id).Error
 	if res.Email == "" {
-		return nil, errorr.NewBad("Email not registered")
+		return nil, errorr.NewBad("Id not found")
 	}
 	if err != nil {
 		if err != gorm.ErrRecordNotFound {
