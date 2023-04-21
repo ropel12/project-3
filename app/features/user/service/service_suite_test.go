@@ -219,5 +219,40 @@ var _ = Describe("user", func() {
 		})
 
 	})
+	Context("User Profile", func() {
+		When("Id user tidak ditemukan", func() {
+			BeforeEach(func() {
+				Mock.On("GetById", mock.Anything, mock.Anything).Return(nil, errors.New("id not found")).Once()
+			})
+			It("Akan Mengembalikan Error dengan pesan 'id not found'", func() {
+				user, err := UserService.GetProfile(ctx, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("id not found"))
+				Expect(user).To(BeNil())
+			})
+		})
+		When("Server error", func() {
+			BeforeEach(func() {
+				Mock.On("GetById", mock.Anything, mock.Anything).Return(nil, errors.New("Internal Server Error")).Once()
+			})
+			It("Akan Mengembalikan data user", func() {
+				user, err := UserService.GetProfile(ctx, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Internal Server Error"))
+				Expect(user).Should(BeNil())
+			})
+		})
+		When("Id user ditemukan", func() {
+			BeforeEach(func() {
+				Mock.On("GetById", mock.Anything, mock.Anything).Return(&entity.User{Email: "satrio@gmail.com"}, nil).Once()
+			})
+			It("Akan Mengembalikan data user", func() {
+				user, err := UserService.GetProfile(ctx, 1)
+				Expect(err).Should(BeNil())
+				Expect(user.Email).To(Equal("satrio@gmail.com"))
+			})
+		})
+
+	})
 
 })
