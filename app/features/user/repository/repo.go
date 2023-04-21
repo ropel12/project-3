@@ -80,10 +80,6 @@ func (u *user) Update(db *gorm.DB, user entity.User) (*entity.User, error) {
 }
 
 func (u *user) GetById(db *gorm.DB, id int) (*entity.User, error) {
-	if err := db.Delete(&user).Error; err != nil {
-		u.log.Errorf("error Db: %v", err)
-		return nil, errorr.NewInternal(err.Error())
-	}
 	res := entity.User{}
 	err := db.Find(&res).Error
 	if res.Email == "" {
