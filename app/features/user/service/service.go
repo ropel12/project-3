@@ -24,6 +24,7 @@ type (
 		Register(ctx context.Context, req entity.RegisterReq) error
 		Update(ctx context.Context, req entity.UpdateReq, file multipart.File) (*entity.User, error)
 		Delete(ctx context.Context, id int) error
+		GetProfile(ctx context.Context, id int) (*entity.User, error)
 	}
 )
 
@@ -122,4 +123,12 @@ func (u *user) Delete(ctx context.Context, id int) error {
 		return errorr.NewInternal("Internal Server Error")
 	}
 	return nil
+}
+
+func (u *user) GetProfile(ctx context.Context, id int) (*entity.User, error) {
+	res, err := u.repo.GetById(u.dep.Db.WithContext(ctx), id)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
 }

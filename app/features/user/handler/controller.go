@@ -90,3 +90,19 @@ func (u *User) Delete(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", nil))
 }
+
+func (u *User) GetProfile(c echo.Context) error {
+	data, err := u.Service.GetProfile(c.Request().Context(), helper.GetUid(c.Get("user").(*jwt.Token)))
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	res := map[string]any{
+		"id":       data.ID,
+		"name":     data.Name,
+		"email":    data.Email,
+		"password": data.Password,
+		"address":  data.Address,
+		"image":    data.Image,
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", res))
+}
