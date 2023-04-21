@@ -3,6 +3,8 @@ package service_test
 import (
 	"context"
 	"errors"
+	"mime/multipart"
+	"os"
 	"testing"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -96,7 +98,7 @@ var _ = Describe("user", func() {
 			})
 		})
 
-		When("Passoword Terlalu panjang", func() {
+		When("Password Terlalu panjang (melebihi 72 char)", func() {
 			BeforeEach(func() {
 				Mock.On("FindByEmail", mock.Anything, "satrio2@gmail.com").Return(nil, errors.New("email not registered")).Once()
 			})
@@ -129,6 +131,68 @@ var _ = Describe("user", func() {
 				err := UserService.Register(ctx, entity.RegisterReq{Email: "satrio2@gmail.com", Name: "satrio", Password: "eeeww", Address: "bogor ct"})
 				Expect(err).Should(BeNil())
 
+			})
+		})
+
+	})
+
+	Context("User Update", func() {
+		When("Password baru terlalu panjang (melebihi 72 char)", func() {
+			It("Akan Mengembalikan error", func() {
+				var file multipart.File
+				_, err := UserService.Update(ctx, entity.UpdateReq{Password: "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"}, file)
+				Expect(err).ShouldNot(BeNil())
+			})
+		})
+
+		When("Email baru sudah terdaftar pada database", func() {
+			BeforeEach(func() {
+				Mock.On("FindByEmail", mock.Anything, mock.Anything).Return(&entity.User{Email: "satrio@gmail.com"}, nil).Once()
+			})
+			It("Akan Mengembalikan error dengan pesan 'Email already registered'", func() {
+				var file multipart.File
+				_, err := UserService.Update(ctx, entity.UpdateReq{Password: "wwwwwwww", Email: "satrio@gmail.com"}, file)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Email already registered"))
+			})
+		})
+		When("Terdapat request gambar yang tidak sesuai dengan format gambar", func() {
+			BeforeEach(func() {
+				Mock.On("FindByEmail", mock.Anything, mock.Anything).Return(nil, errors.New("not found")).Once()
+			})
+			It("Akan Mengembalikan error dengan pesan 'Failed to upload image' ", func() {
+				var file multipart.File
+				file = os.NewFile(uintptr(2), "2")
+				_, err := UserService.Update(ctx, entity.UpdateReq{Password: "satrio2323223", Email: "satrio3@gmail.com", Image: "gambar.php"}, file)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Failed to upload image"))
+			})
+		})
+
+		When("Kesalahan Database", func() {
+			BeforeEach(func() {
+				Mock.On("FindByEmail", mock.Anything, mock.Anything).Return(nil, errors.New("not found")).Once()
+				Mock.On("Update", mock.Anything, mock.Anything).Return(nil, errors.New("Error db")).Once()
+			})
+			It("Akan Mengembalikan Error", func() {
+				var file multipart.File
+				file = os.NewFile(uintptr(2), "2")
+				_, err := UserService.Update(ctx, entity.UpdateReq{Password: "satrio2323223", Email: "satrio44@gmail.com", Image: "gambar.jpg"}, file)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Error db"))
+			})
+		})
+		When("Berhasil mengupdate profile", func() {
+			BeforeEach(func() {
+				Mock.On("FindByEmail", mock.Anything, mock.Anything).Return(nil, errors.New("not found")).Once()
+				Mock.On("Update", mock.Anything, mock.Anything).Return(&entity.User{Email: "satrio44@gmail.com"}, nil).Once()
+			})
+			It("Akan Mengembalikan data user terbaru", func() {
+				var file multipart.File
+				file = os.NewFile(uintptr(2), "2")
+				udata, err := UserService.Update(ctx, entity.UpdateReq{Password: "satrio2323223", Email: "satrio44@gmail.com", Image: "gambar.jpg"}, file)
+				Expect(err).Should(BeNil())
+				Expect(udata.Email).To(Equal("satrio44@gmail.com"))
 			})
 		})
 
