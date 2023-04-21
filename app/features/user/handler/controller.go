@@ -83,3 +83,10 @@ func (u *User) Update(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", res))
 }
+
+func (u *User) Delete(c echo.Context) error {
+	if err := u.Service.Delete(c.Request().Context(), helper.GetUid(c.Get("user").(*jwt.Token))); err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", nil))
+}

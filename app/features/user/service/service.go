@@ -23,6 +23,7 @@ type (
 		Login(ctx context.Context, req entity.LoginReq) (int, error)
 		Register(ctx context.Context, req entity.RegisterReq) error
 		Update(ctx context.Context, req entity.UpdateReq, file multipart.File) (*entity.User, error)
+		Delete(ctx context.Context, id int) error
 	}
 )
 
@@ -111,4 +112,14 @@ func (u *user) Update(ctx context.Context, req entity.UpdateReq, file multipart.
 		return nil, err
 	}
 	return res, nil
+}
+
+func (u *user) Delete(ctx context.Context, id int) error {
+	data := entity.User{}
+	data.ID = uint(id)
+	err := u.repo.Delete(u.dep.Db.WithContext(ctx), data)
+	if err != nil {
+		return errorr.NewInternal("Internal Server Error")
+	}
+	return nil
 }
