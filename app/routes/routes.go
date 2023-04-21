@@ -18,6 +18,10 @@ func (r *Routes) RegisterRoutes() {
 	ro.Use(middleware.RemoveTrailingSlash())
 	ro.Use(middleware.Logger())
 	ro.Use(middleware.Recover())
+	//No Auth
 	ro.POST("/login", r.User.Login)
 	ro.POST("/register", r.User.Register)
+	//Auth Area
+	rauth := ro.Group("", middleware.JWT([]byte(r.Depend.Config.JwtSecret)))
+	rauth.PUT("/users", r.User.Update)
 }

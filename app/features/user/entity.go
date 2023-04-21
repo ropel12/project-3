@@ -23,4 +23,12 @@ type (
 		Name     string `json:"name" validate:"required"`
 		Address  string `json:"address" validate:"required"`
 	}
+	UpdateReq struct {
+		Id       int
+		Email    string `form:"email"`
+		Password string `form:"password"`
+		Name     string `form:"name" `
+		Address  string `form:"address"`
+		Image    string `form:"image"`
+	}
 )

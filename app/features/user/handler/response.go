@@ -7,11 +7,13 @@ import (
 	"github.com/ropel12/project-3/errorr"
 )
 
-type WebResponse struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
-	Data    any    `json:"data,omitempty"`
-}
+type (
+	WebResponse struct {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+		Data    any    `json:"data,omitempty"`
+	}
+)
 
 func CreateWebResponse(code int, message string, data any) any {
 	return WebResponse{
