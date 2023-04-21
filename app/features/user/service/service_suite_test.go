@@ -197,5 +197,27 @@ var _ = Describe("user", func() {
 		})
 
 	})
+	Context("User Delete", func() {
+		When("Terjadi kesalahan pada database", func() {
+			BeforeEach(func() {
+				Mock.On("Delete", mock.Anything, mock.Anything).Return(errors.New("Internal Server Error")).Once()
+			})
+			It("Akan Mengembalikan Error", func() {
+				err := UserService.Delete(ctx, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Internal Server Error"))
+			})
+		})
+		When("Berhasil menghapus akun", func() {
+			BeforeEach(func() {
+				Mock.On("Delete", mock.Anything, mock.Anything).Return(nil).Once()
+			})
+			It("Akan Mengembalikan nil error", func() {
+				err := UserService.Delete(ctx, 1)
+				Expect(err).Should(BeNil())
+			})
+		})
+
+	})
 
 })

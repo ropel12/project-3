@@ -24,4 +24,5 @@ func (r *Routes) RegisterRoutes() {
 	//Auth Area
 	rauth := ro.Group("", middleware.JWT([]byte(r.Depend.Config.JwtSecret)))
 	rauth.PUT("/users", r.User.Update)
+	rauth.DELETE("/users", r.User.Delete)
 }
