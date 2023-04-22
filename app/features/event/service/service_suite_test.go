@@ -141,4 +141,49 @@ var _ = Describe("event", func() {
 			})
 		})
 	})
+
+	Context("Delete Event", func() {
+		When("Event id tidak ditemukan", func() {
+			BeforeEach(func() {
+				Mock.On("Delete", mock.Anything, mock.Anything, mock.Anything).Return(errors.New("id not found"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'id not found'", func() {
+				err := EventService.Delete(ctx, 9, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("id not found"))
+			})
+		})
+
+		When("Userid berbeda dengan uid pemilik event", func() {
+			BeforeEach(func() {
+				Mock.On("Delete", mock.Anything, mock.Anything, mock.Anything).Return(errors.New("Cannot delete event"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Cannot delete event'", func() {
+				err := EventService.Delete(ctx, 1, 5)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Cannot delete event"))
+			})
+		})
+
+		When("Kesalahan pada database", func() {
+			BeforeEach(func() {
+				Mock.On("Delete", mock.Anything, mock.Anything, mock.Anything).Return(errors.New("internal server error"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'internal server error'", func() {
+				err := EventService.Delete(ctx, 1, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("internal server error"))
+			})
+		})
+
+		When("Sukses menghapus event", func() {
+			BeforeEach(func() {
+				Mock.On("Delete", mock.Anything, mock.Anything, mock.Anything).Return(nil)
+			})
+			It("Akan Mengembalikan error dengan pesan 'internal server error'", func() {
+				err := EventService.Delete(ctx, 1, 1)
+				Expect(err).Should(BeNil())
+			})
+		})
+	})
 })

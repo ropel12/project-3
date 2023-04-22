@@ -42,6 +42,20 @@ func (_m *EventRepo) Create(db *gorm.DB, data entities.Event) (*int, error) {
 	return r0, r1
 }
 
+// Delete provides a mock function with given fields: db, id, uid
+func (_m *EventRepo) Delete(db *gorm.DB, id int, uid int) error {
+	ret := _m.Called(db, id, uid)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int, int) error); ok {
+		r0 = rf(db, id, uid)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // GetByUid provides a mock function with given fields: db, rds, uid, limit, offset
 func (_m *EventRepo) GetByUid(db *gorm.DB, rds *redis.Client, uid int, limit int, offset int) ([]*entities.Event, int, error) {
 	ret := _m.Called(db, rds, uid, limit, offset)

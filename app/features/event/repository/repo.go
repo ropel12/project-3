@@ -22,6 +22,7 @@ type (
 	EventRepo interface {
 		Create(db *gorm.DB, data entity.Event) (*int, error)
 		GetByUid(db *gorm.DB, rds *redis.Client, uid int, limit int, offset int) ([]*entity.Event, int, error)
+		Delete(db *gorm.DB, id int, uid int) error
 	}
 )
 
@@ -73,4 +74,20 @@ func (e *event) GetByUid(db *gorm.DB, rds *redis.Client, uid int, limit int, off
 		return nil, 0, errorr.NewInternal("Server internal Error")
 	}
 	return dbres, int(count), nil
+}
+
+func (e *event) Delete(db *gorm.DB, id int, uid int) error {
+	eventdata := entity.Event{}
+	db.Find(&eventdata, id)
+	if eventdata.Name == "" {
+		return errorr.NewBad("Id not found")
+	}
+	if eventdata.UserID != uint(uid) {
+		return errorr.NewBad("Cannot delete event")
+	}
+	if err := db.Delete(&entity.Event{}, id).Error; err != nil {
+		e.log.Errorf("error database : %v", err)
+		return errorr.NewInternal("Internal Server Error")
+	}
+	return nil
 }
