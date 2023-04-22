@@ -24,6 +24,7 @@ type (
 	EventService interface {
 		Create(ctx context.Context, req entity.ReqCreate, file multipart.File) (int, error)
 		MyEvent(ctx context.Context, uid, limit, page int) (*entity.Response, error)
+		Delete(ctx context.Context, id int, uid int) error
 	}
 )
 
@@ -90,4 +91,11 @@ func (e *event) MyEvent(ctx context.Context, uid, limit, page int) (*entity.Resp
 	}
 	res.Data = datas
 	return res, nil
+}
+
+func (e *event) Delete(ctx context.Context, id int, uid int) error {
+	if err := e.repo.Delete(e.dep.Db.WithContext(ctx), id, uid); err != nil {
+		return err
+	}
+	return nil
 }

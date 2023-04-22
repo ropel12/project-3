@@ -43,7 +43,7 @@ func (e *Event) Create(c echo.Context) error {
 	if err != nil {
 		return CreateErrorResponse(err, c)
 	}
-	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "OK", map[string]any{"id": id}))
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", map[string]any{"id": id}))
 }
 
 func (e *Event) MyEvent(c echo.Context) error {
@@ -63,5 +63,20 @@ func (e *Event) MyEvent(c echo.Context) error {
 	if err != nil {
 		return CreateErrorResponse(err, c)
 	}
-	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "OK", res))
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
+}
+
+func (e *Event) Delete(c echo.Context) error {
+	eventid := c.Param("id")
+	if eventid == "" {
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Missing param id", nil))
+	}
+	neweventid, err := strconv.Atoi(eventid)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid param id", nil))
+	}
+	if err := e.Service.Delete(c.Request().Context(), neweventid, helper.GetUid(c.Get("user").(*jwt.Token))); err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", nil))
 }
