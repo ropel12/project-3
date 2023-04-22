@@ -1,6 +1,7 @@
 package dependcy
 
 import (
+	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
 	"github.com/ropel12/project-3/config"
 	"github.com/ropel12/project-3/pkg"
@@ -16,4 +17,5 @@ type Depend struct {
 	Echo   *echo.Echo
 	Log    *logrus.Logger
 	Gcp    *pkg.StorageGCP
+	Rds    *redis.Client
 }

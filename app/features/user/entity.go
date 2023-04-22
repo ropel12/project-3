@@ -1,20 +1,6 @@
 package user
 
-import (
-	event "github.com/ropel12/project-3/app/features/event"
-	"gorm.io/gorm"
-)
-
 type (
-	User struct {
-		gorm.Model
-		Name     string `gorm:"not null"`
-		Email    string `gorm:"not null"`
-		Password string `gorm:"not null"`
-		Address  string `gorm:"not null"`
-		Image    string `gorm:"not null"`
-		Events   []event.Event
-	}
 	LoginReq struct {
 		Email    string `json:"email" validate:"required"`
 		Password string `json:"password" validate:"required"`

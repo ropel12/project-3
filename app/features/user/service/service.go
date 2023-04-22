@@ -6,6 +6,7 @@ import (
 	"mime/multipart"
 
 	"github.com/go-playground/validator"
+	entity2 "github.com/ropel12/project-3/app/entities"
 	entity "github.com/ropel12/project-3/app/features/user"
 	"github.com/ropel12/project-3/app/features/user/repository"
 	"github.com/ropel12/project-3/config/dependcy"
@@ -22,9 +23,9 @@ type (
 	UserService interface {
 		Login(ctx context.Context, req entity.LoginReq) (int, error)
 		Register(ctx context.Context, req entity.RegisterReq) error
-		Update(ctx context.Context, req entity.UpdateReq, file multipart.File) (*entity.User, error)
+		Update(ctx context.Context, req entity.UpdateReq, file multipart.File) (*entity2.User, error)
 		Delete(ctx context.Context, id int) error
-		GetProfile(ctx context.Context, id int) (*entity.User, error)
+		GetProfile(ctx context.Context, id int) (*entity2.User, error)
 	}
 )
 
@@ -62,7 +63,7 @@ func (u *user) Register(ctx context.Context, req entity.RegisterReq) error {
 		u.dep.Log.Errorf("Erorr service: %v", err)
 		return errorr.NewBad("Register failed")
 	}
-	data := entity.User{
+	data := entity2.User{
 		Name:     req.Name,
 		Email:    req.Email,
 		Address:  req.Address,
@@ -76,7 +77,7 @@ func (u *user) Register(ctx context.Context, req entity.RegisterReq) error {
 	return nil
 }
 
-func (u *user) Update(ctx context.Context, req entity.UpdateReq, file multipart.File) (*entity.User, error) {
+func (u *user) Update(ctx context.Context, req entity.UpdateReq, file multipart.File) (*entity2.User, error) {
 	if req.Password != "" {
 		passhash, err := helper.HashPassword(req.Password)
 		if err != nil {
@@ -100,7 +101,7 @@ func (u *user) Update(ctx context.Context, req entity.UpdateReq, file multipart.
 		req.Image = filename
 		file.Close()
 	}
-	data := entity.User{
+	data := entity2.User{
 		Name:     req.Name,
 		Email:    req.Email,
 		Address:  req.Address,
@@ -116,7 +117,7 @@ func (u *user) Update(ctx context.Context, req entity.UpdateReq, file multipart.
 }
 
 func (u *user) Delete(ctx context.Context, id int) error {
-	data := entity.User{}
+	data := entity2.User{}
 	data.ID = uint(id)
 	err := u.repo.Delete(u.dep.Db.WithContext(ctx), data)
 	if err != nil {
@@ -125,7 +126,7 @@ func (u *user) Delete(ctx context.Context, id int) error {
 	return nil
 }
 
-func (u *user) GetProfile(ctx context.Context, id int) (*entity.User, error) {
+func (u *user) GetProfile(ctx context.Context, id int) (*entity2.User, error) {
 	res, err := u.repo.GetById(u.dep.Db.WithContext(ctx), id)
 	if err != nil {
 		return nil, err

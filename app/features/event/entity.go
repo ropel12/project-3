@@ -1,32 +1,20 @@
 package event
 
 import (
-	"gorm.io/gorm"
+	entity "github.com/ropel12/project-3/app/entities"
 )
 
 type (
-	Event struct {
-		gorm.Model
-		Name      string  `gorm:"type:varchar(30);not null"`
-		StartDate string  `gorm:"type:timestamp;not null"`
-		Duration  float32 `gorm:"type:float;not null"`
-		EndDate   string  `gorm:"type:timestamp;not null"`
-		Quota     int     `gorm:"not null"`
-		Location  string  `gorm:"not null"`
-		Detail    string  `gorm:"not null"`
-		Image     string  `gorm:"not null"`
-		HostedBy  string  `gorm:"not null"`
-		UserID    uint    `gorm:"not null"`
-		Types     []Type
+	ResponseEvent struct {
+		Id           int    `json:"id"`
+		Name         string `json:"name"`
+		Date         string `json:"date"`
+		Location     string `json:"location"`
+		EndDate      string `json:"end_date"`
+		HostedBy     string `json:"hosted_by"`
+		Image        string `json:"image"`
+		Participants int    `json:"participants"`
 	}
-
-	Type struct {
-		Id      uint   `gorm:"primaryKey;not null;autoIncrement"`
-		Name    string `gorm:"not null" form:"name" json:"name" validate:"required" `
-		Price   int    `gorm:"not null" form:"price" json:"price" validate:"required"`
-		EventID uint   `gorm:"not null"`
-	}
-
 	ReqCreate struct {
 		Name      string  `form:"name" validate:"required"`
 		StartDate string  `form:"date" validate:"required"`
@@ -36,8 +24,15 @@ type (
 		HostedBy  string  `form:"hosted_by" validate:"required"`
 		Location  string  `form:"location" validate:"required"`
 		Rtype     string  `form:"type" json:"type" validate:"required"`
-		Types     []Type
+		Types     []entity.Type
 		Image     string
 		Uid       int
+	}
+	Response struct {
+		Limit     int `json:"limit"`
+		Page      int `json:"page"`
+		TotalPage int `json:"total_page"`
+		TotalData int `json:"total_data"`
+		Data      any `json:"data"`
 	}
 )
