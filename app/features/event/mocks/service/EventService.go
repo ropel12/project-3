@@ -40,6 +40,20 @@ func (_m *EventService) Create(ctx context.Context, req event.ReqCreate, file mu
 	return r0, r1
 }
 
+// Delete provides a mock function with given fields: ctx, id, uid
+func (_m *EventService) Delete(ctx context.Context, id int, uid int) error {
+	ret := _m.Called(ctx, id, uid)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) error); ok {
+		r0 = rf(ctx, id, uid)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // MyEvent provides a mock function with given fields: ctx, uid, limit, page
 func (_m *EventService) MyEvent(ctx context.Context, uid int, limit int, page int) (*event.Response, error) {
 	ret := _m.Called(ctx, uid, limit, page)
