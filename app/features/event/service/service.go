@@ -2,9 +2,11 @@ package service
 
 import (
 	"context"
+	"math"
 	"mime/multipart"
 
 	"github.com/go-playground/validator"
+	entity2 "github.com/ropel12/project-3/app/entities"
 	entity "github.com/ropel12/project-3/app/features/event"
 	"github.com/ropel12/project-3/app/features/event/repository"
 	"github.com/ropel12/project-3/config/dependcy"
@@ -21,6 +23,7 @@ type (
 
 	EventService interface {
 		Create(ctx context.Context, req entity.ReqCreate, file multipart.File) (int, error)
+		MyEvent(ctx context.Context, uid, limit, page int) (*entity.Response, error)
 	}
 )
 
@@ -40,7 +43,7 @@ func (e *event) Create(ctx context.Context, req entity.ReqCreate, file multipart
 	if err := e.dep.Gcp.UploadFile(file, req.Image); err != nil {
 		return 0, errorr.NewBad(err.Error())
 	}
-	data := entity.Event{
+	data := entity2.Event{
 		Name:      req.Name,
 		StartDate: req.StartDate,
 		Duration:  req.Duration,
@@ -59,4 +62,32 @@ func (e *event) Create(ctx context.Context, req entity.ReqCreate, file multipart
 	}
 
 	return *id, nil
+}
+
+func (e *event) MyEvent(ctx context.Context, uid, limit, page int) (*entity.Response, error) {
+	offset := (page - 1) * limit
+	data, total, err := e.repo.GetByUid(e.dep.Db.WithContext(ctx), e.dep.Rds, uid, limit, offset)
+	if err != nil {
+		return nil, err
+	}
+	res := new(entity.Response)
+	res.Page = page
+	res.Limit = limit
+	res.TotalPage = int(math.Ceil(float64(total) / float64(limit)))
+	res.TotalData = total
+	var datas []*entity.ResponseEvent
+	for _, val := range data {
+		newdata := new(entity.ResponseEvent)
+		newdata.Id = int(val.ID)
+		newdata.Name = val.Name
+		newdata.Date = val.StartDate
+		newdata.EndDate = val.EndDate
+		newdata.Location = val.Location
+		newdata.HostedBy = val.HostedBy
+		newdata.Image = val.Image
+		newdata.Participants = len(val.Users)
+		datas = append(datas, newdata)
+	}
+	res.Data = datas
+	return res, nil
 }

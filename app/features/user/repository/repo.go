@@ -3,7 +3,7 @@ package repository
 import (
 	"reflect"
 
-	entity "github.com/ropel12/project-3/app/features/user"
+	entity "github.com/ropel12/project-3/app/entities"
 	"github.com/ropel12/project-3/errorr"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"

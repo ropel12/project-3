@@ -1,14 +1,17 @@
-{"level":"info","msg":"Starting server on port 8000","time":"2023-04-22T20:18:59+07:00"}
-{"level":"info","msg":"Shutting down server","time":"2023-04-22T20:27:27+07:00"}
-05:02+07:00"}
-{"level":"info","msg":"Shutting down server","time":"2023-04-22T20:12:58+07:00"}
-time":"2023-04-22T15:49:05+07:00"}
-nknown type","time":"2023-04-22T14:55:15+07:00"}
-{"level":"error","msg":"Error handler: code=400, message=unknown type, internal=unknown type","time":"2023-04-22T14:55:22+07:00"}
-{"level":"error","msg":"Error handler: code=400, message=unknown type, internal=unknown type","time":"2023-04-22T14:55:24+07:00"}
-{"level":"error","msg":"Error handler: code=400, message=unknown type, internal=unknown type","time":"2023-04-22T14:55:25+07:00"}
-{"level":"error","msg":"Error handler: code=400, message=unknown type, internal=unknown type","time":"2023-04-22T14:55:25+07:00"}
-{"level":"error","msg":"Error handler: code=400, message=unknown type, internal=unknown type","time":"2023-04-22T14:55:26+07:00"}
-{"level":"error","msg":"Error handler: code=400, message=unknown type, internal=unknown type","time":"2023-04-22T14:55:27+07:00"}
-{"level":"error","msg":"Error handler: code=400, message=unknown type, internal=unknown type","time":"2023-04-22T14:55:27+07:00"}
-{"level":"info","msg":"Shutting down server","time":"2023-04-22T14:56:05+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-23T05:09:34+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-23T05:12:50+07:00"}
+ipant","time":"2023-04-23T03:59:24+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-23T03:59:36+07:00"}
+ipant","time":"2023-04-23T02:56:19+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-23T02:57:01+07:00"}
+2023-04-23T02:12:02+07:00"}
+23-04-23T02:09:09+07:00"}
+:"error","msg":"Error db : participants: unsupported relations for schema Event","time":"2023-04-23T01:28:29+07:00"}
+{"level":"error","msg":"Error db : participants: unsupported relations for schema Event","time":"2023-04-23T01:28:36+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-23T01:28:49+07:00"}
+Date\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail\":\"jakarta\",\"Image\":\"jakarta.jpg\",\"HostedBy\":\"ropel\",\"UserID\":1,\"Types\":null,\"Participants\":null}] ex 7200: OK","time":"2023-04-23T01:07:00+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-23T01:07:36+07:00"}
+\":\"Dota  2\",\"StartDate\":\"2023-05-02T15:04:05+07:00\",\"Duration\":2.5,\"EndDate\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail\":\"jakarta\",\"Image\":\"jakarta.jpg\",\"HostedBy\":\"ropel\",\"UserID\":1,\"Types\":null,\"Participants\":null}] ex 7200: OK","time":"2023-04-23T01:01:32+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-23T01:02:38+07:00"}
+\":\"Dota  2\",\"StartDate\":\"2023-05-02T15:04:05+07:00\",\"Duration\":2.5,\"EndDate\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail\":\"jakarta\",\"Image\":\"jakarta.jpg\",\"HostedBy\":\"ropel\",\"UserID\":1,\"Types\":null,\"Participants\":null},{\"ID\":1,\"CreatedAt\":\"2023-04-23T00:21:08.358+07:00\",\"UpdatedAt\":\"2023-04-23T00:21:08.358+07:00\",\"DeletedAt\":null,\"Name\":\"Dota  2\",\"StartDate\":\"2023-05-02T15:04:05+07:00\",\"Duration\":2.5,\"EndDate\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail\":\"jakarta\",\"Image\":\"jakarta.jpg\",\"HostedBy\":\"ropel\",\"UserID\":1,\"Types\":null,\"Participants\":null}] ex 7200: OK","time":"2023-04-23T00:58:57+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-23T01:00:06+07:00"}
