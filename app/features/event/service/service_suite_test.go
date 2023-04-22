@@ -7,8 +7,10 @@ import (
 	"os"
 	"testing"
 
+	"github.com/go-redis/redis/v8"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	entity2 "github.com/ropel12/project-3/app/entities"
 	entity "github.com/ropel12/project-3/app/features/event"
 	mocks "github.com/ropel12/project-3/app/features/event/mocks/repository"
 	event "github.com/ropel12/project-3/app/features/event/service"
@@ -34,6 +36,7 @@ var _ = Describe("event", func() {
 		Depend.Db = config.GetConnectionTes()
 		log := logrus.New()
 		Depend.Log = log
+		Depend.Rds = redis.NewClient(&redis.Options{})
 		Mock = mocks.NewEventRepo(GinkgoT())
 		EventService = event.NewEventService(Mock, Depend)
 		FailedReq = entity.ReqCreate{Image: "gambar.js", Name: "tes", StartDate: "2006-01-02 15:04:05", Duration: 2.5, Details: "tes", Location: "jakarta", Quota: 100, Rtype: `[{"name":"vip","price":2000},{"name":"regular","price":1000}]`, HostedBy: "ropel"}
@@ -92,5 +95,50 @@ var _ = Describe("event", func() {
 
 		})
 
+	})
+
+	Context("Get My Event", func() {
+		When("Terjadi kesalahan pada database", func() {
+			uid := 1
+			limit := 5
+			offset := 0
+			BeforeEach(func() {
+				Mock.On("GetByUid", mock.Anything, mock.Anything, uid, limit, offset).Return(nil, 0, errors.New("Internal Server Error"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Internal Server Error'", func() {
+				_, err := EventService.MyEvent(ctx, uid, limit, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Internal Server Error"))
+			})
+		})
+
+		When("User id tidak ditemukan", func() {
+			limit := 5
+			offset := 0
+			BeforeEach(func() {
+				Mock.On("GetByUid", mock.Anything, mock.Anything, mock.Anything, limit, offset).Return(nil, 0, errors.New("data not found"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Internal Server Error'", func() {
+				_, err := EventService.MyEvent(ctx, 99, limit, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("data not found"))
+			})
+		})
+
+		When("Data Event User Ditemukan", func() {
+			limit := 5
+			offset := 0
+			BeforeEach(func() {
+				res := []*entity2.Event{}
+				res = append(res, &entity2.Event{Name: "Dota 2"})
+				Mock.On("GetByUid", mock.Anything, mock.Anything, mock.Anything, limit, offset).Return(res, 10, nil)
+			})
+			It("Akan Mengembalikan error dengan pesan 'Internal Server Error'", func() {
+				res, err := EventService.MyEvent(ctx, 1, limit, 1)
+				Expect(err).Should(BeNil())
+				Expect(res.Data).ShouldNot(BeNil())
+				Expect(res.Limit).To(Equal(5))
+			})
+		})
 	})
 })

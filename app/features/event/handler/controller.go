@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
@@ -43,4 +44,24 @@ func (e *Event) Create(c echo.Context) error {
 		return CreateErrorResponse(err, c)
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "OK", map[string]any{"id": id}))
+}
+
+func (e *Event) MyEvent(c echo.Context) error {
+	uid := helper.GetUid(c.Get("user").(*jwt.Token))
+	page := c.QueryParam("page")
+	limit := c.QueryParam("limit")
+	if page == "" || limit == "" {
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Missing limit and page query params", nil))
+	}
+	newpage, err := strconv.Atoi(page)
+	newlimit, err1 := strconv.Atoi(limit)
+	if err != nil || err1 != nil {
+		e.Dep.Log.Errorf("error handler : %v", err)
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid query param", nil))
+	}
+	res, err := e.Service.MyEvent(c.Request().Context(), uid, newlimit, newpage)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "OK", res))
 }

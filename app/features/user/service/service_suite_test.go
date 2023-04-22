@@ -9,6 +9,7 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	entity2 "github.com/ropel12/project-3/app/entities"
 	entity "github.com/ropel12/project-3/app/features/user"
 	mocks "github.com/ropel12/project-3/app/features/user/mocks/repository"
 	user "github.com/ropel12/project-3/app/features/user/service"
@@ -56,7 +57,7 @@ var _ = Describe("user", func() {
 		})
 		When("Password Salah", func() {
 			BeforeEach(func() {
-				Mock.On("FindByEmail", mock.Anything, "satrio2@gmail.com").Return(&entity.User{Email: "satrio2@gmail.com", Password: "321"}, nil).Once()
+				Mock.On("FindByEmail", mock.Anything, "satrio2@gmail.com").Return(&entity2.User{Email: "satrio2@gmail.com", Password: "321"}, nil).Once()
 			})
 			It("Akan Mengembalikan error dengan pesan 'wrong password' ", func() {
 				_, err := UserService.Login(ctx, entity.LoginReq{Email: "satrio2@gmail.com", Password: "123"})
@@ -66,7 +67,7 @@ var _ = Describe("user", func() {
 		})
 		When("Berhasil Login", func() {
 			BeforeEach(func() {
-				data := &entity.User{Email: "satrio2@gmail.com", Password: "$2a$10$vu7o2Wl9LKyzTFkRDp7tc.VyoBB48nj97qyQjlgGCeQXJ067KZGQu"}
+				data := &entity2.User{Email: "satrio2@gmail.com", Password: "$2a$10$vu7o2Wl9LKyzTFkRDp7tc.VyoBB48nj97qyQjlgGCeQXJ067KZGQu"}
 				data.ID = 1
 				Mock.On("FindByEmail", mock.Anything, "satrio2@gmail.com").Return(data, nil).Once()
 			})
@@ -88,7 +89,7 @@ var _ = Describe("user", func() {
 
 		When("Email sudah terdaftar", func() {
 			BeforeEach(func() {
-				data := &entity.User{Email: "satrio2@gmail.com"}
+				data := &entity2.User{Email: "satrio2@gmail.com"}
 				Mock.On("FindByEmail", mock.Anything, "satrio2@gmail.com").Return(data, nil).Once()
 			})
 			It("Akan Mengembalikan error dengan pesan 'email already registered'", func() {
@@ -147,7 +148,7 @@ var _ = Describe("user", func() {
 
 		When("Email baru sudah terdaftar pada database", func() {
 			BeforeEach(func() {
-				Mock.On("FindByEmail", mock.Anything, mock.Anything).Return(&entity.User{Email: "satrio@gmail.com"}, nil).Once()
+				Mock.On("FindByEmail", mock.Anything, mock.Anything).Return(&entity2.User{Email: "satrio@gmail.com"}, nil).Once()
 			})
 			It("Akan Mengembalikan error dengan pesan 'Email already registered'", func() {
 				var file multipart.File
@@ -185,7 +186,7 @@ var _ = Describe("user", func() {
 		When("Berhasil mengupdate profile", func() {
 			BeforeEach(func() {
 				Mock.On("FindByEmail", mock.Anything, mock.Anything).Return(nil, errors.New("not found")).Once()
-				Mock.On("Update", mock.Anything, mock.Anything).Return(&entity.User{Email: "satrio44@gmail.com"}, nil).Once()
+				Mock.On("Update", mock.Anything, mock.Anything).Return(&entity2.User{Email: "satrio44@gmail.com"}, nil).Once()
 			})
 			It("Akan Mengembalikan data user terbaru", func() {
 				var file multipart.File
@@ -244,7 +245,7 @@ var _ = Describe("user", func() {
 		})
 		When("Id user ditemukan", func() {
 			BeforeEach(func() {
-				Mock.On("GetById", mock.Anything, mock.Anything).Return(&entity.User{Email: "satrio@gmail.com"}, nil).Once()
+				Mock.On("GetById", mock.Anything, mock.Anything).Return(&entity2.User{Email: "satrio@gmail.com"}, nil).Once()
 			})
 			It("Akan Mengembalikan data user", func() {
 				user, err := UserService.GetProfile(ctx, 1)

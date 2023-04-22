@@ -4,9 +4,11 @@ package mocks
 
 import (
 	context "context"
-	multipart "mime/multipart"
 
+	entities "github.com/ropel12/project-3/app/entities"
 	mock "github.com/stretchr/testify/mock"
+
+	multipart "mime/multipart"
 
 	user "github.com/ropel12/project-3/app/features/user"
 )
@@ -28,6 +30,32 @@ func (_m *UserService) Delete(ctx context.Context, id int) error {
 	}
 
 	return r0
+}
+
+// GetProfile provides a mock function with given fields: ctx, id
+func (_m *UserService) GetProfile(ctx context.Context, id int) (*entities.User, error) {
+	ret := _m.Called(ctx, id)
+
+	var r0 *entities.User
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) (*entities.User, error)); ok {
+		return rf(ctx, id)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int) *entities.User); ok {
+		r0 = rf(ctx, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entities.User)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // Login provides a mock function with given fields: ctx, req
@@ -69,19 +97,19 @@ func (_m *UserService) Register(ctx context.Context, req user.RegisterReq) error
 }
 
 // Update provides a mock function with given fields: ctx, req, file
-func (_m *UserService) Update(ctx context.Context, req user.UpdateReq, file multipart.File) (*user.User, error) {
+func (_m *UserService) Update(ctx context.Context, req user.UpdateReq, file multipart.File) (*entities.User, error) {
 	ret := _m.Called(ctx, req, file)
 
-	var r0 *user.User
+	var r0 *entities.User
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, user.UpdateReq, multipart.File) (*user.User, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, user.UpdateReq, multipart.File) (*entities.User, error)); ok {
 		return rf(ctx, req, file)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, user.UpdateReq, multipart.File) *user.User); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, user.UpdateReq, multipart.File) *entities.User); ok {
 		r0 = rf(ctx, req, file)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*user.User)
+			r0 = ret.Get(0).(*entities.User)
 		}
 	}
 
