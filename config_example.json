@@ -13,7 +13,7 @@
         "HOST": "localhost",
         "PORT": "6379",
         "PASSWORD": "",
-        "NAME": "test"
+        "DB": 1
     },
     "CSRFLENGTH": 20,
     "CSRFMODE": "2",

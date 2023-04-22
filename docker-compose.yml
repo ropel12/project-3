@@ -12,3 +12,11 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - ~/mysql-data:/var/lib/postgresql/data
+  mycache:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - ~/redis-data:/data
+    restart: always
+    command: redis-server --requirepass test

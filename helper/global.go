@@ -2,6 +2,7 @@ package helper
 
 import (
 	"log"
+	"time"
 
 	"github.com/golang-jwt/jwt"
 
@@ -38,4 +39,14 @@ func GenerateJWT(id int, dp depedency.Depend) string {
 		return ""
 	}
 	return resultToken
+}
+
+func GenerateEndTime(timee string, duration float32) string {
+	t, err := time.Parse("2006-01-02 15:04:05", timee)
+	if err != nil {
+		return ""
+	}
+	minute := duration * 60
+
+	return t.Add(time.Minute * time.Duration(int(minute))).Format("2006-01-02 15:04:05")
 }

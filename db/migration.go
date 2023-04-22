@@ -1,7 +1,8 @@
 package db
 
 import (
-	entity "github.com/ropel12/project-3/app/features/user"
+	event "github.com/ropel12/project-3/app/features/event"
+	user "github.com/ropel12/project-3/app/features/user"
 	"github.com/ropel12/project-3/config"
 )
 
@@ -10,7 +11,7 @@ func Migrate(c *config.Config) {
 	if err != nil {
 		panic(err)
 	}
-	if err := db.AutoMigrate(entity.User{}); err != nil {
+	if err := db.AutoMigrate(user.User{}, event.Event{}, event.Type{}); err != nil {
 		panic(err)
 	}
 }

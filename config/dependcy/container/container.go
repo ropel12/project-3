@@ -25,6 +25,9 @@ func RunAll() {
 	if err := Container.Provide(config.GetConnection); err != nil {
 		panic(err)
 	}
+	if err := Container.Provide(config.NewRedis); err != nil {
+		panic(err)
+	}
 	if err := Container.Provide(echo.New); err != nil {
 		panic(err)
 	}
