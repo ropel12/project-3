@@ -1,4 +1,12 @@
 mode: set
+github.com/ropel12/project-3/app/features/event/service/service.go:27.83,33.2 1 1
+github.com/ropel12/project-3/app/features/event/service/service.go:35.101,36.48 1 1
+github.com/ropel12/project-3/app/features/event/service/service.go:40.2,40.62 1 1
+github.com/ropel12/project-3/app/features/event/service/service.go:43.2,57.16 3 1
+github.com/ropel12/project-3/app/features/event/service/service.go:61.2,61.17 1 1
+github.com/ropel12/project-3/app/features/event/service/service.go:36.48,39.3 2 1
+github.com/ropel12/project-3/app/features/event/service/service.go:40.62,42.3 1 1
+github.com/ropel12/project-3/app/features/event/service/service.go:57.16,59.3 1 1
 github.com/ropel12/project-3/app/features/user/service/service.go:31.80,33.2 1 1
 github.com/ropel12/project-3/app/features/user/service/service.go:35.77,36.48 1 1
 github.com/ropel12/project-3/app/features/user/service/service.go:40.2,41.16 2 1
