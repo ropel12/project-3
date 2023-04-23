@@ -1,14 +1,9 @@
-{"level":"info","msg":"Starting server on port 8000","time":"2023-04-23T14:28:05+07:00"}
-{"level":"error","msg":"Error redis : context deadline exceeded","time":"2023-04-23T14:29:21+07:00"}
-{"level":"error","msg":"Error redis : context deadline exceeded","time":"2023-04-23T14:31:08+07:00"}
-{"level":"info","msg":"Shutting down server","time":"2023-04-23T15:01:46+07:00"}
-n server","time":"2023-04-23T02:57:01+07:00"}
-2023-04-23T02:12:02+07:00"}
-23-04-23T02:09:09+07:00"}
-:"error","msg":"Error db : participants: unsupported relations for schema Event","time":"2023-04-23T01:28:29+07:00"}
-{"level":"error","msg":"Error db : participants: unsupported relations for schema Event","time":"2023-04-23T01:28:36+07:00"}
-{"level":"info","msg":"Shutting down server","time":"2023-04-23T01:28:49+07:00"}
-Date\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail\":\"jakarta\",\"Image\":\"jakarta.jpg\",\"HostedBy\":\"ropel\",\"UserID\":1,\"Types\":null,\"Participants\":null}] ex 7200: OK","time":"2023-04-23T01:07:00+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-23T23:20:24+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-23T23:22:53+07:00"}
+er{Model:gorm.Model{ID:0x0, CreatedAt:time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC), UpdatedAt:time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC), DeletedAt:gorm.DeletedAt{Time:time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC), Valid:false}}, Name:\"satrio\", Email:\"\", Password:\"\", Address:\"\", Image:\"default.jpg\", Events:[]entities.Event(nil), CommentUsers:[]entities.CommentUser(nil)}, make sure foreign fields exists","time":"2023-04-23T22:01:42+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-23T22:01:47+07:00"}
+"info","msg":"Shutting down server","time":"2023-04-23T21:57:31+07:00"}
+e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail\":\"jakarta\",\"Image\":\"jakarta.jpg\",\"HostedBy\":\"ropel\",\"UserID\":1,\"Types\":null,\"Participants\":null}] ex 7200: OK","time":"2023-04-23T01:07:00+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-04-23T01:07:36+07:00"}
 \":\"Dota  2\",\"StartDate\":\"2023-05-02T15:04:05+07:00\",\"Duration\":2.5,\"EndDate\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail\":\"jakarta\",\"Image\":\"jakarta.jpg\",\"HostedBy\":\"ropel\",\"UserID\":1,\"Types\":null,\"Participants\":null}] ex 7200: OK","time":"2023-04-23T01:01:32+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-04-23T01:02:38+07:00"}

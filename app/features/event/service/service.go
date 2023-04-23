@@ -4,6 +4,7 @@ import (
 	"context"
 	"math"
 	"mime/multipart"
+	"sync"
 
 	"github.com/go-playground/validator"
 	entity2 "github.com/ropel12/project-3/app/entities"
@@ -26,6 +27,7 @@ type (
 		MyEvent(ctx context.Context, uid, limit, page int) (*entity.Response, error)
 		Delete(ctx context.Context, id int, uid int) error
 		GetAll(ctx context.Context, limit, page int) (*entity.Response, error)
+		Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent, error)
 	}
 )
 
@@ -127,4 +129,55 @@ func (e *event) GetAll(ctx context.Context, limit, page int) (*entity.Response, 
 	}
 	res.Data = datas
 	return res, nil
+}
+
+func (e *event) Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent, error) {
+	data, err := e.repo.GetById(e.dep.Db.WithContext(ctx), e.dep.Rds, id)
+	if err != nil {
+		return nil, err
+	}
+	res := entity.DetailEvent{
+		Id:       int(data.ID),
+		Name:     data.Name,
+		Date:     data.StartDate,
+		Location: data.Location,
+		HostedBy: data.HostedBy,
+		Duration: data.Duration,
+		Details:  data.Detail,
+		Image:    data.Image,
+		Types:    data.Types,
+	}
+	Participants := []entity.UserParticipant{}
+	UserComments := []entity.UserComments{}
+	wg := &sync.WaitGroup{}
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		if len(data.UserComments) > 0 {
+			for _, val := range data.UserComments {
+				UserComment := entity.UserComments{
+					Name:    val.User.Name,
+					Image:   val.User.Image,
+					Comment: val.Comment,
+				}
+				UserComments = append(UserComments, UserComment)
+			}
+		}
+	}()
+	go func() {
+		defer wg.Done()
+		if len(data.Users) > 0 {
+			for _, val := range data.Users {
+				Participant := entity.UserParticipant{
+					Name:  val.Name,
+					Image: val.Image,
+				}
+				Participants = append(Participants, Participant)
+			}
+		}
+	}()
+	wg.Wait()
+	res.Participants = Participants
+	res.UserComments = UserComments
+	return &entity.ResponseDetailEvent{Data: res}, nil
 }

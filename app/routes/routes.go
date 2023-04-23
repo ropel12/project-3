@@ -36,5 +36,6 @@ func (r *Routes) RegisterRoutes() {
 	rauth.POST("/events", r.Event.Create)
 	rauth.GET("/events", r.Event.GetAll)
 	rauth.DELETE("/events/:id", r.Event.Delete)
+	rauth.GET("/events/:id", r.Event.Detail)
 
 }
