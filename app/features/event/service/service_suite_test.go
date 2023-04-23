@@ -118,7 +118,7 @@ var _ = Describe("event", func() {
 			BeforeEach(func() {
 				Mock.On("GetByUid", mock.Anything, mock.Anything, mock.Anything, limit, offset).Return(nil, 0, errors.New("data not found"))
 			})
-			It("Akan Mengembalikan error dengan pesan 'Internal Server Error'", func() {
+			It("Akan Mengembalikan error dengan pesan 'data not found'", func() {
 				_, err := EventService.MyEvent(ctx, 99, limit, 1)
 				Expect(err).ShouldNot(BeNil())
 				Expect(err.Error()).To(Equal("data not found"))
@@ -133,7 +133,7 @@ var _ = Describe("event", func() {
 				res = append(res, &entity2.Event{Name: "Dota 2"})
 				Mock.On("GetByUid", mock.Anything, mock.Anything, mock.Anything, limit, offset).Return(res, 10, nil)
 			})
-			It("Akan Mengembalikan error dengan pesan 'Internal Server Error'", func() {
+			It("Akan Mengembalikan data event yang dimiliki oleh user", func() {
 				res, err := EventService.MyEvent(ctx, 1, limit, 1)
 				Expect(err).Should(BeNil())
 				Expect(res.Data).ShouldNot(BeNil())
@@ -180,9 +180,53 @@ var _ = Describe("event", func() {
 			BeforeEach(func() {
 				Mock.On("Delete", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 			})
-			It("Akan Mengembalikan error dengan pesan 'internal server error'", func() {
+			It("Akan Mengembalikan err dengan nilai nil", func() {
 				err := EventService.Delete(ctx, 1, 1)
 				Expect(err).Should(BeNil())
+			})
+		})
+	})
+
+	Context("Get All Event", func() {
+		When("Terjadi kesalahan pada database", func() {
+			limit := 5
+			offset := 0
+			BeforeEach(func() {
+				Mock.On("GetAll", mock.Anything, mock.Anything, limit, offset).Return(nil, 0, errors.New("Internal Server Error"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Internal Server Error'", func() {
+				_, err := EventService.GetAll(ctx, limit, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Internal Server Error"))
+			})
+		})
+
+		When("Data event tidak ditemukan", func() {
+			limit := 5
+			offset := 0
+			BeforeEach(func() {
+				Mock.On("GetAll", mock.Anything, mock.Anything, limit, offset).Return(nil, 0, errors.New("data not found"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'data not found'", func() {
+				_, err := EventService.GetAll(ctx, limit, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("data not found"))
+			})
+		})
+
+		When("Data Event Ditemukan", func() {
+			limit := 5
+			offset := 0
+			BeforeEach(func() {
+				res := []*entity2.Event{}
+				res = append(res, &entity2.Event{Name: "Dota 2"})
+				Mock.On("GetAll", mock.Anything, mock.Anything, limit, offset).Return(res, 10, nil)
+			})
+			It("Akan Mengembalikan data event", func() {
+				res, err := EventService.GetAll(ctx, limit, 1)
+				Expect(err).Should(BeNil())
+				Expect(res.Data).ShouldNot(BeNil())
+				Expect(res.Limit).To(Equal(5))
 			})
 		})
 	})
