@@ -20,6 +20,7 @@ func (r *Routes) RegisterRoutes() {
 	ro.Use(middleware.RemoveTrailingSlash())
 	ro.Use(middleware.Logger())
 	ro.Use(middleware.Recover())
+	ro.Use(middleware.CORS())
 	//No Auth
 	ro.POST("/login", r.User.Login)
 	ro.POST("/register", r.User.Register)
@@ -33,6 +34,7 @@ func (r *Routes) RegisterRoutes() {
 
 	///Events
 	rauth.POST("/events", r.Event.Create)
+	rauth.GET("/events", r.Event.GetAll)
 	rauth.DELETE("/events/:id", r.Event.Delete)
 
 }
