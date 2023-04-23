@@ -1,17 +1,17 @@
 version: '3'
 
 services:
-  mydata:
-    image: mysql:latest
-    container_name: mydata
-    ports:
-      - "3306:3306"
-    restart: always
-    environment:
-      MYSQL_DATABASE: project3
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    volumes:
-      - ~/mysql-data:/var/lib/postgresql/data
+  # mydata:
+  #   image: mysql:latest
+  #   container_name: mydata
+  #   ports:
+  #     - "3306:3306"
+  #   restart: always
+  #   environment:
+  #     MYSQL_DATABASE: project3
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  #   volumes:
+  #     - ~/mysql-data:/var/lib/postgresql/data
   mycache:
     image: redis:latest
     ports:

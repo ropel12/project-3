@@ -25,6 +25,7 @@ type (
 		Create(ctx context.Context, req entity.ReqCreate, file multipart.File) (int, error)
 		MyEvent(ctx context.Context, uid, limit, page int) (*entity.Response, error)
 		Delete(ctx context.Context, id int, uid int) error
+		GetAll(ctx context.Context, limit, page int) (*entity.Response, error)
 	}
 )
 
@@ -98,4 +99,32 @@ func (e *event) Delete(ctx context.Context, id int, uid int) error {
 		return err
 	}
 	return nil
+}
+
+func (e *event) GetAll(ctx context.Context, limit, page int) (*entity.Response, error) {
+	offset := (page - 1) * limit
+	data, total, err := e.repo.GetAll(e.dep.Db.WithContext(ctx), e.dep.Rds, limit, offset)
+	if err != nil {
+		return nil, err
+	}
+	res := new(entity.Response)
+	res.Page = page
+	res.Limit = limit
+	res.TotalPage = int(math.Ceil(float64(total) / float64(limit)))
+	res.TotalData = total
+	var datas []*entity.ResponseEvent
+	for _, val := range data {
+		newdata := new(entity.ResponseEvent)
+		newdata.Id = int(val.ID)
+		newdata.Name = val.Name
+		newdata.Date = val.StartDate
+		newdata.EndDate = val.EndDate
+		newdata.Location = val.Location
+		newdata.HostedBy = val.HostedBy
+		newdata.Image = val.Image
+		newdata.Participants = len(val.Users)
+		datas = append(datas, newdata)
+	}
+	res.Data = datas
+	return res, nil
 }

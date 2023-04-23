@@ -80,3 +80,22 @@ func (e *Event) Delete(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", nil))
 }
+
+func (e *Event) GetAll(c echo.Context) error {
+	page := c.QueryParam("page")
+	limit := c.QueryParam("limit")
+	if page == "" || limit == "" {
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Missing limit and page query params", nil))
+	}
+	newpage, err := strconv.Atoi(page)
+	newlimit, err1 := strconv.Atoi(limit)
+	if err != nil || err1 != nil {
+		e.Dep.Log.Errorf("error handler : %v", err)
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid query param", nil))
+	}
+	res, err := e.Service.GetAll(c.Request().Context(), newlimit, newpage)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
+}
