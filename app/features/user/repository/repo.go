@@ -74,7 +74,7 @@ func (u *user) Update(db *gorm.DB, user entity.User) (*entity.User, error) {
 		}
 	}
 	if err := db.Save(&newdata).Error; err != nil {
-		u.log.Errorf("error Db: %v")
+		u.log.Errorf("error Db : %v", err)
 		return nil, errorr.NewInternal("error update user")
 	}
 	return &newdata, nil

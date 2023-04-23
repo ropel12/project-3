@@ -89,6 +89,32 @@ func (_m *EventRepo) GetAll(db *gorm.DB, rds *redis.Client, limit int, offset in
 	return r0, r1, r2
 }
 
+// GetById provides a mock function with given fields: db, rds, id
+func (_m *EventRepo) GetById(db *gorm.DB, rds *redis.Client, id int) (*entities.Event, error) {
+	ret := _m.Called(db, rds, id)
+
+	var r0 *entities.Event
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, *redis.Client, int) (*entities.Event, error)); ok {
+		return rf(db, rds, id)
+	}
+	if rf, ok := ret.Get(0).(func(*gorm.DB, *redis.Client, int) *entities.Event); ok {
+		r0 = rf(db, rds, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entities.Event)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*gorm.DB, *redis.Client, int) error); ok {
+		r1 = rf(db, rds, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetByUid provides a mock function with given fields: db, rds, uid, limit, offset
 func (_m *EventRepo) GetByUid(db *gorm.DB, rds *redis.Client, uid int, limit int, offset int) ([]*entities.Event, int, error) {
 	ret := _m.Called(db, rds, uid, limit, offset)

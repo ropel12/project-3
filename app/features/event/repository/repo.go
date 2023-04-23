@@ -24,6 +24,7 @@ type (
 		GetByUid(db *gorm.DB, rds *redis.Client, uid int, limit int, offset int) ([]*entity.Event, int, error)
 		Delete(db *gorm.DB, id int, uid int) error
 		GetAll(db *gorm.DB, rds *redis.Client, limit int, offset int) ([]*entity.Event, int, error)
+		GetById(db *gorm.DB, rds *redis.Client, id int) (*entity.Event, error)
 	}
 )
 
@@ -126,4 +127,44 @@ func (e *event) GetAll(db *gorm.DB, rds *redis.Client, limit int, offset int) ([
 		return nil, 0, errorr.NewInternal("Server internal Error")
 	}
 	return dbres, int(count), nil
+}
+func (e *event) GetById(db *gorm.DB, rds *redis.Client, id int) (*entity.Event, error) {
+	var (
+		dbres    entity.Event
+		redisres []byte
+	)
+	ctx, redisCancel := context.WithTimeout(context.Background(), 7*time.Second)
+	defer redisCancel()
+	key := fmt.Sprintf("eventdetail:id:%d", id)
+	err := rds.Get(ctx, key).Scan(&redisres)
+	if err != nil {
+		if !errors.Is(err, redis.Nil) {
+			e.log.Errorf("Error redis : %v", err)
+			return nil, errorr.NewInternal("Server internal Error")
+		}
+		if err := db.Preload("UserComments", func(db *gorm.DB) *gorm.DB {
+			return db.Preload("User", func(db *gorm.DB) *gorm.DB {
+				return db.Select("id,name,image")
+			})
+		}).Preload("Users", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id,name,image")
+		}).Preload("Types").First(&dbres, id).Error; err != nil {
+			if err == gorm.ErrRecordNotFound {
+				return nil, errorr.NewBad("Data not found")
+			}
+			e.log.Errorf("Error db : %v", err)
+			return nil, errorr.NewInternal("Server internal Error")
+		}
+		dbval, _ := json.Marshal(dbres)
+		if op := rds.Set(ctx, key, dbval, time.Duration(2)*time.Hour); op.Err() != nil {
+			e.log.Errorf("error set redis val : %v", err)
+			return nil, errorr.NewInternal("Server internal Error")
+		}
+		return &dbres, nil
+	}
+	if err := json.Unmarshal([]byte(redisres), &dbres); err != nil {
+		e.log.Errorf("error unmarshal redis val: %v", err)
+		return nil, errorr.NewInternal("Server internal Error")
+	}
+	return &dbres, nil
 }

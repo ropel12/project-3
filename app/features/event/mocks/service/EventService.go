@@ -54,6 +54,32 @@ func (_m *EventService) Delete(ctx context.Context, id int, uid int) error {
 	return r0
 }
 
+// Detail provides a mock function with given fields: ctx, id
+func (_m *EventService) Detail(ctx context.Context, id int) (*event.ResponseDetailEvent, error) {
+	ret := _m.Called(ctx, id)
+
+	var r0 *event.ResponseDetailEvent
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) (*event.ResponseDetailEvent, error)); ok {
+		return rf(ctx, id)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int) *event.ResponseDetailEvent); ok {
+		r0 = rf(ctx, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*event.ResponseDetailEvent)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetAll provides a mock function with given fields: ctx, limit, page
 func (_m *EventService) GetAll(ctx context.Context, limit int, page int) (*event.Response, error) {
 	ret := _m.Called(ctx, limit, page)
