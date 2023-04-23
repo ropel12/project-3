@@ -99,3 +99,21 @@ func (e *Event) GetAll(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
 }
+
+func (e *Event) Detail(c echo.Context) error {
+	id := c.Param("id")
+
+	if id == "" {
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Missing param id", nil))
+	}
+	newid, err := strconv.Atoi(id)
+	if err != nil {
+		e.Dep.Log.Errorf("error handler : %v", err)
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid query param", nil))
+	}
+	res, err := e.Service.Detail(c.Request().Context(), newid)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
+}

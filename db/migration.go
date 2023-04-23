@@ -10,7 +10,7 @@ func Migrate(c *config.Config) {
 	if err != nil {
 		panic(err)
 	}
-	if err := db.AutoMigrate(entity.User{}, entity.Event{}, entity.Type{}); err != nil {
+	if err := db.AutoMigrate(entity.User{}, entity.Event{}, entity.Type{}, entity.UserComments{}); err != nil {
 		panic(err)
 	}
 }
