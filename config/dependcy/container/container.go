@@ -62,7 +62,7 @@ func NewStorage(cfg *config.Config) (*pkg.StorageGCP, error) {
 
 func NewLog() (*log.Logger, error) {
 	var logger = log.New()
-	file, _ := os.OpenFile("output.log", os.O_WRONLY|os.O_CREATE, os.ModePerm)
+	file, _ := os.OpenFile("output.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, os.ModePerm)
 	logger.SetOutput(file)
 	logger.SetFormatter(&log.JSONFormatter{})
 	return logger, nil

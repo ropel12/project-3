@@ -11,3 +11,12 @@ e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail
 {"level":"info","msg":"Shutting down server","time":"2023-04-23T01:02:38+07:00"}
 \":\"Dota  2\",\"StartDate\":\"2023-05-02T15:04:05+07:00\",\"Duration\":2.5,\"EndDate\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail\":\"jakarta\",\"Image\":\"jakarta.jpg\",\"HostedBy\":\"ropel\",\"UserID\":1,\"Types\":null,\"Participants\":null},{\"ID\":1,\"CreatedAt\":\"2023-04-23T00:21:08.358+07:00\",\"UpdatedAt\":\"2023-04-23T00:21:08.358+07:00\",\"DeletedAt\":null,\"Name\":\"Dota  2\",\"StartDate\":\"2023-05-02T15:04:05+07:00\",\"Duration\":2.5,\"EndDate\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail\":\"jakarta\",\"Image\":\"jakarta.jpg\",\"HostedBy\":\"ropel\",\"UserID\":1,\"Types\":null,\"Participants\":null}] ex 7200: OK","time":"2023-04-23T00:58:57+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-04-23T01:00:06+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-24T11:17:25+07:00"}
+{"level":"error","msg":"error db : sql: converting argument $2 type: unsupported type func(*gorm.DB) (*gorm.DB, error), a func","time":"2023-04-24T11:17:59+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-24T11:20:12+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-24T11:26:49+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-24T11:29:18+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-24T11:31:17+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-24T11:34:29+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-24T11:34:38+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-24T11:35:02+07:00"}

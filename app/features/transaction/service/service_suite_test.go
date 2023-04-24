@@ -73,4 +73,43 @@ var _ = Describe("user", func() {
 			})
 		})
 	})
+
+	Context("Get Cart Byuid", func() {
+		When("Data cart dengan uid sekarang tidak ada", func() {
+			BeforeEach(func() {
+				Mock.On("GetCart", mock.Anything, 1).Return(nil, errors.New("Data not found"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Data not found'", func() {
+				data, err := TrxService.GetCart(ctx, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(data).Should(BeNil())
+				Expect(err.Error()).To(Equal("Data not found"))
+			})
+		})
+
+		When("Kesalahan query database", func() {
+			BeforeEach(func() {
+				Mock.On("GetCart", mock.Anything, 1).Return(nil, errors.New("Internal Server Error"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Internal Server Error", func() {
+				data, err := TrxService.GetCart(ctx, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(data).Should(BeNil())
+				Expect(err.Error()).To(Equal("Internal Server Error"))
+			})
+		})
+		When("Terdapat data pada uid sekarang", func() {
+			BeforeEach(func() {
+				data := []entity2.Carts{}
+				data = append(data, entity2.Carts{UserID: 1, TypeID: 1})
+				Mock.On("GetCart", mock.Anything, 1).Return(data, nil)
+			})
+			It("Akan Mengembalikan data cart", func() {
+				data, err := TrxService.GetCart(ctx, 1)
+				Expect(err).Should(BeNil())
+				Expect(data).ShouldNot(BeNil())
+				Expect(data[0].TypeID).To(Equal(1))
+			})
+		})
+	})
 })
