@@ -14,6 +14,7 @@ type (
 
 	TransactionRepo interface {
 		Create(db *gorm.DB, cart entity.Carts) error
+		GetCart(db *gorm.DB, uid int) ([]entity.Carts, error)
 	}
 )
 
@@ -35,4 +36,16 @@ func (t *transaction) Create(db *gorm.DB, cart entity.Carts) error {
 		}
 	}
 	return nil
+}
+
+func (t *transaction) GetCart(db *gorm.DB, uid int) ([]entity.Carts, error) {
+	carts := []entity.Carts{}
+	if err := db.Preload("Type").Where("user_id = ?", uid).Find(&carts).Error; err != nil {
+		t.log.Errorf("error db : %v", err)
+		return nil, errorr.NewInternal("Internal Server")
+	}
+	if len(carts) == 0 {
+		return nil, errorr.NewBad("Data Not Found")
+	}
+	return carts, nil
 }
