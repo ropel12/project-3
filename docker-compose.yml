@@ -11,7 +11,7 @@ services:
   #     MYSQL_DATABASE: project3
   #     MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
   #   volumes:
-  #     - ~/mysql-data:/var/lib/postgresql/data
+  #     - ~/mysql-data:/var/lib/mysql
   mycache:
     image: redis:latest
     ports:
