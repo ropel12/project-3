@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/labstack/echo/v4/middleware"
 	eventhand "github.com/ropel12/project-3/app/features/event/handler"
+	Trx "github.com/ropel12/project-3/app/features/transaction/handler"
 	userhand "github.com/ropel12/project-3/app/features/user/handler"
 	"github.com/ropel12/project-3/config/dependcy"
 	"go.uber.org/dig"
@@ -13,6 +14,7 @@ type Routes struct {
 	Depend dependcy.Depend
 	User   userhand.User
 	Event  eventhand.Event
+	Trx    Trx.Transaction
 }
 
 func (r *Routes) RegisterRoutes() {
@@ -37,5 +39,8 @@ func (r *Routes) RegisterRoutes() {
 	rauth.GET("/events", r.Event.GetAll)
 	rauth.DELETE("/events/:id", r.Event.Delete)
 	rauth.GET("/events/:id", r.Event.Detail)
+
+	/// Trasanction
+	rauth.POST("/transactions/cart", r.Trx.CreateCart)
 
 }

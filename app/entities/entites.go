@@ -21,10 +21,11 @@ type (
 	}
 
 	Type struct {
-		Id      uint   `gorm:"primaryKey;not null;autoIncrement" json:"id,omitempty"`
+		ID      uint   `gorm:"primaryKey;not null;autoIncrement" json:"id,omitempty"`
 		Name    string `gorm:"not null" form:"name" json:"name,omitempty" validate:"required" `
 		Price   int    `gorm:"not null" form:"price" json:"price,omitempty" validate:"required"`
 		EventID uint   `gorm:"not null"`
+		Carts   []Carts
 	}
 
 	User struct {
@@ -36,11 +37,19 @@ type (
 		Image        string `gorm:"not null" json:"Image,omitempty"`
 		Events       []Event
 		UserComments []UserComments
+		Carts        []Carts
 	}
 	UserComments struct {
 		UserID  uint   `json:"-"`
 		EventID uint   `json:"-"`
 		Comment string `json:"comment,omitempty"`
 		User    User
+	}
+	Carts struct {
+		UserID    uint
+		TypeID    uint
+		Qty       int
+		Type      Type
+		DeletedAt gorm.DeletedAt `gorm:"index"`
 	}
 )
