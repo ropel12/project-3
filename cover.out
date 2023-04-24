@@ -31,12 +31,6 @@ github.com/ropel12/project-3/app/features/event/service/service.go:157.42,164.5 
 github.com/ropel12/project-3/app/features/event/service/service.go:167.12,169.26 2 1
 github.com/ropel12/project-3/app/features/event/service/service.go:169.26,170.35 1 1
 github.com/ropel12/project-3/app/features/event/service/service.go:170.35,176.5 2 1
-github.com/ropel12/project-3/app/features/transaction/service/service.go:25.101,31.2 1 1
-github.com/ropel12/project-3/app/features/transaction/service/service.go:33.81,34.48 1 1
-github.com/ropel12/project-3/app/features/transaction/service/service.go:37.2,42.71 2 1
-github.com/ropel12/project-3/app/features/transaction/service/service.go:45.2,45.12 1 1
-github.com/ropel12/project-3/app/features/transaction/service/service.go:34.48,36.3 1 1
-github.com/ropel12/project-3/app/features/transaction/service/service.go:42.71,44.3 1 1
 github.com/ropel12/project-3/app/features/user/service/service.go:32.80,34.2 1 1
 github.com/ropel12/project-3/app/features/user/service/service.go:36.77,37.48 1 1
 github.com/ropel12/project-3/app/features/user/service/service.go:41.2,42.16 2 1
@@ -74,3 +68,14 @@ github.com/ropel12/project-3/app/features/user/service/service.go:123.16,125.3 1
 github.com/ropel12/project-3/app/features/user/service/service.go:129.79,131.16 2 1
 github.com/ropel12/project-3/app/features/user/service/service.go:134.2,134.17 1 1
 github.com/ropel12/project-3/app/features/user/service/service.go:131.16,133.3 1 1
+github.com/ropel12/project-3/app/features/transaction/service/service.go:26.101,32.2 1 1
+github.com/ropel12/project-3/app/features/transaction/service/service.go:34.81,35.48 1 1
+github.com/ropel12/project-3/app/features/transaction/service/service.go:38.2,43.71 2 1
+github.com/ropel12/project-3/app/features/transaction/service/service.go:46.2,46.12 1 1
+github.com/ropel12/project-3/app/features/transaction/service/service.go:35.48,37.3 1 1
+github.com/ropel12/project-3/app/features/transaction/service/service.go:43.71,45.3 1 1
+github.com/ropel12/project-3/app/features/transaction/service/service.go:49.84,52.16 3 1
+github.com/ropel12/project-3/app/features/transaction/service/service.go:55.2,55.27 1 1
+github.com/ropel12/project-3/app/features/transaction/service/service.go:66.2,66.19 1 1
+github.com/ropel12/project-3/app/features/transaction/service/service.go:52.16,54.3 1 1
+github.com/ropel12/project-3/app/features/transaction/service/service.go:55.27,65.3 2 1

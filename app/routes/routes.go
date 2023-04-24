@@ -42,5 +42,6 @@ func (r *Routes) RegisterRoutes() {
 
 	/// Trasanction
 	rauth.POST("/transactions/cart", r.Trx.CreateCart)
+	rauth.GET("/transactions/cart", r.Trx.GetCart)
 
 }

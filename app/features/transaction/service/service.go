@@ -19,6 +19,7 @@ type (
 	}
 	TransactionService interface {
 		CreateCart(ctx context.Context, req entity.ReqCart) error
+		GetCart(ctx context.Context, uid int) ([]entity.Cart, error)
 	}
 )
 
@@ -43,4 +44,24 @@ func (t *transaction) CreateCart(ctx context.Context, req entity.ReqCart) error 
 		return err
 	}
 	return nil
+}
+
+func (t *transaction) GetCart(ctx context.Context, uid int) ([]entity.Cart, error) {
+	carts := []entity.Cart{}
+	data, err := t.repo.GetCart(t.dep.Db.WithContext(ctx), uid)
+	if err != nil {
+		return nil, err
+	}
+	for _, val := range data {
+		cart := entity.Cart{
+			EventId:   int(val.Type.EventID),
+			TypeID:    int(val.TypeID),
+			TypeName:  val.Type.Name,
+			TypePrice: val.Type.Price,
+			Qty:       val.Qty,
+			Subtotal:  val.Qty * val.Type.Price,
+		}
+		carts = append(carts, cart)
+	}
+	return carts, nil
 }

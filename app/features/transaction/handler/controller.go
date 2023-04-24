@@ -30,3 +30,12 @@ func (u *Transaction) CreateCart(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", nil))
 }
+
+func (u *Transaction) GetCart(c echo.Context) error {
+	uid := helper.GetUid(c.Get("user").(*jwt.Token))
+	res, err := u.Service.GetCart(c.Request().Context(), uid)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", res))
+}
