@@ -28,6 +28,20 @@ func (_m *TransactionRepo) Create(db *gorm.DB, cart entities.Carts) error {
 	return r0
 }
 
+// CreateTransaction provides a mock function with given fields: db, data
+func (_m *TransactionRepo) CreateTransaction(db *gorm.DB, data entities.Transaction) error {
+	ret := _m.Called(db, data)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, entities.Transaction) error); ok {
+		r0 = rf(db, data)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // GetCart provides a mock function with given fields: db, uid
 func (_m *TransactionRepo) GetCart(db *gorm.DB, uid int) ([]entities.Carts, error) {
 	ret := _m.Called(db, uid)
@@ -52,6 +66,22 @@ func (_m *TransactionRepo) GetCart(db *gorm.DB, uid int) ([]entities.Carts, erro
 	}
 
 	return r0, r1
+}
+
+// GetDetailUser provides a mock function with given fields: db, uid
+func (_m *TransactionRepo) GetDetailUser(db *gorm.DB, uid int) *entities.User {
+	ret := _m.Called(db, uid)
+
+	var r0 *entities.User
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int) *entities.User); ok {
+		r0 = rf(db, uid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entities.User)
+		}
+	}
+
+	return r0
 }
 
 type mockConstructorTestingTNewTransactionRepo interface {
