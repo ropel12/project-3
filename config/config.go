@@ -34,6 +34,13 @@ type MidtransConfig struct {
 	ExpiryDuration int    `mapstructure:"EXP"`
 	Unit           string `mapstructure:"UNIT"`
 }
+type NSQConfig struct {
+	Host   string `mapstructure:"HOST"`
+	Port   string `mapstructure:"PORT"`
+	Topic  string `mapstructure:"TOPIC"`
+	Topic2 string `mapstructure:"TOPIC2"`
+	Topic3 string `mapstructure:"TOPIC3"`
+}
 type Config struct {
 	Server     Server         `mapstructure:"SERVER"`
 	Database   DatabaseConfig `mapstructure:"DATABASE"`
@@ -42,6 +49,7 @@ type Config struct {
 	Redis      RedisConfig    `mapstructure:"REDIS"`
 	CSRFLength int            `mapstructure:"CSRFLENGTH"`
 	CSRFMode   string         `mapstructure:"CSRFMODE"`
+	NSQ        NSQConfig      `mapstructure:"NSQ"`
 	GCP        GCPConfig      `mapstructure:"GCP"`
 }
 

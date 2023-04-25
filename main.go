@@ -28,6 +28,7 @@ func main() {
 			}
 		}()
 		<-sig
+		depend.Nsq.Stop()
 		depend.Log.Info("Shutting down server")
 	})
 	if err != nil {

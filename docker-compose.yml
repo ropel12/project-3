@@ -12,11 +12,38 @@ services:
   #     MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
   #   volumes:
   #     - ~/mysql-data:/var/lib/mysql
-  mycache:
-    image: redis:latest
+  # mycache:
+  #   image: redis:latest
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - ~/redis-data:/data
+  #   restart: always
+  #   command: redis-server --requirepass test
+
+  nsqlookupd:
+    image: nsqio/nsq
+    command: /nsqlookupd
     ports:
-      - "6379:6379"
-    volumes:
-      - ~/redis-data:/data
+      - "4160:4160"
+      - "4161"
     restart: always
-    command: redis-server --requirepass test
+
+  nsqd:
+    image: nsqio/nsq
+    command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
+    ports:
+      - "4150:4150"
+      - "4151:4151"
+    restart: always
+    depends_on:
+      - nsqlookupd
+
+  nsqadmin:
+    image: nsqio/nsq
+    command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+    ports:
+      - "4171:4171"
+    restart: always
+    depends_on:
+      - nsqlookupd

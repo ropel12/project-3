@@ -1,7 +1,9 @@
 package helper
 
 import (
+	"fmt"
 	"log"
+	"math/rand"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -49,4 +51,20 @@ func GenerateEndTime(timee string, duration float32) string {
 	minute := duration * 60
 
 	return t.Add(time.Minute * time.Duration(int(minute))).Format("2006-01-02 15:04:05")
+}
+func GenerateExpiretime(timee string, duration int) string {
+	t, err := time.Parse("2006-01-02 15:04:05", timee)
+	if err != nil {
+		return ""
+	}
+
+	return t.Add(time.Minute * time.Duration(duration)).Format("2006-01-02 15:04:05")
+}
+func GenerateInvoice(eventid int, userid int) string {
+	rand.Seed(time.Now().UnixNano())
+
+	randomNum := rand.Intn(9999) + 1000
+
+	return fmt.Sprintf("INV-%d%d%d", userid, eventid, randomNum)
+
 }
