@@ -117,3 +117,14 @@ e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail
 {"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-25T19:10:25+07:00"}
 {"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-25T19:10:27+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-04-25T19:10:30+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-25T19:27:38+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-25T19:28:13+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-25T19:28:17+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-25T19:28:19+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-25T19:28:22+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-25T19:30:39+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-25T19:45:02+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-25T19:57:03+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-25T20:19:55+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-25T20:20:12+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-25T20:33:20+07:00"}
