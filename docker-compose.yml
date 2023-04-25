@@ -1,25 +1,25 @@
 version: '3'
 
 services:
-  # mydata:
-  #   image: mysql:latest
-  #   container_name: mydata
-  #   ports:
-  #     - "3306:3306"
-  #   restart: always
-  #   environment:
-  #     MYSQL_DATABASE: project3
-  #     MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-  #   volumes:
-  #     - ~/mysql-data:/var/lib/mysql
-  # mycache:
-  #   image: redis:latest
-  #   ports:
-  #     - "6379:6379"
-  #   volumes:
-  #     - ~/redis-data:/data
-  #   restart: always
-  #   command: redis-server --requirepass test
+  mydata:
+    image: mysql:latest
+    container_name: mydata
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: project3
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ~/mysql-data:/var/lib/mysql
+  mycache:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - ~/redis-data:/data
+    restart: always
+    command: redis-server --requirepass test
 
   nsqlookupd:
     image: nsqio/nsq
