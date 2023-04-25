@@ -39,3 +39,17 @@ func (u *Transaction) GetCart(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", res))
 }
+
+func (u *Transaction) CreateTransaction(c echo.Context) error {
+	req := entity.ReqCheckout{}
+	if err := c.Bind(&req); err != nil {
+		u.Dep.Log.Errorf("Error service: %v", err)
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid Request Body", nil))
+	}
+	req.UserId = helper.GetUid(c.Get("user").(*jwt.Token))
+	invoice, err := u.Service.CreateTransaction(c.Request().Context(), req)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", map[string]any{"data": invoice}))
+}

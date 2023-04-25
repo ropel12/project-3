@@ -15,6 +15,7 @@ import (
 	trx "github.com/ropel12/project-3/app/features/transaction/service"
 	"github.com/ropel12/project-3/config"
 	"github.com/ropel12/project-3/config/dependcy"
+	"github.com/ropel12/project-3/config/dependcy/container"
 	"github.com/sirupsen/logrus"
 )
 
@@ -32,6 +33,7 @@ var _ = Describe("user", func() {
 		Depend.Db = config.GetConnectionTes()
 		log := logrus.New()
 		Depend.Log = log
+		Depend.Mds = container.NewMidtrans(&config.Config{Midtrans: config.MidtransConfig{ServerKey: "SB-Mid-server-TvgWB_Y9s81-rbMBH7zZ8BHW", ClientKey: "SB-Mid-client-nKsqvar5cn60u2Lv", Env: 1, ExpiryDuration: 1}})
 		Mock = mocks.NewTransactionRepo(GinkgoT())
 		TrxService = trx.NewTransactionService(Mock, Depend)
 	})
@@ -109,6 +111,74 @@ var _ = Describe("user", func() {
 				Expect(err).Should(BeNil())
 				Expect(data).ShouldNot(BeNil())
 				Expect(data[0].TypeID).To(Equal(1))
+			})
+		})
+	})
+
+	Context("Checkout", func() {
+		When("Request Body kosong", func() {
+			It("Akan Mengembalikan Eror dengan pesan 'Missing or Invalid Request Body'", func() {
+				inv, err := TrxService.CreateTransaction(ctx, entity.ReqCheckout{})
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Invalid and missing request body"))
+				Expect(inv).To(Equal(""))
+			})
+		})
+		When("Req body midtrans tidak sesuai", func() {
+			BeforeEach(func() {
+				Mock.On("GetDetailUser", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
+			})
+			It("Akan Mengembalikan Eror dengan pesan 'Missing or Invalid Request Body'", func() {
+				itemsdetails := []entity.ItemDetails{}
+				itemsdetails = append(itemsdetails, entity.ItemDetails{Name: "Vip", Price: 200, SubTotal: 1000})
+				req := entity.ReqCheckout{
+					EventId:     1,
+					PaymentType: "bca",
+					ItemDetails: itemsdetails,
+				}
+				inv, err := TrxService.CreateTransaction(ctx, req)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Invalid Request Body"))
+				Expect(inv).To(Equal(""))
+			})
+		})
+		When("Terdapt Kesalahan query database pada saat menyimpan data transaksi", func() {
+			itemsdetails := []entity.ItemDetails{}
+			req := entity.ReqCheckout{}
+			BeforeEach(func() {
+				itemsdetails = append(itemsdetails, entity.ItemDetails{Name: "Vip", Price: 1000, Qty: 1, SubTotal: 1000})
+				req = entity.ReqCheckout{
+					EventId:     1,
+					PaymentType: "bca",
+					ItemDetails: itemsdetails,
+				}
+				Mock.On("GetDetailUser", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
+				Mock.On("CreateTransaction", mock.Anything, mock.Anything).Return(errors.New("Internal Server Error"))
+			})
+			It("Akan Mengembalikan Eror dengan pesan 'Internal server error'", func() {
+				inv, err := TrxService.CreateTransaction(ctx, req)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Internal Server Error"))
+				Expect(inv).To(Equal(""))
+			})
+		})
+		When("Berhasil membuat transaksi", func() {
+			itemsdetails := []entity.ItemDetails{}
+			req := entity.ReqCheckout{}
+			BeforeEach(func() {
+				itemsdetails = append(itemsdetails, entity.ItemDetails{Name: "Vip", Price: 1000, Qty: 1, SubTotal: 1000})
+				req = entity.ReqCheckout{
+					EventId:     1,
+					PaymentType: "mandiri",
+					ItemDetails: itemsdetails,
+				}
+				Mock.On("GetDetailUser", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
+				Mock.On("CreateTransaction", mock.Anything, mock.Anything).Return(nil)
+			})
+			It("Akan Mengembalikan Invoice Transaksi", func() {
+				inv, err := TrxService.CreateTransaction(ctx, req)
+				Expect(err).Should(BeNil())
+				Expect(inv).ShouldNot(Equal(""))
 			})
 		})
 	})

@@ -2,13 +2,18 @@ package service
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
+	"sync"
 
 	"github.com/go-playground/validator"
+	"github.com/midtrans/midtrans-go"
 	entity2 "github.com/ropel12/project-3/app/entities"
 	entity "github.com/ropel12/project-3/app/features/transaction"
 	"github.com/ropel12/project-3/app/features/transaction/repository"
 	"github.com/ropel12/project-3/config/dependcy"
 	"github.com/ropel12/project-3/errorr"
+	"github.com/ropel12/project-3/helper"
 )
 
 type (
@@ -20,6 +25,7 @@ type (
 	TransactionService interface {
 		CreateCart(ctx context.Context, req entity.ReqCart) error
 		GetCart(ctx context.Context, uid int) ([]entity.Cart, error)
+		CreateTransaction(ctx context.Context, req entity.ReqCheckout) (string, error)
 	}
 )
 
@@ -64,4 +70,90 @@ func (t *transaction) GetCart(ctx context.Context, uid int) ([]entity.Cart, erro
 		carts = append(carts, cart)
 	}
 	return carts, nil
+}
+
+func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheckout) (string, error) {
+	if err := t.validator.Struct(req); err != nil {
+		return "", errorr.NewBad("Invalid and missing request body")
+	}
+	var total int
+	itemdetails := []midtrans.ItemDetails{}
+	transactionitems := []entity2.TransactionItems{}
+	wg := &sync.WaitGroup{}
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		for id, val := range req.ItemDetails {
+			Item := midtrans.ItemDetails{
+				ID:    fmt.Sprintf("%d", id+1),
+				Name:  val.Name,
+				Price: int64(val.Price),
+				Qty:   int32(val.Qty),
+			}
+			itemdetails = append(itemdetails, Item)
+			total += val.SubTotal
+		}
+	}()
+	go func() {
+		defer wg.Done()
+		for _, val := range req.ItemDetails {
+			item := entity2.TransactionItems{
+				TypeID: uint(val.TypeId),
+				Qty:    val.Qty,
+				Price:  val.Price,
+			}
+			transactionitems = append(transactionitems, item)
+		}
+	}()
+
+	userdetail := t.repo.GetDetailUser(t.dep.Db.WithContext(ctx), req.UserId)
+	invoice := helper.GenerateInvoice(req.EventId, req.UserId)
+	customerdetails := &midtrans.CustomerDetails{
+		FName: userdetail.Name,
+		Email: userdetail.Email,
+		BillAddr: &midtrans.CustomerAddress{
+			FName:   userdetail.Name,
+			Address: userdetail.Address,
+		},
+	}
+	wg.Wait()
+	reqcharge := entity2.ReqCharge{
+		PaymentType:     req.PaymentType,
+		Invoice:         invoice,
+		Total:           total,
+		ItemsDetails:    &itemdetails,
+		CustomerDetails: customerdetails,
+	}
+	res, err := t.dep.Mds.CreateCharge(reqcharge)
+	if err != nil {
+		return "", errorr.NewBad(err.Error())
+	}
+	expire := ""
+	if res.Expire == "" {
+		expire = helper.GenerateExpiretime(res.TransactionTime, 1)
+	}
+	trxdata := entity2.Transaction{
+		Invoice:          invoice,
+		PaymentMethod:    req.PaymentType,
+		Status:           res.TransactionStatus,
+		Date:             res.TransactionTime,
+		Total:            total,
+		UserID:           uint(req.UserId),
+		EventID:          uint(req.EventId),
+		Expire:           expire,
+		PaymentCode:      res.PaymentCode,
+		TransactionItems: transactionitems,
+	}
+	go func() {
+		encodeddata, _ := json.Marshal(map[string]any{"invoice": invoice, "total": total, "name": userdetail.Name, "email": userdetail.Email, "payment_code": res.PaymentCode, "payment_method": res.PaymentType, "expire": res.Expire})
+		err := t.dep.Nsq.Publish("1", encodeddata)
+		if err != nil {
+			t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
+			return
+		}
+	}()
+	if err := t.repo.CreateTransaction(t.dep.Db.WithContext(ctx), trxdata); err != nil {
+		return "", err
+	}
+	return invoice, nil
 }
