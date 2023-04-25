@@ -52,16 +52,27 @@ func (t *transaction) GetCart(db *gorm.DB, uid int) ([]entity.Carts, error) {
 	return carts, nil
 }
 
-func (t *transaction) CreateTransaction(db *gorm.DB, data entity.Transaction) error {
-	if rowaffc := db.Where("user_id = ?", data.UserID).Delete(&entity.Carts{}); rowaffc.RowsAffected == 0 {
+func (t *transaction) DeleteCart(db *gorm.DB, uid int) error {
+
+	if rowaffc := db.Where("user_id = ?", uid).Delete(&entity.Carts{}); rowaffc.RowsAffected == 0 {
 		t.log.Errorf("Error Db : %s", "Cart data does not exist")
 		return errorr.NewBad("Cannot Create transaction")
 	}
-	if err := db.Create(&data).Error; err != nil {
-		t.log.Errorf("Error Db : %v", err)
-		return errorr.NewInternal("Internal server error")
-	}
 	return nil
+}
+
+func (t *transaction) CreateTransaction(db *gorm.DB, data entity.Transaction) error {
+	return db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&data).Error; err != nil {
+			t.log.Errorf("Error Db : %v", err)
+			return errorr.NewInternal("Internal server error")
+		}
+		if rowaffc := db.Where("user_id = ?", data.UserID).Delete(&entity.Carts{}); rowaffc.RowsAffected == 0 {
+			t.log.Errorf("Error Db : %s", "Cart data does not exist")
+			return errorr.NewBad("Cannot Create transaction")
+		}
+		return nil
+	})
 }
 
 func (t *transaction) GetDetailUser(db *gorm.DB, uid int) *entity.User {
