@@ -74,3 +74,12 @@ func (u *Transaction) MidtransNotification(c echo.Context) error {
 	}
 	return nil
 }
+func (u *Transaction) GetDetail(c echo.Context) error {
+	invoice := c.Param("invoice")
+	uid := helper.GetUid(c.Get("user").(*jwt.Token))
+	res, err := u.Service.GetDetail(c.Request().Context(), invoice, uid)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
+}
