@@ -19,6 +19,7 @@ type (
 		GetDetailUserById(db *gorm.DB, uid int) *entity.User
 		GetDetailUserByInvoice(db *gorm.DB, invoice string) *entity.Transaction
 		UpdateStatusTrasansaction(db *gorm.DB, invoice string, status string) error
+		GetByInvoice(db *gorm.DB, invoice string, uid int) (*entity.Transaction, error)
 	}
 )
 
@@ -102,4 +103,16 @@ func (t *transaction) UpdateStatusTrasansaction(db *gorm.DB, invoice string, sta
 		return errorr.NewInternal("Internal server error")
 	}
 	return nil
+}
+
+func (t *transaction) GetByInvoice(db *gorm.DB, invoice string, uid int) (*entity.Transaction, error) {
+	res := entity.Transaction{}
+	if err := db.Preload("TransactionItems").Where("invoice = ? AND user_id = ?", invoice, uid).Find(&res).Error; err != nil {
+		t.log.Errorf("Error db : %v", err)
+		return nil, errorr.NewInternal("Internal server error")
+	}
+	if res.Invoice == "" {
+		return nil, errorr.NewBad("Data not found")
+	}
+	return &res, nil
 }

@@ -50,7 +50,7 @@ func (u *User) Register(c echo.Context) error {
 	if err := u.Service.Register(c.Request().Context(), req); err != nil {
 		return CreateErrorResponse(err, c)
 	}
-	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", nil))
+	return c.JSON(http.StatusCreated, CreateWebResponse(http.StatusCreated, "Success Operation", nil))
 }
 
 func (u *User) Update(c echo.Context) error {

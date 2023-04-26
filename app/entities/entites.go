@@ -76,6 +76,7 @@ type (
 		TypeID             uint   `gorm:"not null"`
 		Qty                int    `gorm:"not null"`
 		Price              int    `gorm:"not null"`
+		Type               Type
 	}
 	ReqCharge struct {
 		PaymentType     string

@@ -27,6 +27,7 @@ type (
 		GetCart(ctx context.Context, uid int) ([]entity.Cart, error)
 		CreateTransaction(ctx context.Context, req entity.ReqCheckout) (string, error)
 		UpdateStatus(ctx context.Context, status, invoice string) error
+		GetDetail(ctx context.Context, invoice string, uid int) (*entity.Response, error)
 	}
 )
 
@@ -184,4 +185,56 @@ func (t *transaction) UpdateStatus(ctx context.Context, status, invoice string) 
 		}
 	}
 	return nil
+}
+
+func (t *transaction) GetDetail(ctx context.Context, invoice string, uid int) (*entity.Response, error) {
+	data, err := t.repo.GetByInvoice(t.dep.Db.WithContext(ctx), invoice, uid)
+	if err != nil {
+		return nil, err
+	}
+	itemsdetail := []entity.ItemDetails{}
+	trasactiondata := entity.Transaction{
+		Total:         int64(data.Total),
+		Date:          data.Date,
+		Expire:        data.Expire,
+		PaymentMethod: data.PaymentMethod,
+		Status:        data.Status,
+		PaymentCode:   data.PaymentCode,
+	}
+	itemschan := make(chan entity2.TransactionItems)
+	wg := sync.WaitGroup{}
+	go func() {
+		worker := 1
+		lengh := len(data.TransactionItems)
+		if lengh == 2 {
+			worker = 2
+		} else {
+			worker = 3
+		}
+		for i := 0; i < worker; i++ {
+			go func() {
+				defer wg.Done()
+				for val := range itemschan {
+					itemdetail := entity.ItemDetails{
+						Name:     val.Type.Name,
+						Price:    val.Price,
+						Qty:      val.Qty,
+						SubTotal: val.Qty * val.Price,
+					}
+					itemsdetail = append(itemsdetail, itemdetail)
+				}
+			}()
+		}
+	}()
+	for _, val := range data.TransactionItems {
+		itemschan <- val
+		wg.Add(1)
+	}
+	close(itemschan)
+	wg.Wait()
+	trasactiondata.ItemDetails = itemsdetail
+	res := entity.Response{
+		Data: trasactiondata,
+	}
+	return &res, nil
 }
