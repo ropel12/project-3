@@ -30,6 +30,8 @@ type ChargeResponse struct {
 	ValidationMessages     []string           `json:"validation_messages"`
 	PermataVaNumber        string             `json:"permata_va_number"`
 	VaNumbers              []coreapi.VANumber `json:"va_numbers"`
+	BillKey                string             `json:"bill_key"`
+	BillerCode             string             `json:"biller_code"`
 	Actions                []coreapi.Action   `json:"actions"`
 	PaymentCode            string             `json:"payment_code"`
 	QRString               string             `json:"qr_string"`
@@ -83,7 +85,7 @@ func (m *Midtrans) CreateCharge(req entities.ReqCharge) (*ChargeResponse, error)
 	switch req.PaymentType {
 	case "bca":
 		return m.WithBank(Bca)
-	case "mandiri":
+	case "mandiri", "cimb":
 		return m.WithBank(Mandiri)
 	case "bni":
 		return m.WithBank(Bni)
@@ -101,9 +103,17 @@ func (m *Midtrans) CreateCharge(req entities.ReqCharge) (*ChargeResponse, error)
 }
 
 func (m *Midtrans) WithBank(bank Bank) (*ChargeResponse, error) {
-	m.Req.PaymentType = "bank_transfer"
-	m.Req.BankTransfer = &coreapi.BankTransferDetails{
-		Bank: midtrans.Bank(bank),
+	if bank != Mandiri {
+		m.Req.PaymentType = "bank_transfer"
+		m.Req.BankTransfer = &coreapi.BankTransferDetails{
+			Bank: midtrans.Bank(bank),
+		}
+	} else {
+		m.Req.PaymentType = coreapi.PaymentTypeEChannel
+		m.Req.EChannel = &coreapi.EChannelDetail{
+			BillInfo1: "pembayaran",
+			BillInfo2: "pembayaran",
+		}
 	}
 	res, err := m.ChargeCustom(m.Req)
 	if err != nil {
@@ -135,19 +145,21 @@ func (m *Midtrans) WithEwallet(ewallet Ewallet) (*ChargeResponse, error) {
 
 func (m *Midtrans) ChargeCustom(req *coreapi.ChargeReq) (*ChargeResponse, error) {
 
-	resp := &ChargeResponse{}
+	resp := ChargeResponse{}
 	jsonReq, _ := json.Marshal(req)
 	err := m.Midtrans.HttpClient.Call(http.MethodPost,
 		fmt.Sprintf("%s/v2/charge", m.Midtrans.Env.BaseUrl()),
 		&m.Midtrans.ServerKey,
 		m.Midtrans.Options,
 		bytes.NewBuffer(jsonReq),
-		resp,
+		&resp,
 	)
 	switch resp.PaymentType {
-	case "bank_transfer":
+	case "bank_transfer", "echannel":
 		if resp.PermataVaNumber != "" {
 			resp.PaymentCode = resp.PermataVaNumber
+		} else if resp.BillerCode != "" || resp.BillKey != "" {
+			resp.PaymentCode = fmt.Sprintf("BillCode:%s-BillKey:%s", resp.BillerCode, resp.BillKey)
 		} else {
 			resp.PaymentCode = resp.VaNumbers[0].VANumber
 		}
@@ -155,8 +167,7 @@ func (m *Midtrans) ChargeCustom(req *coreapi.ChargeReq) (*ChargeResponse, error)
 		resp.PaymentCode = resp.Actions[0].URL
 	}
 	if err != nil {
-
-		return resp, errorr.NewBad("Invalid Request Body")
+		return nil, errorr.NewBad("Invalid Request Body")
 	}
-	return resp, nil
+	return &resp, nil
 }
