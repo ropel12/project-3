@@ -206,3 +206,57 @@ e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail
 {"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T12:12:14+07:00"}
 {"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T12:12:15+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-04-26T12:13:06+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T14:31:04+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T14:31:09+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T15:51:27+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T15:51:47+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T15:52:34+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T15:53:25+07:00"}
+{"level":"error","msg":"Failed to publish to NSQ: dial tcp [::1]:4150: i/o timeout","time":"2023-04-26T15:54:35+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T15:58:12+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T15:58:19+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T15:59:18+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T15:59:45+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T16:05:13+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T16:08:03+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T16:08:11+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T16:10:22+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T16:10:30+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T16:10:46+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T16:11:23+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T16:11:52+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T16:12:20+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T16:12:35+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T16:13:55+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T16:14:15+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T16:14:24+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T16:14:54+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T16:17:37+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T16:19:06+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T16:19:13+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T16:19:51+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T16:33:25+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T16:37:28+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T16:38:16+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T16:40:51+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T20:42:41+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T20:42:44+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T21:13:08+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T21:15:06+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T21:15:17+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T21:18:15+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T21:18:43+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T21:19:07+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T21:20:02+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T21:20:17+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T21:20:30+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T21:21:25+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T21:29:56+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T21:30:55+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T21:32:15+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-26T21:32:40+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T21:33:07+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-26T21:33:18+07:00"}
+{"level":"error","msg":"Failed to publish to NSQ: dial tcp [::1]:4150: i/o timeout","time":"2023-04-26T21:35:13+07:00"}
+{"level":"error","msg":"Failed to publish to NSQ: dial tcp [::1]:4150: i/o timeout","time":"2023-04-26T21:35:25+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-26T21:53:16+07:00"}

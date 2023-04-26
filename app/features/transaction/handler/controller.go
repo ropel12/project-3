@@ -52,7 +52,7 @@ func (u *Transaction) CreateTransaction(c echo.Context) error {
 	if err != nil {
 		return CreateErrorResponse(err, c)
 	}
-	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", map[string]any{"data": invoice}))
+	return c.JSON(http.StatusCreated, CreateWebResponse(http.StatusCreated, "Success Operation", map[string]any{"data": invoice}))
 }
 
 func (u *Transaction) MidtransNotification(c echo.Context) error {
