@@ -126,7 +126,7 @@ var _ = Describe("user", func() {
 		})
 		When("Req body midtrans tidak sesuai", func() {
 			BeforeEach(func() {
-				Mock.On("GetDetailUser", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
+				Mock.On("GetDetailUserById", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
 			})
 			It("Akan Mengembalikan Eror dengan pesan 'Missing or Invalid Request Body'", func() {
 				itemsdetails := []entity.ItemDetails{}
@@ -152,7 +152,7 @@ var _ = Describe("user", func() {
 					PaymentType: "bca",
 					ItemDetails: itemsdetails,
 				}
-				Mock.On("GetDetailUser", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
+				Mock.On("GetDetailUserById", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
 				Mock.On("CreateTransaction", mock.Anything, mock.Anything).Return(errors.New("Internal Server Error"))
 			})
 			It("Akan Mengembalikan Eror dengan pesan 'Internal server error'", func() {
@@ -172,13 +172,37 @@ var _ = Describe("user", func() {
 					PaymentType: "mandiri",
 					ItemDetails: itemsdetails,
 				}
-				Mock.On("GetDetailUser", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
+				Mock.On("GetDetailUserById", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
 				Mock.On("CreateTransaction", mock.Anything, mock.Anything).Return(nil)
 			})
 			It("Akan Mengembalikan Invoice Transaksi", func() {
 				inv, err := TrxService.CreateTransaction(ctx, req)
 				Expect(err).Should(BeNil())
 				Expect(inv).ShouldNot(Equal(""))
+			})
+		})
+
+	})
+
+	Context("Notification payment", func() {
+		When("Terdapat kesalahan query db pada saat menyimpan dat transaksi", func() {
+			BeforeEach(func() {
+				Mock.On("UpdateStatusTrasansaction", mock.Anything, mock.Anything, mock.Anything).Return(errors.New("Internal Server Error"))
+			})
+			It("Akan Mengembalikan Error dengan pesan 'Internal Server Error'", func() {
+				err := TrxService.UpdateStatus(ctx, "success", "INV-123323232")
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Internal Server Error"))
+			})
+		})
+
+		When("Sukses mengubah data transaksi", func() {
+			BeforeEach(func() {
+				Mock.On("UpdateStatusTrasansaction", mock.Anything, mock.Anything, mock.Anything).Return(nil)
+			})
+			It("Akan Mengembalikan Error dengan pesan nilai nil", func() {
+				err := TrxService.UpdateStatus(ctx, "success", "INV-123323232")
+				Expect(err).Should(BeNil())
 			})
 		})
 	})

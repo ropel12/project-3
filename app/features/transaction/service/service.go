@@ -26,6 +26,7 @@ type (
 		CreateCart(ctx context.Context, req entity.ReqCart) error
 		GetCart(ctx context.Context, uid int) ([]entity.Cart, error)
 		CreateTransaction(ctx context.Context, req entity.ReqCheckout) (string, error)
+		UpdateStatus(ctx context.Context, status, invoice string) error
 	}
 )
 
@@ -106,7 +107,7 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 		}
 	}()
 
-	userdetail := t.repo.GetDetailUser(t.dep.Db.WithContext(ctx), req.UserId)
+	userdetail := t.repo.GetDetailUserById(t.dep.Db.WithContext(ctx), req.UserId)
 	invoice := helper.GenerateInvoice(req.EventId, req.UserId)
 	customerdetails := &midtrans.CustomerDetails{
 		FName: userdetail.Name,
@@ -128,9 +129,8 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 	if err != nil {
 		return "", errorr.NewBad(err.Error())
 	}
-	expire := ""
 	if res.Expire == "" {
-		expire = helper.GenerateExpiretime(res.TransactionTime, 1)
+		res.Expire = helper.GenerateExpiretime(res.TransactionTime, 1)
 	}
 	trxdata := entity2.Transaction{
 		Invoice:          invoice,
@@ -140,20 +140,48 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 		Total:            total,
 		UserID:           uint(req.UserId),
 		EventID:          uint(req.EventId),
-		Expire:           expire,
+		Expire:           res.Expire,
 		PaymentCode:      res.PaymentCode,
 		TransactionItems: transactionitems,
 	}
-	go func() {
-		encodeddata, _ := json.Marshal(map[string]any{"invoice": invoice, "total": total, "name": userdetail.Name, "email": userdetail.Email, "payment_code": res.PaymentCode, "payment_method": res.PaymentType, "expire": res.Expire})
-		err := t.dep.Nsq.Publish("1", encodeddata)
-		if err != nil {
-			t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
-			return
-		}
-	}()
+
 	if err := t.repo.CreateTransaction(t.dep.Db.WithContext(ctx), trxdata); err != nil {
 		return "", err
 	}
+	encodeddata, _ := json.Marshal(map[string]any{"invoice": invoice, "total": total, "name": userdetail.Name, "email": userdetail.Email, "payment_code": res.PaymentCode, "payment_method": res.PaymentType, "expire": res.Expire})
+	err = t.dep.Nsq.Publish("1", encodeddata)
+	if err != nil {
+		t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
+	}
 	return invoice, nil
+}
+
+func (t *transaction) UpdateStatus(ctx context.Context, status, invoice string) error {
+
+	if err := t.repo.UpdateStatusTrasansaction(t.dep.Db.WithContext(ctx), invoice, status); err != nil {
+		return err
+	}
+	user := t.repo.GetDetailUserByInvoice(t.dep.Db.WithContext(ctx), invoice)
+	encodeddata, _ := json.Marshal(map[string]any{"invoice": invoice, "email": user.User.Email, "name": user.User.Name})
+	switch status {
+	case "Success":
+		go func() {
+			if err := t.dep.Nsq.Publish("2", encodeddata); err != nil {
+				t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
+			}
+		}()
+		if err := t.dep.Pusher.Publish(map[string]string{"invoice": invoice, "status": "success"}); err != nil {
+			t.dep.Log.Errorf("Failed to publish to PusherJs: %v", err)
+		}
+	case "Cancel":
+		go func() {
+			if err := t.dep.Nsq.Publish("3", encodeddata); err != nil {
+				t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
+			}
+		}()
+		if err := t.dep.Pusher.Publish(map[string]string{"invoice": invoice, "status": "canceled"}); err != nil {
+			t.dep.Log.Errorf("Failed to publish to PusherJs: %v", err)
+		}
+	}
+	return nil
 }

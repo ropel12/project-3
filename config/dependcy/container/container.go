@@ -9,6 +9,7 @@ import (
 	"github.com/midtrans/midtrans-go"
 	"github.com/midtrans/midtrans-go/coreapi"
 	"github.com/nsqio/go-nsq"
+	"github.com/pusher/pusher-http-go/v5"
 	feat "github.com/ropel12/project-3/app/features"
 	"github.com/ropel12/project-3/config"
 	"github.com/ropel12/project-3/pkg"
@@ -44,6 +45,9 @@ func RunAll() {
 		panic(err)
 	}
 	if err := Container.Provide(NewNSQ); err != nil {
+		panic(err)
+	}
+	if err := Container.Provide(NewPusher); err != nil {
 		panic(err)
 	}
 	if err := feat.RegisterRepo(Container); err != nil {
@@ -104,4 +108,16 @@ func NewNSQ(conf *config.Config) (np *pkg.NSQProducer, err error) {
 	}
 
 	return np, nil
+}
+func NewPusher(conf *config.Config) (ps *pkg.Pusher) {
+	ps = &pkg.Pusher{}
+	ps.Env = conf.Pusher
+	ps.Client = &pusher.Client{
+		AppID:   ps.Env.AppId,
+		Key:     ps.Env.Key,
+		Secret:  ps.Env.Secret,
+		Cluster: ps.Env.Cluster,
+		Secure:  ps.Env.Secure,
+	}
+	return ps
 }
