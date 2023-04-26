@@ -68,6 +68,7 @@ type (
 		Date             string `gorm:"not null"`
 		UserID           uint   `gorm:"not null"`
 		EventID          uint   `gorm:"not null"`
+		User             User
 		TransactionItems []TransactionItems
 	}
 	TransactionItems struct {

@@ -23,6 +23,15 @@
         "TOPIC3": "CANCEL"
     }
     ,
+    "PUSHER": {
+        "APPID": "1312321321",
+        "KEY": "b3213213124",
+        "SECRET": "13213123126b32328",
+        "CLUSTER": "ap1",
+        "SECURE": false,
+        "CHANNEL": "Channel1",
+        "EVENT": "payment-notif"
+      },
     "MIDTRANS": {
         "SERVERKEY": "SB-Mid-server-Sneweweewewwe",
         "CLIENTKEY": "SB-Mid-client-weqewq232323232",

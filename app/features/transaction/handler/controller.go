@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/golang-jwt/jwt"
@@ -52,4 +53,24 @@ func (u *Transaction) CreateTransaction(c echo.Context) error {
 		return CreateErrorResponse(err, c)
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", map[string]any{"data": invoice}))
+}
+
+func (u *Transaction) MidtransNotification(c echo.Context) error {
+	midres := MidtransNotifResponse{}
+	if err := c.Bind(&midres); err != nil {
+		log.Printf("[ERROR] When Binding Midtrans Reponse : %v", err)
+	}
+
+	switch midres.TransactionStatus {
+	case "settlement":
+		if err := u.Service.UpdateStatus(c.Request().Context(), "Success", midres.OrderID); err != nil {
+			log.Printf("[ERROR]When update status: %v", err)
+		}
+	case "expire":
+		if err := u.Service.UpdateStatus(c.Request().Context(), "Cancel", midres.OrderID); err != nil {
+			log.Printf("[ERROR]When update status: %v", err)
+		}
+
+	}
+	return nil
 }

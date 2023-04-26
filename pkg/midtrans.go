@@ -147,7 +147,6 @@ func (m *Midtrans) ChargeCustom(req *coreapi.ChargeReq) (*ChargeResponse, error)
 	switch resp.PaymentType {
 	case "bank_transfer":
 		if resp.PermataVaNumber != "" {
-
 			resp.PaymentCode = resp.PermataVaNumber
 		} else {
 			resp.PaymentCode = resp.VaNumbers[0].VANumber

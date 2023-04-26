@@ -16,7 +16,9 @@ type (
 		Create(db *gorm.DB, cart entity.Carts) error
 		GetCart(db *gorm.DB, uid int) ([]entity.Carts, error)
 		CreateTransaction(db *gorm.DB, data entity.Transaction) error
-		GetDetailUser(db *gorm.DB, uid int) *entity.User
+		GetDetailUserById(db *gorm.DB, uid int) *entity.User
+		GetDetailUserByInvoice(db *gorm.DB, invoice string) *entity.Transaction
+		UpdateStatusTrasansaction(db *gorm.DB, invoice string, status string) error
 	}
 )
 
@@ -75,10 +77,29 @@ func (t *transaction) CreateTransaction(db *gorm.DB, data entity.Transaction) er
 	})
 }
 
-func (t *transaction) GetDetailUser(db *gorm.DB, uid int) *entity.User {
+func (t *transaction) GetDetailUserById(db *gorm.DB, uid int) *entity.User {
 	userdata := entity.User{}
 	if err := db.Find(&userdata, uid).Error; err != nil {
 		return nil
 	}
 	return &userdata
+}
+
+func (t *transaction) GetDetailUserByInvoice(db *gorm.DB, invoice string) *entity.Transaction {
+	userdata := entity.Transaction{}
+	userdata.Invoice = invoice
+	if err := db.Preload("User", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id,name,email")
+	}).Find(&userdata).Error; err != nil {
+		return nil
+	}
+	return &userdata
+}
+
+func (t *transaction) UpdateStatusTrasansaction(db *gorm.DB, invoice string, status string) error {
+	if err := db.Model(&entity.Transaction{}).Where("invoice = ?", invoice).Update("status", status).Error; err != nil {
+		t.log.Errorf("Error db : %v", err)
+		return errorr.NewInternal("Internal server error")
+	}
+	return nil
 }

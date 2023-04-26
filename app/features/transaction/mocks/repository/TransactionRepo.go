@@ -68,8 +68,8 @@ func (_m *TransactionRepo) GetCart(db *gorm.DB, uid int) ([]entities.Carts, erro
 	return r0, r1
 }
 
-// GetDetailUser provides a mock function with given fields: db, uid
-func (_m *TransactionRepo) GetDetailUser(db *gorm.DB, uid int) *entities.User {
+// GetDetailUserById provides a mock function with given fields: db, uid
+func (_m *TransactionRepo) GetDetailUserById(db *gorm.DB, uid int) *entities.User {
 	ret := _m.Called(db, uid)
 
 	var r0 *entities.User
@@ -79,6 +79,36 @@ func (_m *TransactionRepo) GetDetailUser(db *gorm.DB, uid int) *entities.User {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*entities.User)
 		}
+	}
+
+	return r0
+}
+
+// GetDetailUserByInvoice provides a mock function with given fields: db, invoice
+func (_m *TransactionRepo) GetDetailUserByInvoice(db *gorm.DB, invoice string) *entities.Transaction {
+	ret := _m.Called(db, invoice)
+
+	var r0 *entities.Transaction
+	if rf, ok := ret.Get(0).(func(*gorm.DB, string) *entities.Transaction); ok {
+		r0 = rf(db, invoice)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entities.Transaction)
+		}
+	}
+
+	return r0
+}
+
+// UpdateStatusTrasansaction provides a mock function with given fields: db, invoice, status
+func (_m *TransactionRepo) UpdateStatusTrasansaction(db *gorm.DB, invoice string, status string) error {
+	ret := _m.Called(db, invoice, status)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, string, string) error); ok {
+		r0 = rf(db, invoice, status)
+	} else {
+		r0 = ret.Error(0)
 	}
 
 	return r0
