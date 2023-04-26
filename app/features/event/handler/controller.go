@@ -43,7 +43,7 @@ func (e *Event) Create(c echo.Context) error {
 	if err != nil {
 		return CreateErrorResponse(err, c)
 	}
-	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", map[string]any{"id": id}))
+	return c.JSON(http.StatusCreated, CreateWebResponse(http.StatusCreated, "Success operation", map[string]any{"id": id}))
 }
 
 func (e *Event) MyEvent(c echo.Context) error {

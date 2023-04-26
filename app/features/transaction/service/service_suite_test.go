@@ -37,7 +37,7 @@ var _ = Describe("user", func() {
 		Mock = mocks.NewTransactionRepo(GinkgoT())
 		TrxService = trx.NewTransactionService(Mock, Depend)
 	})
-	Context("User Login", func() {
+	Context("Create Cart", func() {
 		When("Request Body kosong", func() {
 			It("Akan Mengembalikan Eror dengan pesan 'Missing or Invalid Request Body'", func() {
 				err := TrxService.CreateCart(ctx, entity.ReqCart{})
@@ -200,9 +200,38 @@ var _ = Describe("user", func() {
 			BeforeEach(func() {
 				Mock.On("UpdateStatusTrasansaction", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 			})
-			It("Akan Mengembalikan Error dengan pesan nilai nil", func() {
+			It("Akan Mengembalikan Error dengan nilai nil", func() {
 				err := TrxService.UpdateStatus(ctx, "success", "INV-123323232")
 				Expect(err).Should(BeNil())
+			})
+		})
+	})
+	Context("Detail Transaction", func() {
+		When("Tidak terdapat data pada invoice dan user id yang di inputkan", func() {
+			BeforeEach(func() {
+				Mock.On("GetByInvoice", mock.Anything, mock.Anything, mock.Anything).Return(nil, errors.New("Data Not Found"))
+			})
+			It("Akan Mengembalikan Error dengan pesan 'Data Not Found'", func() {
+				res, err := TrxService.GetDetail(ctx, "INV-123323232", 99)
+				Expect(err).ShouldNot(BeNil())
+				Expect(res).Should(BeNil())
+				Expect(err.Error()).To(Equal("Data Not Found"))
+			})
+		})
+		When("Terdapat data pada invoice dan user id yang di inputkan", func() {
+			BeforeEach(func() {
+				TransactionItems := []entity2.TransactionItems{}
+				TransactionItems = append(TransactionItems, entity2.TransactionItems{Qty: 1, Price: 1000})
+				Transaction := entity2.Transaction{
+					Status:           "paid",
+					TransactionItems: TransactionItems,
+				}
+				Mock.On("GetByInvoice", mock.Anything, mock.Anything, mock.Anything).Return(&Transaction, nil)
+			})
+			It("Akan Mengembalikan data detail transaksi", func() {
+				res, err := TrxService.GetDetail(ctx, "INV-123323232", 1)
+				Expect(err).Should(BeNil())
+				Expect(res).ShouldNot(BeNil())
 			})
 		})
 	})
