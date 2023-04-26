@@ -26,6 +26,9 @@ func (r *Routes) RegisterRoutes() {
 	//No Auth
 	ro.POST("/login", r.User.Login)
 	ro.POST("/register", r.User.Register)
+
+	///Third-Party Payment Notification
+	ro.POST("/notif", r.Trx.MidtransNotification)
 	//Auth Area
 	rauth := ro.Group("", middleware.JWT([]byte(r.Depend.Config.JwtSecret)))
 	/// Users

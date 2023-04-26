@@ -13,6 +13,14 @@ type (
 		Message string `json:"message"`
 		Data    any    `json:"data,omitempty"`
 	}
+
+	MidtransNotifResponse struct {
+		StatusCode        string `json:"status_code"`
+		OrderID           string `json:"order_id"`
+		TransactionTime   string `json:"transaction_time"`
+		TransactionStatus string `json:"transaction_status"`
+		FraudStatus       string `json:"fraud_status"`
+	}
 )
 
 func CreateWebResponse(code int, message string, data any) any {

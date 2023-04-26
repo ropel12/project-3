@@ -79,6 +79,20 @@ func (_m *TransactionService) GetCart(ctx context.Context, uid int) ([]transacti
 	return r0, r1
 }
 
+// UpdateStatus provides a mock function with given fields: ctx, status, invoice
+func (_m *TransactionService) UpdateStatus(ctx context.Context, status string, invoice string) error {
+	ret := _m.Called(ctx, status, invoice)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string) error); ok {
+		r0 = rf(ctx, status, invoice)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 type mockConstructorTestingTNewTransactionService interface {
 	mock.TestingT
 	Cleanup(func())

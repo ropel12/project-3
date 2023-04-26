@@ -20,4 +20,5 @@ type Depend struct {
 	Rds    *redis.Client
 	Mds    *pkg.Midtrans
 	Nsq    *pkg.NSQProducer
+	Pusher *pkg.Pusher
 }

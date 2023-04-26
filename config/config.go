@@ -41,6 +41,15 @@ type NSQConfig struct {
 	Topic2 string `mapstructure:"TOPIC2"`
 	Topic3 string `mapstructure:"TOPIC3"`
 }
+type PusherConfig struct {
+	AppId   string `mapstructure:"APPID"`
+	Key     string `mapstructure:"KEY"`
+	Secret  string `mapstructure:"SECRET"`
+	Cluster string `mapstructure:"CLUSTER"`
+	Secure  bool   `mapstructure:"SECURE"`
+	Channel string `mapstructure:"CHANNEL"`
+	Event   string `mapstructure:"EVENT"`
+}
 type Config struct {
 	Server     Server         `mapstructure:"SERVER"`
 	Database   DatabaseConfig `mapstructure:"DATABASE"`
@@ -51,6 +60,7 @@ type Config struct {
 	CSRFMode   string         `mapstructure:"CSRFMODE"`
 	NSQ        NSQConfig      `mapstructure:"NSQ"`
 	GCP        GCPConfig      `mapstructure:"GCP"`
+	Pusher     PusherConfig   `mapstructure:"PUSHER"`
 }
 
 func InitConfiguration() (*Config, error) {
