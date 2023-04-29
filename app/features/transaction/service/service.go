@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/go-playground/validator"
 	"github.com/midtrans/midtrans-go"
@@ -28,6 +29,7 @@ type (
 		CreateTransaction(ctx context.Context, req entity.ReqCheckout) (string, error)
 		UpdateStatus(ctx context.Context, status, invoice string) error
 		GetDetail(ctx context.Context, invoice string, uid int) (*entity.Response, error)
+		GetHistoryByuid(ctx context.Context, uid int) (*entity.Response, error)
 	}
 )
 
@@ -79,6 +81,7 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 		return "", errorr.NewBad("Invalid and missing request body")
 	}
 	var total int
+	var status, expire, date, paymentcode string
 	itemdetails := []midtrans.ItemDetails{}
 	transactionitems := []entity2.TransactionItems{}
 	wg := &sync.WaitGroup{}
@@ -126,33 +129,47 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 		ItemsDetails:    &itemdetails,
 		CustomerDetails: customerdetails,
 	}
-	res, err := t.dep.Mds.CreateCharge(reqcharge)
-	if err != nil {
-		return "", errorr.NewBad(err.Error())
+	if total > 0 {
+		res, err := t.dep.Mds.CreateCharge(reqcharge)
+		if err != nil {
+			return "", errorr.NewBad(err.Error())
+		}
+		if res.Expire == "" {
+			res.Expire = helper.GenerateExpiretime(res.TransactionTime, 1)
+		}
+		status = "pending"
+		date = res.TransactionTime
+		expire = res.Expire
+		paymentcode = res.PaymentCode
+	} else {
+		status = "paid"
+		date = time.Now().Format("2006-01-02 15:04:05")
+		expire = "0000-00-00 00:00:00"
+		paymentcode = "-"
 	}
-	if res.Expire == "" {
-		res.Expire = helper.GenerateExpiretime(res.TransactionTime, 1)
-	}
+
 	trxdata := entity2.Transaction{
 		Invoice:          invoice,
 		PaymentMethod:    req.PaymentType,
-		Status:           res.TransactionStatus,
-		Date:             res.TransactionTime,
+		Status:           status,
+		Date:             date,
 		Total:            total,
 		UserID:           uint(req.UserId),
 		EventID:          uint(req.EventId),
-		Expire:           res.Expire,
-		PaymentCode:      res.PaymentCode,
+		Expire:           expire,
+		PaymentCode:      paymentcode,
 		TransactionItems: transactionitems,
 	}
 
 	if err := t.repo.CreateTransaction(t.dep.Db.WithContext(ctx), trxdata); err != nil {
 		return "", err
 	}
-	encodeddata, _ := json.Marshal(map[string]any{"invoice": invoice, "total": total, "name": userdetail.Name, "email": userdetail.Email, "payment_code": res.PaymentCode, "payment_method": res.PaymentType, "expire": res.Expire})
-	err = t.dep.Nsq.Publish("1", encodeddata)
-	if err != nil {
-		t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
+	if total > 0 {
+		encodeddata, _ := json.Marshal(map[string]any{"invoice": invoice, "total": total, "name": userdetail.Name, "email": userdetail.Email, "payment_code": paymentcode, "payment_method": req.PaymentType, "expire": expire})
+		err := t.dep.Nsq.Publish("1", encodeddata)
+		if err != nil {
+			t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
+		}
 	}
 	return invoice, nil
 }
@@ -201,40 +218,64 @@ func (t *transaction) GetDetail(ctx context.Context, invoice string, uid int) (*
 		Status:        data.Status,
 		PaymentCode:   data.PaymentCode,
 	}
-	itemschan := make(chan entity2.TransactionItems)
+	itemschan := make(chan entity.ItemDetails)
 	wg := sync.WaitGroup{}
-	go func() {
-		worker := 1
-		lengh := len(data.TransactionItems)
-		if lengh == 2 {
-			worker = 2
-		} else {
-			worker = 3
+	go func(wg *sync.WaitGroup, itemschan <-chan entity.ItemDetails) {
+		for val := range itemschan {
+			itemsdetail = append(itemsdetail, val)
+			wg.Done()
 		}
-		for i := 0; i < worker; i++ {
-			go func() {
-				defer wg.Done()
-				for val := range itemschan {
-					itemdetail := entity.ItemDetails{
-						Name:     val.Type.Name,
-						Price:    val.Price,
-						Qty:      val.Qty,
-						SubTotal: val.Qty * val.Price,
-					}
-					itemsdetail = append(itemsdetail, itemdetail)
-				}
-			}()
-		}
-	}()
+	}(&wg, itemschan)
+	wg.Add(len(data.TransactionItems))
 	for _, val := range data.TransactionItems {
-		itemschan <- val
-		wg.Add(1)
+		itemdetail := entity.ItemDetails{
+			Name:     val.Type.Name,
+			Price:    val.Price,
+			Qty:      val.Qty,
+			SubTotal: val.Qty * val.Price,
+		}
+		itemschan <- itemdetail
 	}
-	close(itemschan)
 	wg.Wait()
+	close(itemschan)
 	trasactiondata.ItemDetails = itemsdetail
 	res := entity.Response{
 		Data: trasactiondata,
+	}
+	return &res, nil
+}
+func (t *transaction) GetHistoryByuid(ctx context.Context, uid int) (*entity.Response, error) {
+	restrx := []entity.EventTransaction{}
+	data, err := t.repo.GetHistory(t.dep.Db.WithContext(ctx), uid)
+	if err != nil {
+		return nil, err
+	}
+	trxchan := make(chan entity.EventTransaction)
+	wg := &sync.WaitGroup{}
+	go func(wg *sync.WaitGroup, data <-chan entity.EventTransaction) {
+		for val := range data {
+			restrx = append(restrx, val)
+			wg.Done()
+		}
+
+	}(wg, trxchan)
+	wg.Add(len(data))
+	for _, val := range data {
+		eventrx := entity.EventTransaction{
+			Id:           int(val.EventID),
+			Date:         val.Event.StartDate,
+			Location:     val.Event.Location,
+			EndDate:      val.Event.EndDate,
+			HostedBy:     val.Event.HostedBy,
+			Image:        val.Event.Image,
+			Participants: len(val.Event.Users),
+		}
+		trxchan <- eventrx
+	}
+	wg.Wait()
+	close(trxchan)
+	res := entity.Response{
+		Data: restrx,
 	}
 	return &res, nil
 }

@@ -26,15 +26,25 @@ type (
 		ItemDetails []ItemDetails `json:"items_detail" validate:"required"`
 		UserId      int
 	}
-	Transaction struct {
-		Total         int64         `json:"total"`
-		Date          string        `json:"date"`
-		Expire        string        `json:"expire"`
-		PaymentMethod string        `json:"payment_method"`
-		Status        string        `json:"status"`
-		PaymentCode   string        `json:"payment_code"`
-		ItemDetails   []ItemDetails `json:"item_details"`
+	EventTransaction struct {
+		Id           int    `json:"id"`
+		Date         string `json:"date"`
+		Location     string `json:"location"`
+		EndDate      string `json:"end_date"`
+		HostedBy     string `json:"hosted_by"`
+		Image        string `json:"image"`
+		Participants int    `json:"participants"`
 	}
+	Transaction struct {
+		Total         int64         `json:"total,omitempty"`
+		Date          string        `json:"date,omitempty"`
+		Expire        string        `json:"expire,omitempty"`
+		PaymentMethod string        `json:"payment_method,omitempty"`
+		Status        string        `json:"status,omitempty"`
+		PaymentCode   string        `json:"payment_code,omitempty"`
+		ItemDetails   []ItemDetails `json:"item_details,omitempty"`
+	}
+
 	Response struct {
 		Data any `json:"data"`
 	}

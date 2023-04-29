@@ -83,3 +83,12 @@ func (u *Transaction) GetDetail(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
 }
+
+func (u *Transaction) MyHistory(c echo.Context) error {
+	uid := helper.GetUid(c.Get("user").(*jwt.Token))
+	res, err := u.Service.GetHistoryByuid(c.Request().Context(), uid)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
+}

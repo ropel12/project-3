@@ -36,6 +36,7 @@ func (r *Routes) RegisterRoutes() {
 	rauth.DELETE("/users", r.User.Delete)
 	rauth.GET("/users", r.User.GetProfile)
 	rauth.GET("/users/events", r.Event.MyEvent)
+	rauth.GET("/users/events", r.Trx.MyHistory)
 
 	///Events
 	rauth.POST("/events", r.Event.Create)
