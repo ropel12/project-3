@@ -235,4 +235,43 @@ var _ = Describe("user", func() {
 			})
 		})
 	})
+
+	Context("Get History By Uid", func() {
+		When("Tidak Terdapat data pada user id yang di inputkan", func() {
+			BeforeEach(func() {
+				Mock.On("GetHistory", mock.Anything, 99).Return(nil, errors.New("Data not found"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Data not found'", func() {
+				res, err := TrxService.GetHistoryByuid(ctx, 99)
+				Expect(err).ShouldNot(BeNil())
+				Expect(res).Should(BeNil())
+				Expect(err.Error()).To(Equal("Data not found"))
+			})
+		})
+		When("Terdapat kesalahan query database", func() {
+			BeforeEach(func() {
+				Mock.On("GetHistory", mock.Anything, 99).Return(nil, errors.New("Internal server error"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Internal server error'", func() {
+				res, err := TrxService.GetHistoryByuid(ctx, 99)
+				Expect(err).ShouldNot(BeNil())
+				Expect(res).Should(BeNil())
+				Expect(err.Error()).To(Equal("Internal server error"))
+			})
+		})
+		When("Terdapat data pada user id yang di inputkan", func() {
+			BeforeEach(func() {
+				Event := entity2.Event{Name: "Dota2"}
+				trx := entity2.Transaction{Invoice: "INV-12121212121", Event: Event}
+				datatrx := []entity2.Transaction{}
+				datatrx = append(datatrx, trx)
+				Mock.On("GetHistory", mock.Anything, 1).Return(datatrx, nil)
+			})
+			It("Akan Mengembalikan data transaksi user", func() {
+				res, err := TrxService.GetHistoryByuid(ctx, 1)
+				Expect(err).Should(BeNil())
+				Expect(res.Data).ShouldNot(BeNil())
+			})
+		})
+	})
 })

@@ -70,6 +70,7 @@ type (
 		EventID          uint   `gorm:"not null"`
 		User             User
 		TransactionItems []TransactionItems
+		Event            Event
 	}
 	TransactionItems struct {
 		TransactionInvoice string `gorm:"not null"`
