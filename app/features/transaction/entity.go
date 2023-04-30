@@ -27,25 +27,30 @@ type (
 		UserId      int
 	}
 	EventTransaction struct {
-		Id           int    `json:"id"`
-		Date         string `json:"date"`
-		Location     string `json:"location"`
-		EndDate      string `json:"end_date"`
-		HostedBy     string `json:"hosted_by"`
-		Image        string `json:"image"`
-		Participants int    `json:"participants"`
+		Id           int    `json:"id,omitempty"`
+		Name         string `json:"name,omitempty"`
+		Date         string `json:"date,omitempty"`
+		Location     string `json:"location,omitempty"`
+		EndDate      string `json:"end_date,omitempty"`
+		HostedBy     string `json:"hosted_by,omitempty"`
+		Image        string `json:"image,omitempty"`
+		Participants int    `json:"participants,omitempty"`
 	}
 	Transaction struct {
 		Total         int64         `json:"total,omitempty"`
 		Date          string        `json:"date,omitempty"`
 		Expire        string        `json:"expire,omitempty"`
 		PaymentMethod string        `json:"payment_method,omitempty"`
+		Invoice       string        `json:"invoice,omitempty"`
+		EventName     string        `json:"event_name,omitempty"`
 		Status        string        `json:"status,omitempty"`
 		PaymentCode   string        `json:"payment_code,omitempty"`
 		ItemDetails   []ItemDetails `json:"item_details,omitempty"`
 	}
 
 	Response struct {
-		Data any `json:"data"`
+		Csrf  string `json:"csrf,omitempty"`
+		Total int    `json:"total,omitempty"`
+		Data  any    `json:"data"`
 	}
 )

@@ -132,7 +132,7 @@ func (e *event) GetAll(ctx context.Context, limit, page int) (*entity.Response, 
 }
 
 func (e *event) Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent, error) {
-	data, err := e.repo.GetById(e.dep.Db.WithContext(ctx), e.dep.Rds, id)
+	data, err := e.repo.GetById(e.dep.Db.WithContext(ctx), id)
 	if err != nil {
 		return nil, err
 	}
@@ -142,6 +142,7 @@ func (e *event) Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent
 		Date:     data.StartDate,
 		Location: data.Location,
 		HostedBy: data.HostedBy,
+		Quota:    data.Quota,
 		Duration: data.Duration,
 		Details:  data.Detail,
 		Image:    data.Image,

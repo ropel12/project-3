@@ -53,6 +53,7 @@ type (
 		Location     string            `json:"location"`
 		Duration     float32           `json:"duration"`
 		HostedBy     string            `json:"hosted_by"`
+		Quota        int               `json:"quota"`
 		Image        string            `json:"image"`
 		Types        []entity.Type     `json:"types"`
 		Participants []UserParticipant `json:"participants"`

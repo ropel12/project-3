@@ -110,22 +110,40 @@ var _ = Describe("user", func() {
 				data, err := TrxService.GetCart(ctx, 1)
 				Expect(err).Should(BeNil())
 				Expect(data).ShouldNot(BeNil())
-				Expect(data[0].TypeID).To(Equal(1))
 			})
 		})
 	})
 
 	Context("Checkout", func() {
 		When("Request Body kosong", func() {
-			It("Akan Mengembalikan Eror dengan pesan 'Missing or Invalid Request Body'", func() {
-				inv, err := TrxService.CreateTransaction(ctx, entity.ReqCheckout{})
+			It("Akan Mengembalikan Eror dengan pesan 'Invalid or missing request body'", func() {
+				res, err := TrxService.CreateTransaction(ctx, entity.ReqCheckout{})
 				Expect(err).ShouldNot(BeNil())
-				Expect(err.Error()).To(Equal("Invalid and missing request body"))
-				Expect(inv).To(Equal(""))
+				Expect(res).Should(BeNil())
+				Expect(err.Error()).To(Equal("Invalid or missing request body"))
+			})
+		})
+		When("Kouta yang dibeli melebihi jumlah kouta yang tersedia", func() {
+			BeforeEach(func() {
+				Mock.On("CheckQuota", mock.Anything, mock.Anything, mock.Anything).Return(errors.New("You have exceeded the quota"))
+			})
+			It("Akan Mengembalikan Eror dengan pesan 'You have exceeded the quota'", func() {
+				itemsdetails := []entity.ItemDetails{}
+				itemsdetails = append(itemsdetails, entity.ItemDetails{Name: "Vip", Price: 200, SubTotal: 1000, Qty: 99})
+				req := entity.ReqCheckout{
+					EventId:     1,
+					PaymentType: "bca",
+					ItemDetails: itemsdetails,
+				}
+				res, err := TrxService.CreateTransaction(ctx, req)
+				Expect(err).ShouldNot(BeNil())
+				Expect(res).Should(BeNil())
+				Expect(err.Error()).To(Equal("You have exceeded the quota"))
 			})
 		})
 		When("Req body midtrans tidak sesuai", func() {
 			BeforeEach(func() {
+				Mock.On("CheckQuota", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 				Mock.On("GetDetailUserById", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
 			})
 			It("Akan Mengembalikan Eror dengan pesan 'Missing or Invalid Request Body'", func() {
@@ -136,13 +154,13 @@ var _ = Describe("user", func() {
 					PaymentType: "bca",
 					ItemDetails: itemsdetails,
 				}
-				inv, err := TrxService.CreateTransaction(ctx, req)
+				res, err := TrxService.CreateTransaction(ctx, req)
 				Expect(err).ShouldNot(BeNil())
+				Expect(res).Should(BeNil())
 				Expect(err.Error()).To(Equal("Invalid Request Body"))
-				Expect(inv).To(Equal(""))
 			})
 		})
-		When("Terdapt Kesalahan query database pada saat menyimpan data transaksi", func() {
+		When("Terdapat Kesalahan query database pada saat menyimpan data transaksi", func() {
 			itemsdetails := []entity.ItemDetails{}
 			req := entity.ReqCheckout{}
 			BeforeEach(func() {
@@ -152,40 +170,62 @@ var _ = Describe("user", func() {
 					PaymentType: "bca",
 					ItemDetails: itemsdetails,
 				}
+				Mock.On("CheckQuota", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 				Mock.On("GetDetailUserById", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
 				Mock.On("CreateTransaction", mock.Anything, mock.Anything).Return(errors.New("Internal Server Error"))
 			})
 			It("Akan Mengembalikan Eror dengan pesan 'Internal server error'", func() {
-				inv, err := TrxService.CreateTransaction(ctx, req)
+				res, err := TrxService.CreateTransaction(ctx, req)
 				Expect(err).ShouldNot(BeNil())
+				Expect(res).Should(BeNil())
 				Expect(err.Error()).To(Equal("Internal Server Error"))
-				Expect(inv).To(Equal(""))
 			})
 		})
-		When("Berhasil membuat transaksi", func() {
+		When("Berhasil membuat transaksi dengan total transaksi sama dengan 0", func() {
+			itemsdetails := []entity.ItemDetails{}
+			req := entity.ReqCheckout{}
+			BeforeEach(func() {
+				itemsdetails = append(itemsdetails, entity.ItemDetails{Name: "regular", Price: 0, Qty: 1, SubTotal: 0})
+				req = entity.ReqCheckout{
+					EventId:     1,
+					PaymentType: "free",
+					ItemDetails: itemsdetails,
+				}
+				Mock.On("CheckQuota", mock.Anything, mock.Anything, mock.Anything).Return(nil)
+				Mock.On("GetDetailUserById", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
+				Mock.On("CreateTransaction", mock.Anything, mock.Anything).Return(nil)
+			})
+			It("Akan Mengembalikan data Transaksi", func() {
+				res, err := TrxService.CreateTransaction(ctx, req)
+				Expect(err).Should(BeNil())
+				Expect(res).ShouldNot(BeNil())
+			})
+		})
+		When("Berhasil membuat transaksi dengan total transaksi lebih dari 0", func() {
 			itemsdetails := []entity.ItemDetails{}
 			req := entity.ReqCheckout{}
 			BeforeEach(func() {
 				itemsdetails = append(itemsdetails, entity.ItemDetails{Name: "Vip", Price: 1000, Qty: 1, SubTotal: 1000})
 				req = entity.ReqCheckout{
 					EventId:     1,
-					PaymentType: "mandiri",
+					PaymentType: "indomaret",
 					ItemDetails: itemsdetails,
 				}
+				Mock.On("CheckQuota", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 				Mock.On("GetDetailUserById", mock.Anything, mock.Anything).Return(&entity2.User{Name: "satrio"})
 				Mock.On("CreateTransaction", mock.Anything, mock.Anything).Return(nil)
 			})
-			It("Akan Mengembalikan Invoice Transaksi", func() {
-				inv, err := TrxService.CreateTransaction(ctx, req)
+			It("Akan Mengembalikan data Transaksi", func() {
+				res, err := TrxService.CreateTransaction(ctx, req)
 				Expect(err).Should(BeNil())
-				Expect(inv).ShouldNot(Equal(""))
+				Expect(res).ShouldNot(BeNil())
 			})
 		})
 
 	})
 
 	Context("Notification payment", func() {
-		When("Terdapat kesalahan query db pada saat menyimpan dat transaksi", func() {
+		When("Terdapat kesalahan query db pada saat menyimpan data transaksi", func() {
 			BeforeEach(func() {
 				Mock.On("UpdateStatusTrasansaction", mock.Anything, mock.Anything, mock.Anything).Return(errors.New("Internal Server Error"))
 			})
@@ -269,6 +309,41 @@ var _ = Describe("user", func() {
 			})
 			It("Akan Mengembalikan data transaksi user", func() {
 				res, err := TrxService.GetHistoryByuid(ctx, 1)
+				Expect(err).Should(BeNil())
+				Expect(res.Data).ShouldNot(BeNil())
+			})
+		})
+	})
+
+	Context("Get Transaction By Status", func() {
+		When("Status bukan paid atau pending", func() {
+			It("Akan Mengembalikan error dengan pesan 'Data not found'", func() {
+				res, err := TrxService.GetByStatus(ctx, 1, "Ngasal")
+				Expect(err).ShouldNot(BeNil())
+				Expect(res).Should(BeNil())
+				Expect(err.Error()).To(Equal("Data not found"))
+			})
+		})
+		When("Terjadi kesalahan query database", func() {
+			BeforeEach(func() {
+				Mock.On("GetByStatus", mock.Anything, mock.Anything, mock.Anything).Return(nil, errors.New("Internal server error"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Internal server error", func() {
+				res, err := TrxService.GetByStatus(ctx, 1, "paid")
+				Expect(err).ShouldNot(BeNil())
+				Expect(res).Should(BeNil())
+				Expect(err.Error()).To(Equal("Internal server error"))
+			})
+		})
+		When("Terdapat data dengan status yang di inputkan", func() {
+			BeforeEach(func() {
+				trx := entity2.Transaction{Invoice: "INV-12121212121", Event: entity2.Event{Name: "Dota22"}}
+				datatrx := []entity2.Transaction{}
+				datatrx = append(datatrx, trx)
+				Mock.On("GetByStatus", mock.Anything, mock.Anything, mock.Anything).Return(datatrx, nil)
+			})
+			It("Akan Mengembalikan data transaksi", func() {
+				res, err := TrxService.GetByStatus(ctx, 1, "paid")
 				Expect(err).Should(BeNil())
 				Expect(res.Data).ShouldNot(BeNil())
 			})

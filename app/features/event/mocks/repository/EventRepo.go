@@ -89,25 +89,25 @@ func (_m *EventRepo) GetAll(db *gorm.DB, rds *redis.Client, limit int, offset in
 	return r0, r1, r2
 }
 
-// GetById provides a mock function with given fields: db, rds, id
-func (_m *EventRepo) GetById(db *gorm.DB, rds *redis.Client, id int) (*entities.Event, error) {
-	ret := _m.Called(db, rds, id)
+// GetById provides a mock function with given fields: db, id
+func (_m *EventRepo) GetById(db *gorm.DB, id int) (*entities.Event, error) {
+	ret := _m.Called(db, id)
 
 	var r0 *entities.Event
 	var r1 error
-	if rf, ok := ret.Get(0).(func(*gorm.DB, *redis.Client, int) (*entities.Event, error)); ok {
-		return rf(db, rds, id)
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int) (*entities.Event, error)); ok {
+		return rf(db, id)
 	}
-	if rf, ok := ret.Get(0).(func(*gorm.DB, *redis.Client, int) *entities.Event); ok {
-		r0 = rf(db, rds, id)
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int) *entities.Event); ok {
+		r0 = rf(db, id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*entities.Event)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(*gorm.DB, *redis.Client, int) error); ok {
-		r1 = rf(db, rds, id)
+	if rf, ok := ret.Get(1).(func(*gorm.DB, int) error); ok {
+		r1 = rf(db, id)
 	} else {
 		r1 = ret.Error(1)
 	}
