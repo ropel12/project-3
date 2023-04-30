@@ -25,11 +25,12 @@ type (
 	}
 	TransactionService interface {
 		CreateCart(ctx context.Context, req entity.ReqCart) error
-		GetCart(ctx context.Context, uid int) ([]entity.Cart, error)
-		CreateTransaction(ctx context.Context, req entity.ReqCheckout) (string, error)
+		GetCart(ctx context.Context, uid int) (*entity.Response, error)
+		CreateTransaction(ctx context.Context, req entity.ReqCheckout) (*entity.Transaction, error)
 		UpdateStatus(ctx context.Context, status, invoice string) error
 		GetDetail(ctx context.Context, invoice string, uid int) (*entity.Response, error)
 		GetHistoryByuid(ctx context.Context, uid int) (*entity.Response, error)
+		GetByStatus(ctx context.Context, uid int, status string) (*entity.Response, error)
 	}
 )
 
@@ -56,31 +57,38 @@ func (t *transaction) CreateCart(ctx context.Context, req entity.ReqCart) error 
 	return nil
 }
 
-func (t *transaction) GetCart(ctx context.Context, uid int) ([]entity.Cart, error) {
+func (t *transaction) GetCart(ctx context.Context, uid int) (*entity.Response, error) {
 	carts := []entity.Cart{}
 	data, err := t.repo.GetCart(t.dep.Db.WithContext(ctx), uid)
 	if err != nil {
 		return nil, err
 	}
+	total := 0
 	for _, val := range data {
+		subtotal := val.Qty * val.Type.Price
 		cart := entity.Cart{
 			EventId:   int(val.Type.EventID),
 			TypeID:    int(val.TypeID),
 			TypeName:  val.Type.Name,
 			TypePrice: val.Type.Price,
 			Qty:       val.Qty,
-			Subtotal:  val.Qty * val.Type.Price,
+			Subtotal:  subtotal,
 		}
+		total += subtotal
 		carts = append(carts, cart)
 	}
-	return carts, nil
+	res := entity.Response{
+		Total: total,
+		Data:  carts,
+	}
+	return &res, nil
 }
 
-func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheckout) (string, error) {
+func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheckout) (*entity.Transaction, error) {
 	if err := t.validator.Struct(req); err != nil {
-		return "", errorr.NewBad("Invalid and missing request body")
+		return nil, errorr.NewBad("Invalid or missing request body")
 	}
-	var total int
+	var total, totalqty int
 	var status, expire, date, paymentcode string
 	itemdetails := []midtrans.ItemDetails{}
 	transactionitems := []entity2.TransactionItems{}
@@ -97,6 +105,7 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 			}
 			itemdetails = append(itemdetails, Item)
 			total += val.SubTotal
+			totalqty += val.Qty
 		}
 	}()
 	go func() {
@@ -110,7 +119,10 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 			transactionitems = append(transactionitems, item)
 		}
 	}()
-
+	wg.Wait()
+	if err := t.repo.CheckQuota(t.dep.Db.WithContext(ctx), req.EventId, totalqty); err != nil {
+		return nil, err
+	}
 	userdetail := t.repo.GetDetailUserById(t.dep.Db.WithContext(ctx), req.UserId)
 	invoice := helper.GenerateInvoice(req.EventId, req.UserId)
 	customerdetails := &midtrans.CustomerDetails{
@@ -121,7 +133,6 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 			Address: userdetail.Address,
 		},
 	}
-	wg.Wait()
 	reqcharge := entity2.ReqCharge{
 		PaymentType:     req.PaymentType,
 		Invoice:         invoice,
@@ -132,10 +143,10 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 	if total > 0 {
 		res, err := t.dep.Mds.CreateCharge(reqcharge)
 		if err != nil {
-			return "", errorr.NewBad(err.Error())
+			return nil, errorr.NewBad(err.Error())
 		}
 		if res.Expire == "" {
-			res.Expire = helper.GenerateExpiretime(res.TransactionTime, 1)
+			res.Expire = helper.GenerateExpiretime(res.TransactionTime, t.dep.Mds.ExpDuration)
 		}
 		status = "pending"
 		date = res.TransactionTime
@@ -162,7 +173,7 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 	}
 
 	if err := t.repo.CreateTransaction(t.dep.Db.WithContext(ctx), trxdata); err != nil {
-		return "", err
+		return nil, err
 	}
 	if total > 0 {
 		encodeddata, _ := json.Marshal(map[string]any{"invoice": invoice, "total": total, "name": userdetail.Name, "email": userdetail.Email, "payment_code": paymentcode, "payment_method": req.PaymentType, "expire": expire})
@@ -171,7 +182,14 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 			t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
 		}
 	}
-	return invoice, nil
+	res := entity.Transaction{
+		Total:         int64(total),
+		Expire:        expire,
+		PaymentMethod: paymentcode,
+		PaymentCode:   paymentcode,
+		Invoice:       invoice,
+	}
+	return &res, nil
 }
 
 func (t *transaction) UpdateStatus(ctx context.Context, status, invoice string) error {
@@ -217,6 +235,7 @@ func (t *transaction) GetDetail(ctx context.Context, invoice string, uid int) (*
 		PaymentMethod: data.PaymentMethod,
 		Status:        data.Status,
 		PaymentCode:   data.PaymentCode,
+		Invoice:       invoice,
 	}
 	itemschan := make(chan entity.ItemDetails)
 	wg := sync.WaitGroup{}
@@ -278,4 +297,37 @@ func (t *transaction) GetHistoryByuid(ctx context.Context, uid int) (*entity.Res
 		Data: restrx,
 	}
 	return &res, nil
+}
+
+func (t *transaction) GetByStatus(ctx context.Context, uid int, status string) (*entity.Response, error) {
+	if status != "paid" && status != "pending" {
+		return nil, errorr.NewBad("Data not found")
+	}
+	data, err := t.repo.GetByStatus(t.dep.Db.WithContext(ctx), uid, status)
+	if err != nil {
+		return nil, err
+	}
+	restrx := []entity.Transaction{}
+	trxchan := make(chan entity.Transaction)
+	wg := &sync.WaitGroup{}
+	go func(wg *sync.WaitGroup, datachan <-chan entity.Transaction) {
+		for val := range datachan {
+			restrx = append(restrx, val)
+			wg.Done()
+		}
+	}(wg, trxchan)
+	wg.Add(len(data))
+	for _, val := range data {
+		res := entity.Transaction{
+			Invoice:   val.Invoice,
+			EventName: val.Event.Name,
+		}
+		trxchan <- res
+	}
+	wg.Wait()
+	close(trxchan)
+	response := entity.Response{
+		Data: restrx,
+	}
+	return &response, nil
 }

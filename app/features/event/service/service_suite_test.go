@@ -242,7 +242,7 @@ var _ = Describe("event", func() {
 	Context("Detail Event", func() {
 		When("Tidak terdapat data pada id yang di masukan", func() {
 			BeforeEach(func() {
-				Mock.On("GetById", mock.Anything, mock.Anything, 99).Return(nil, errors.New("Data not found")).Once()
+				Mock.On("GetById", mock.Anything, 99).Return(nil, errors.New("Data not found")).Once()
 			})
 			It("Akan Mengembalikan error dengna pesan 'Data not found'", func() {
 				_, err := EventService.Detail(ctx, 99)
@@ -253,7 +253,7 @@ var _ = Describe("event", func() {
 
 		When("Kesalahan Query Database", func() {
 			BeforeEach(func() {
-				Mock.On("GetById", mock.Anything, mock.Anything, 1).Return(nil, errors.New("Internal Server Error")).Once()
+				Mock.On("GetById", mock.Anything, 1).Return(nil, errors.New("Internal Server Error")).Once()
 			})
 			It("Akan Mengembalikan error dengna pesan 'Internal Server Error'", func() {
 				_, err := EventService.Detail(ctx, 1)
@@ -268,7 +268,7 @@ var _ = Describe("event", func() {
 				Comments = append(Comments, entity2.UserComments{UserID: 1})
 				Users = append(Users, entity2.User{Name: "satrio"})
 				res := &entity2.Event{Name: "Dota 2", Users: Users, UserComments: Comments}
-				Mock.On("GetById", mock.Anything, mock.Anything, 1).Return(res, nil).Once()
+				Mock.On("GetById", mock.Anything, 1).Return(res, nil).Once()
 			})
 			It("Akan Mengembalikan data event", func() {
 				res, err := EventService.Detail(ctx, 1)

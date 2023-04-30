@@ -21,6 +21,8 @@ type (
 		UpdateStatusTrasansaction(db *gorm.DB, invoice string, status string) error
 		GetByInvoice(db *gorm.DB, invoice string, uid int) (*entity.Transaction, error)
 		GetHistory(db *gorm.DB, uid int) ([]entity.Transaction, error)
+		GetByStatus(db *gorm.DB, uid int, status string) ([]entity.Transaction, error)
+		CheckQuota(db *gorm.DB, eventid, qty int) error
 	}
 )
 
@@ -124,6 +126,32 @@ func (t *transaction) GetHistory(db *gorm.DB, uid int) ([]entity.Transaction, er
 			return db.Select("id")
 		}).Select("id,start_date,end_date,name,hosted_by,image,location")
 	}).Where("transactions.user_id = ? AND transactions.status='paid' AND e.start_date < NOW()", uid).Joins("join events e on e.id = transactions.event_id").Find(&res).Error; err != nil {
+		t.log.Errorf("error db : %v", err)
+		return nil, errorr.NewInternal("Internal server error")
+	}
+	if len(res) == 0 {
+		return nil, errorr.NewBad("data not found")
+	}
+	return res, nil
+}
+
+func (t *transaction) CheckQuota(db *gorm.DB, eventid, qty int) error {
+	var event entity.Event
+	if err := db.First(&event, eventid).Error; err != nil {
+		t.log.Printf("Error Db: %v", err)
+		return errorr.NewInternal("Internal server error")
+	}
+	if qty > event.Quota {
+		return errorr.NewBad("You have exceeded the quota")
+	}
+	return nil
+}
+
+func (t *transaction) GetByStatus(db *gorm.DB, uid int, status string) ([]entity.Transaction, error) {
+	res := []entity.Transaction{}
+	if err := db.Preload("Event", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id,name")
+	}).Where("user_id = ? AND status=?", uid, status).Find(&res).Error; err != nil {
 		t.log.Errorf("error db : %v", err)
 		return nil, errorr.NewInternal("Internal server error")
 	}

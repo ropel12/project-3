@@ -42,7 +42,6 @@ type Bank string
 const (
 	Bni     Bank = "bni"
 	Mandiri Bank = "mandiri"
-	Cimb    Bank = "cimb"
 	Bca     Bank = "bca"
 	Bri     Bank = "bri"
 )
@@ -85,7 +84,7 @@ func (m *Midtrans) CreateCharge(req entities.ReqCharge) (*ChargeResponse, error)
 	switch req.PaymentType {
 	case "bca":
 		return m.WithBank(Bca)
-	case "mandiri", "cimb":
+	case "mandiri":
 		return m.WithBank(Mandiri)
 	case "bni":
 		return m.WithBank(Bni)

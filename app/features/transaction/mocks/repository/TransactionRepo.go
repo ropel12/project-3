@@ -14,6 +14,20 @@ type TransactionRepo struct {
 	mock.Mock
 }
 
+// CheckQuota provides a mock function with given fields: db, eventid, qty
+func (_m *TransactionRepo) CheckQuota(db *gorm.DB, eventid int, qty int) error {
+	ret := _m.Called(db, eventid, qty)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int, int) error); ok {
+		r0 = rf(db, eventid, qty)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // Create provides a mock function with given fields: db, cart
 func (_m *TransactionRepo) Create(db *gorm.DB, cart entities.Carts) error {
 	ret := _m.Called(db, cart)
@@ -61,6 +75,32 @@ func (_m *TransactionRepo) GetByInvoice(db *gorm.DB, invoice string, uid int) (*
 
 	if rf, ok := ret.Get(1).(func(*gorm.DB, string, int) error); ok {
 		r1 = rf(db, invoice, uid)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetByStatus provides a mock function with given fields: db, uid, status
+func (_m *TransactionRepo) GetByStatus(db *gorm.DB, uid int, status string) ([]entities.Transaction, error) {
+	ret := _m.Called(db, uid, status)
+
+	var r0 []entities.Transaction
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int, string) ([]entities.Transaction, error)); ok {
+		return rf(db, uid, status)
+	}
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int, string) []entities.Transaction); ok {
+		r0 = rf(db, uid, status)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entities.Transaction)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*gorm.DB, int, string) error); ok {
+		r1 = rf(db, uid, status)
 	} else {
 		r1 = ret.Error(1)
 	}

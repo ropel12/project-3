@@ -92,3 +92,16 @@ func (u *Transaction) MyHistory(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
 }
+
+func (u *Transaction) GetByStatus(c echo.Context) error {
+	uid := helper.GetUid(c.Get("user").(*jwt.Token))
+	status := c.QueryParam("status")
+	if status == "" {
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "query param status is missing", nil))
+	}
+	res, err := u.Service.GetByStatus(c.Request().Context(), uid, status)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
+}

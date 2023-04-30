@@ -452,3 +452,43 @@ e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail
 {"level":"info","msg":"Shutting down server","time":"2023-04-29T09:05:12+07:00"}
 {"level":"info","msg":"Starting server on port 8000","time":"2023-04-29T09:49:41+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-04-29T09:50:10+07:00"}
+{"level":"info","msg":"Starting server on port 80","time":"2023-04-29T13:17:04+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-29T13:17:06+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-29T13:17:20+07:00"}
+{"level":"error","msg":"Failed to publish to NSQ: dial tcp [::1]:4150: i/o timeout","time":"2023-04-29T13:18:38+07:00"}
+{"level":"error","msg":"Failed to publish to NSQ: dial tcp [::1]:4150: i/o timeout","time":"2023-04-29T13:19:52+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-29T13:58:36+07:00"}
+{"level":"info","msg":"Starting server on port 80","time":"2023-04-29T16:26:00+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-29T16:26:54+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-29T16:27:09+07:00"}
+{"level":"error","msg":"error db : sql: expected 2 arguments, got 1","time":"2023-04-29T16:27:37+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-29T16:27:53+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-29T16:28:00+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-29T16:29:52+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-29T16:30:57+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-29T16:44:02+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-29T16:44:51+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-29T16:50:57+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-29T16:53:17+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-30T07:42:57+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-30T07:46:49+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-30T08:34:56+07:00"}
+{"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-04-30T08:36:19+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-30T08:37:30+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-30T08:39:05+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-30T08:39:31+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-30T09:57:20+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-30T09:58:14+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-30T09:58:19+07:00"}
+{"level":"error","msg":"Failed to publish to NSQ: dial tcp [::1]:4150: i/o timeout","time":"2023-04-30T09:59:13+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-30T10:01:46+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-30T10:02:37+07:00"}
+{"level":"error","msg":"Failed to publish to NSQ: dial tcp [::1]:4150: i/o timeout","time":"2023-04-30T10:02:53+07:00"}
+{"level":"error","msg":"Failed to publish to NSQ: dial tcp [::1]:4150: i/o timeout","time":"2023-04-30T10:04:02+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-30T10:04:28+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-30T10:04:41+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-30T10:06:42+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-04-30T13:14:21+07:00"}
+{"level":"error","msg":"Failed to publish to NSQ: dial tcp [::1]:4150: i/o timeout","time":"2023-04-30T13:15:03+07:00"}
+{"level":"error","msg":"Failed to publish to NSQ: dial tcp [::1]:4150: i/o timeout","time":"2023-04-30T13:18:25+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-04-30T13:19:17+07:00"}

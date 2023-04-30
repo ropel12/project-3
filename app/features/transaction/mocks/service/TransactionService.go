@@ -30,18 +30,20 @@ func (_m *TransactionService) CreateCart(ctx context.Context, req transaction.Re
 }
 
 // CreateTransaction provides a mock function with given fields: ctx, req
-func (_m *TransactionService) CreateTransaction(ctx context.Context, req transaction.ReqCheckout) (string, error) {
+func (_m *TransactionService) CreateTransaction(ctx context.Context, req transaction.ReqCheckout) (*transaction.Transaction, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 string
+	var r0 *transaction.Transaction
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, transaction.ReqCheckout) (string, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, transaction.ReqCheckout) (*transaction.Transaction, error)); ok {
 		return rf(ctx, req)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, transaction.ReqCheckout) string); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, transaction.ReqCheckout) *transaction.Transaction); ok {
 		r0 = rf(ctx, req)
 	} else {
-		r0 = ret.Get(0).(string)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*transaction.Transaction)
+		}
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, transaction.ReqCheckout) error); ok {
@@ -53,20 +55,46 @@ func (_m *TransactionService) CreateTransaction(ctx context.Context, req transac
 	return r0, r1
 }
 
+// GetByStatus provides a mock function with given fields: ctx, uid, status
+func (_m *TransactionService) GetByStatus(ctx context.Context, uid int, status string) (*transaction.Response, error) {
+	ret := _m.Called(ctx, uid, status)
+
+	var r0 *transaction.Response
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int, string) (*transaction.Response, error)); ok {
+		return rf(ctx, uid, status)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int, string) *transaction.Response); ok {
+		r0 = rf(ctx, uid, status)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*transaction.Response)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int, string) error); ok {
+		r1 = rf(ctx, uid, status)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetCart provides a mock function with given fields: ctx, uid
-func (_m *TransactionService) GetCart(ctx context.Context, uid int) ([]transaction.Cart, error) {
+func (_m *TransactionService) GetCart(ctx context.Context, uid int) (*transaction.Response, error) {
 	ret := _m.Called(ctx, uid)
 
-	var r0 []transaction.Cart
+	var r0 *transaction.Response
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int) ([]transaction.Cart, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int) (*transaction.Response, error)); ok {
 		return rf(ctx, uid)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int) []transaction.Cart); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int) *transaction.Response); ok {
 		r0 = rf(ctx, uid)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]transaction.Cart)
+			r0 = ret.Get(0).(*transaction.Response)
 		}
 	}
 
@@ -98,6 +126,32 @@ func (_m *TransactionService) GetDetail(ctx context.Context, invoice string, uid
 
 	if rf, ok := ret.Get(1).(func(context.Context, string, int) error); ok {
 		r1 = rf(ctx, invoice, uid)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetHistoryByuid provides a mock function with given fields: ctx, uid
+func (_m *TransactionService) GetHistoryByuid(ctx context.Context, uid int) (*transaction.Response, error) {
+	ret := _m.Called(ctx, uid)
+
+	var r0 *transaction.Response
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) (*transaction.Response, error)); ok {
+		return rf(ctx, uid)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int) *transaction.Response); ok {
+		r0 = rf(ctx, uid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*transaction.Response)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, uid)
 	} else {
 		r1 = ret.Error(1)
 	}
