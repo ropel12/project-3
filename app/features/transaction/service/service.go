@@ -31,6 +31,7 @@ type (
 		GetDetail(ctx context.Context, invoice string, uid int) (*entity.Response, error)
 		GetHistoryByuid(ctx context.Context, uid int) (*entity.Response, error)
 		GetByStatus(ctx context.Context, uid int, status string) (*entity.Response, error)
+		GetTickets(ctx context.Context, invoice string, uid int) (*entity.Response, error)
 	}
 )
 
@@ -185,7 +186,7 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 	res := entity.Transaction{
 		Total:         int64(total),
 		Expire:        expire,
-		PaymentMethod: paymentcode,
+		PaymentMethod: req.PaymentType,
 		PaymentCode:   paymentcode,
 		Invoice:       invoice,
 	}
@@ -194,13 +195,24 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 
 func (t *transaction) UpdateStatus(ctx context.Context, status, invoice string) error {
 
-	if err := t.repo.UpdateStatusTrasansaction(t.dep.Db.WithContext(ctx), invoice, status); err != nil {
-		return err
-	}
 	user := t.repo.GetDetailUserByInvoice(t.dep.Db.WithContext(ctx), invoice)
 	encodeddata, _ := json.Marshal(map[string]any{"invoice": invoice, "email": user.User.Email, "name": user.User.Name})
 	switch status {
-	case "Success":
+	case "paid":
+		eventId, qty, err := t.repo.GetQtyByInvoice(t.dep.Db.WithContext(ctx), invoice)
+		if err != nil {
+			return err
+		}
+		err = t.repo.CheckQuota(t.dep.Db.WithContext(ctx), eventId, qty)
+		if err != nil {
+			return err
+		}
+		if err := t.repo.UpdateStatusTrasansaction(t.dep.Db.WithContext(ctx), invoice, status); err != nil {
+			return err
+		}
+		if err := t.repo.UpdateQuotaEvent(t.dep.Db.WithContext(ctx), eventId, qty); err != nil {
+			return err
+		}
 		go func() {
 			if err := t.dep.Nsq.Publish("2", encodeddata); err != nil {
 				t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
@@ -209,13 +221,28 @@ func (t *transaction) UpdateStatus(ctx context.Context, status, invoice string) 
 		if err := t.dep.Pusher.Publish(map[string]string{"invoice": invoice, "status": "success"}); err != nil {
 			t.dep.Log.Errorf("Failed to publish to PusherJs: %v", err)
 		}
-	case "Cancel":
+	case "cancel":
+		if err := t.repo.UpdateStatusTrasansaction(t.dep.Db.WithContext(ctx), invoice, status); err != nil {
+			return err
+		}
 		go func() {
 			if err := t.dep.Nsq.Publish("3", encodeddata); err != nil {
 				t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
 			}
 		}()
 		if err := t.dep.Pusher.Publish(map[string]string{"invoice": invoice, "status": "canceled"}); err != nil {
+			t.dep.Log.Errorf("Failed to publish to PusherJs: %v", err)
+		}
+	case "refund":
+		if err := t.repo.UpdateStatusTrasansaction(t.dep.Db.WithContext(ctx), invoice, status); err != nil {
+			return err
+		}
+		go func() {
+			if err := t.dep.Nsq.Publish("4", encodeddata); err != nil {
+				t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
+			}
+		}()
+		if err := t.dep.Pusher.Publish(map[string]string{"invoice": invoice, "status": "refund", "reason": "out of quota"}); err != nil {
 			t.dep.Log.Errorf("Failed to publish to PusherJs: %v", err)
 		}
 	}
@@ -330,4 +357,40 @@ func (t *transaction) GetByStatus(ctx context.Context, uid int, status string) (
 		Data: restrx,
 	}
 	return &response, nil
+}
+
+func (t *transaction) GetTickets(ctx context.Context, invoice string, uid int) (*entity.Response, error) {
+	data, err := t.repo.GetTicketByInvoice(t.dep.Db.WithContext(ctx), invoice, uid)
+	if err != nil {
+		return nil, err
+	}
+	var tickets []entity.TicketTransaction
+	ticketchan := make(chan entity.TicketTransaction)
+	wg := &sync.WaitGroup{}
+	go func(wg *sync.WaitGroup, ticketchan <-chan entity.TicketTransaction) {
+		for val := range ticketchan {
+			for i := 0; i < val.Qty; i++ {
+				tickets = append(tickets, val)
+			}
+			wg.Done()
+		}
+	}(wg, ticketchan)
+	wg.Add(len(data.TransactionItems))
+	for _, val := range data.TransactionItems {
+		ticket := entity.TicketTransaction{
+			TicketType: val.Type.Name,
+			EventName:  data.Event.Name,
+			Location:   data.Event.Location,
+			Date:       data.Event.StartDate,
+			HostedBy:   data.Event.HostedBy,
+			Qty:        val.Qty,
+		}
+		ticketchan <- ticket
+	}
+	wg.Wait()
+	close(ticketchan)
+	res := entity.Response{
+		Data: tickets,
+	}
+	return &res, nil
 }

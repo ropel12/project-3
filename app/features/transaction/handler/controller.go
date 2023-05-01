@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/golang-jwt/jwt"
@@ -58,17 +57,26 @@ func (u *Transaction) CreateTransaction(c echo.Context) error {
 func (u *Transaction) MidtransNotification(c echo.Context) error {
 	midres := MidtransNotifResponse{}
 	if err := c.Bind(&midres); err != nil {
-		log.Printf("[ERROR] When Binding Midtrans Reponse : %v", err)
+		u.Dep.Log.Errorf("[ERROR] When Binding Midtrans Reponse : %v", err)
 	}
 
 	switch midres.TransactionStatus {
 	case "settlement":
-		if err := u.Service.UpdateStatus(c.Request().Context(), "Success", midres.OrderID); err != nil {
-			log.Printf("[ERROR]When update status: %v", err)
+		if err := u.Service.UpdateStatus(c.Request().Context(), "paid", midres.OrderID); err != nil {
+			if midres.PaymentType != "bank_transfer" && midres.PaymentType != "cstore" && midres.PaymentType != "echannel" {
+				err := u.Dep.Mds.Refund(nil, midres.OrderID)
+				if err != nil {
+					u.Dep.Log.Errorf("[ERROR] When Refund transaction : %v", err)
+				}
+			}
+			if err := u.Service.UpdateStatus(c.Request().Context(), "refund", midres.OrderID); err != nil {
+				u.Dep.Log.Errorf("[ERROR] When Refund transaction : %v", err)
+			}
+
 		}
 	case "expire":
-		if err := u.Service.UpdateStatus(c.Request().Context(), "Cancel", midres.OrderID); err != nil {
-			log.Printf("[ERROR]When update status: %v", err)
+		if err := u.Service.UpdateStatus(c.Request().Context(), "cancel", midres.OrderID); err != nil {
+			u.Dep.Log.Errorf("[ERROR]When update status: %v", err)
 		}
 
 	}
@@ -97,9 +105,22 @@ func (u *Transaction) GetByStatus(c echo.Context) error {
 	uid := helper.GetUid(c.Get("user").(*jwt.Token))
 	status := c.QueryParam("status")
 	if status == "" {
-		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "query param status is missing", nil))
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "status query param is missing", nil))
 	}
 	res, err := u.Service.GetByStatus(c.Request().Context(), uid, status)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
+}
+
+func (u *Transaction) GetTickets(c echo.Context) error {
+	uid := helper.GetUid(c.Get("user").(*jwt.Token))
+	invoice := c.Param("invoice")
+	if invoice == "" {
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "invoice path param is missing", nil))
+	}
+	res, err := u.Service.GetTickets(c.Request().Context(), invoice, uid)
 	if err != nil {
 		return CreateErrorResponse(err, c)
 	}

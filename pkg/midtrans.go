@@ -67,6 +67,13 @@ type Midtrans struct {
 	ExpUnit     string
 }
 
+func (m *Midtrans) Refund(req *coreapi.RefundReq, invoice string) error {
+	_, err := m.Midtrans.RefundTransaction(invoice, req)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 func (m *Midtrans) CreateCharge(req entities.ReqCharge) (*ChargeResponse, error) {
 	newreq := &coreapi.ChargeReq{
 		TransactionDetails: midtrans.TransactionDetails{
