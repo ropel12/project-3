@@ -44,20 +44,20 @@ var _ = Describe("event", func() {
 	})
 	Context("Create Event", func() {
 		When("Request Body kosong", func() {
-			It("Akan Mengembalikan Eror dengan pesan 'Invalid and missing request body'", func() {
+			It("Akan Mengembalikan Eror dengan pesan 'Invalid or missing request body'", func() {
 				var file multipart.File
 				id, err := EventService.Create(ctx, entity.ReqCreate{}, file)
 				Expect(err).ShouldNot(BeNil())
-				Expect(err.Error()).To(Equal("Invalid and missing request body"))
+				Expect(err.Error()).To(Equal("Invalid or missing request body"))
 				Expect(id).To(Equal(0))
 			})
 		})
 		When("Terdapat salah satu request body yang tidak diisi", func() {
-			It("Akan Mengembalikan Eror dengan pesan 'Invalid and missing request body'", func() {
+			It("Akan Mengembalikan Eror dengan pesan 'Invalid or missing request body'", func() {
 				var file multipart.File
 				id, err := EventService.Create(ctx, entity.ReqCreate{Name: "Dota2"}, file)
 				Expect(err).ShouldNot(BeNil())
-				Expect(err.Error()).To(Equal("Invalid and missing request body"))
+				Expect(err.Error()).To(Equal("Invalid or missing request body"))
 				Expect(id).To(Equal(0))
 			})
 		})
@@ -277,5 +277,96 @@ var _ = Describe("event", func() {
 			})
 		})
 
+	})
+
+	Context("Update Event", func() {
+		When("Request body tidak valid atau tidak ada", func() {
+			It("Akan Mengembalikan error dengan pesan 'Invalid or missing request body'", func() {
+				var file multipart.File
+				id, err := EventService.Update(ctx, entity.ReqUpdate{}, file)
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+				Expect(err.Error()).To(Equal("Invalid or missing request body"))
+			})
+		})
+		When("Req body image bukan merupakan gambar", func() {
+			It("Akan Mengembalikan error dengna pesan 'File type not allowed'", func() {
+				var file multipart.File
+				file = os.NewFile(uintptr(2), "2")
+				req := entity.ReqUpdate{
+					Id:        1,
+					Name:      "Linux",
+					Location:  "JKT",
+					Duration:  2.5,
+					Details:   "Belajar Linux",
+					HostedBy:  "Claudio delvin",
+					StartDate: "2022-05-06 15:04:05",
+					Quota:     10,
+					Image:     "image.js",
+				}
+				id, err := EventService.Update(ctx, req, file)
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+				Expect(err.Error()).To(Equal("File type not allowed"))
+			})
+		})
+		When("Terdapat kesalahan query database", func() {
+			BeforeEach(func() {
+				Mock.On("Update", mock.Anything, mock.Anything, mock.Anything).Return(nil, errors.New("Internal Server Error")).Once()
+			})
+			It("Akan Mengembalikan error dengna pesan 'Internal Server Error'", func() {
+				var file multipart.File
+				file = os.NewFile(uintptr(2), "2")
+				req := entity.ReqUpdate{
+					Id:        1,
+					Name:      "Linux",
+					Location:  "JKT",
+					Duration:  2.5,
+					Details:   "Belajar Linux",
+					HostedBy:  "Claudio delvin",
+					StartDate: "2022-05-06 15:04:05",
+					Quota:     10,
+					Image:     "image.jpg",
+				}
+				id, err := EventService.Update(ctx, req, file)
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+				Expect(err.Error()).To(Equal("Internal Server Error"))
+			})
+		})
+		When("Berhasil memperbarui data event", func() {
+			BeforeEach(func() {
+				res := entity2.Event{
+					Name:      "Linux",
+					Location:  "JKT",
+					Duration:  2.5,
+					Detail:    "Belajar Linux",
+					HostedBy:  "Claudio delvin",
+					StartDate: "2022-05-06 15:04:05",
+					Quota:     10,
+					Image:     "image.jpg",
+				}
+				res.ID = 1
+				Mock.On("Update", mock.Anything, mock.Anything, mock.Anything).Return(&res, nil).Once()
+			})
+			It("Akan Mengembalikan id event", func() {
+				var file multipart.File
+				file = os.NewFile(uintptr(2), "2")
+				req := entity.ReqUpdate{
+					Id:        1,
+					Name:      "Linux",
+					Location:  "JKT",
+					Duration:  2.5,
+					Details:   "Belajar Linux",
+					HostedBy:  "Claudio delvin",
+					StartDate: "2022-05-06 15:04:05",
+					Quota:     10,
+					Image:     "image.jpg",
+				}
+				id, err := EventService.Update(ctx, req, file)
+				Expect(err).Should(BeNil())
+				Expect(id).To(Equal(1))
+			})
+		})
 	})
 })

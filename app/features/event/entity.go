@@ -28,11 +28,22 @@ type (
 		Image     string
 		Uid       int
 	}
+	ReqUpdate struct {
+		Id        uint    `form:"id" validate:"required"`
+		Name      string  `form:"name" validate:"required"`
+		StartDate string  `form:"date" validate:"required"`
+		Duration  float32 `form:"duration" validate:"required"`
+		Details   string  `form:"details" validate:"required"`
+		Quota     int     `form:"quota" validate:"required"`
+		HostedBy  string  `form:"hosted_by" validate:"required"`
+		Location  string  `form:"location" validate:"required"`
+		Image     string  `form:"image"`
+	}
 	Response struct {
-		Limit     int `json:"limit"`
-		Page      int `json:"page"`
-		TotalPage int `json:"total_page"`
-		TotalData int `json:"total_data"`
+		Limit     int `json:"limit,omitempty"`
+		Page      int `json:"page,omitempty"`
+		TotalPage int `json:"total_page,omitempty"`
+		TotalData int `json:"total_data,omitempty"`
 		Data      any `json:"data"`
 	}
 

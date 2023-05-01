@@ -28,6 +28,7 @@ type (
 		Delete(ctx context.Context, id int, uid int) error
 		GetAll(ctx context.Context, limit, page int) (*entity.Response, error)
 		Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent, error)
+		Update(ctx context.Context, req entity.ReqUpdate, file multipart.File) (int, error)
 	}
 )
 
@@ -42,7 +43,7 @@ func NewEventService(repo repository.EventRepo, dep dependcy.Depend) EventServic
 func (e *event) Create(ctx context.Context, req entity.ReqCreate, file multipart.File) (int, error) {
 	if err := e.validator.Struct(req); err != nil {
 		e.dep.Log.Errorf("Error Service: %v", err)
-		return 0, errorr.NewBad("Invalid and missing request body")
+		return 0, errorr.NewBad("Invalid or missing request body")
 	}
 	if err := e.dep.Gcp.UploadFile(file, req.Image); err != nil {
 		return 0, errorr.NewBad(err.Error())
@@ -181,4 +182,34 @@ func (e *event) Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent
 	res.Participants = Participants
 	res.UserComments = UserComments
 	return &entity.ResponseDetailEvent{Data: res}, nil
+}
+
+func (e *event) Update(ctx context.Context, req entity.ReqUpdate, file multipart.File) (int, error) {
+	if err := e.validator.Struct(req); err != nil {
+		e.dep.Log.Errorf("Error Service: %v", err)
+		return 0, errorr.NewBad("Invalid or missing request body")
+	}
+	if file != nil {
+		if err := e.dep.Gcp.UploadFile(file, req.Image); err != nil {
+			e.dep.Log.Errorf("Error Service: %v", err)
+			return 0, errorr.NewBad(err.Error())
+		}
+	}
+	reqdata := entity2.Event{
+		Name:      req.Name,
+		StartDate: req.StartDate,
+		Duration:  req.Duration,
+		EndDate:   helper.GenerateEndTime(req.StartDate, req.Duration),
+		Detail:    req.Details,
+		HostedBy:  req.HostedBy,
+		Location:  req.Location,
+		Quota:     req.Quota,
+		Image:     req.Image,
+	}
+	reqdata.ID = req.Id
+	resdata, err := e.repo.Update(e.dep.Db.WithContext(ctx), reqdata)
+	if err != nil {
+		return 0, err
+	}
+	return int(resdata.ID), nil
 }

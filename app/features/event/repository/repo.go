@@ -25,6 +25,7 @@ type (
 		Delete(db *gorm.DB, id int, uid int) error
 		GetAll(db *gorm.DB, rds *redis.Client, limit int, offset int) ([]*entity.Event, int, error)
 		GetById(db *gorm.DB, id int) (*entity.Event, error)
+		Update(db *gorm.DB, event entity.Event) (*entity.Event, error)
 	}
 )
 
@@ -147,4 +148,25 @@ func (e *event) GetById(db *gorm.DB, id int) (*entity.Event, error) {
 	}
 
 	return &dbres, nil
+}
+
+func (e *event) Update(db *gorm.DB, newdata entity.Event) (*entity.Event, error) {
+	data := entity.Event{}
+	if err := db.First(&data, newdata.ID).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, errorr.NewBad("Data not found")
+		}
+		e.log.Errorf("error db :%v", err)
+		return nil, errorr.NewInternal("Internal Server Error")
+	}
+	if newdata.Image == "" {
+		newdata.Image = data.Image
+	}
+	newdata.CreatedAt = data.CreatedAt
+	newdata.UserID = data.UserID
+	if err := db.Save(&newdata).Error; err != nil {
+		e.log.Errorf("error db :%v", err)
+		return nil, errorr.NewInternal("Internal Server Error")
+	}
+	return &newdata, nil
 }

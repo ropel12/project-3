@@ -132,6 +132,30 @@ func (_m *EventService) MyEvent(ctx context.Context, uid int, limit int, page in
 	return r0, r1
 }
 
+// Update provides a mock function with given fields: ctx, req, file
+func (_m *EventService) Update(ctx context.Context, req event.ReqUpdate, file multipart.File) (int, error) {
+	ret := _m.Called(ctx, req, file)
+
+	var r0 int
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, event.ReqUpdate, multipart.File) (int, error)); ok {
+		return rf(ctx, req, file)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, event.ReqUpdate, multipart.File) int); ok {
+		r0 = rf(ctx, req, file)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, event.ReqUpdate, multipart.File) error); ok {
+		r1 = rf(ctx, req, file)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 type mockConstructorTestingTNewEventService interface {
 	mock.TestingT
 	Cleanup(func())

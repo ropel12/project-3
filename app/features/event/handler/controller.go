@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"mime/multipart"
 	"net/http"
 	"strconv"
 
@@ -116,4 +117,27 @@ func (e *Event) Detail(c echo.Context) error {
 		return CreateErrorResponse(err, c)
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
+}
+
+func (e *Event) Update(c echo.Context) error {
+	var req entity.ReqUpdate
+	if err := c.Bind(&req); err != nil {
+		e.Dep.Log.Errorf("Error service: %v", err)
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid Request Body", nil))
+	}
+	var file multipart.File
+	fileh, err1 := c.FormFile("image")
+	if err1 == nil {
+		files, err := fileh.Open()
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Cannot Load Image", nil))
+		}
+		req.Image = fileh.Filename
+		file = files
+	}
+	id, err := e.Service.Update(c.Request().Context(), req, file)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", map[string]any{"id": id}))
 }
