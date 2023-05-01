@@ -610,3 +610,35 @@ e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail
 {"level":"info","msg":"Shutting down server","time":"2023-05-01T14:02:51+07:00"}
 {"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T14:55:06+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-05-01T14:55:32+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:07:03+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:16:58+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:18:27+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:18:41+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:19:12+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:19:43+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:20:12+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:21:42+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:23:14+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:23:43+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:25:15+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:25:34+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:25:52+07:00"}
+{"level":"error","msg":"error db :Error 1292 (22007): Incorrect datetime value: '0000-00-00' for column 'created_at' at row 1","time":"2023-05-01T17:26:03+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:26:34+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:30:34+07:00"}
+{"level":"error","msg":"error db :Error 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`project3`.`events`, CONSTRAINT `fk_users_events` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))","time":"2023-05-01T17:30:47+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:31:09+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:33:52+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:34:33+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:36:23+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:37:07+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:38:46+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:39:01+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:39:29+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T17:40:08+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T17:40:13+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T18:32:52+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T19:23:09+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T19:28:08+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T19:28:16+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-01T19:30:44+07:00"}

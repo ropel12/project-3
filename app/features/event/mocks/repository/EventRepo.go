@@ -148,6 +148,32 @@ func (_m *EventRepo) GetByUid(db *gorm.DB, rds *redis.Client, uid int, limit int
 	return r0, r1, r2
 }
 
+// Update provides a mock function with given fields: db, event
+func (_m *EventRepo) Update(db *gorm.DB, event entities.Event) (*entities.Event, error) {
+	ret := _m.Called(db, event)
+
+	var r0 *entities.Event
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, entities.Event) (*entities.Event, error)); ok {
+		return rf(db, event)
+	}
+	if rf, ok := ret.Get(0).(func(*gorm.DB, entities.Event) *entities.Event); ok {
+		r0 = rf(db, event)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entities.Event)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*gorm.DB, entities.Event) error); ok {
+		r1 = rf(db, event)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 type mockConstructorTestingTNewEventRepo interface {
 	mock.TestingT
 	Cleanup(func())
