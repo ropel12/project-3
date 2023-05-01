@@ -192,6 +192,77 @@ func (_m *TransactionRepo) GetHistory(db *gorm.DB, uid int) ([]entities.Transact
 	return r0, r1
 }
 
+// GetQtyByInvoice provides a mock function with given fields: db, invoice
+func (_m *TransactionRepo) GetQtyByInvoice(db *gorm.DB, invoice string) (int, int, error) {
+	ret := _m.Called(db, invoice)
+
+	var r0 int
+	var r1 int
+	var r2 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, string) (int, int, error)); ok {
+		return rf(db, invoice)
+	}
+	if rf, ok := ret.Get(0).(func(*gorm.DB, string) int); ok {
+		r0 = rf(db, invoice)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	if rf, ok := ret.Get(1).(func(*gorm.DB, string) int); ok {
+		r1 = rf(db, invoice)
+	} else {
+		r1 = ret.Get(1).(int)
+	}
+
+	if rf, ok := ret.Get(2).(func(*gorm.DB, string) error); ok {
+		r2 = rf(db, invoice)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
+// GetTicketByInvoice provides a mock function with given fields: db, invoice, uid
+func (_m *TransactionRepo) GetTicketByInvoice(db *gorm.DB, invoice string, uid int) (*entities.Transaction, error) {
+	ret := _m.Called(db, invoice, uid)
+
+	var r0 *entities.Transaction
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, string, int) (*entities.Transaction, error)); ok {
+		return rf(db, invoice, uid)
+	}
+	if rf, ok := ret.Get(0).(func(*gorm.DB, string, int) *entities.Transaction); ok {
+		r0 = rf(db, invoice, uid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entities.Transaction)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*gorm.DB, string, int) error); ok {
+		r1 = rf(db, invoice, uid)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateQuotaEvent provides a mock function with given fields: db, eventid, quota
+func (_m *TransactionRepo) UpdateQuotaEvent(db *gorm.DB, eventid int, quota int) error {
+	ret := _m.Called(db, eventid, quota)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int, int) error); ok {
+		r0 = rf(db, eventid, quota)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // UpdateStatusTrasansaction provides a mock function with given fields: db, invoice, status
 func (_m *TransactionRepo) UpdateStatusTrasansaction(db *gorm.DB, invoice string, status string) error {
 	ret := _m.Called(db, invoice, status)

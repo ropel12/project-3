@@ -79,6 +79,7 @@ type (
 		Price              int    `gorm:"not null"`
 		Type               Type
 	}
+
 	ReqCharge struct {
 		PaymentType     string
 		Invoice         string

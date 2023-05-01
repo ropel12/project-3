@@ -47,6 +47,14 @@ type (
 		PaymentCode   string        `json:"payment_code,omitempty"`
 		ItemDetails   []ItemDetails `json:"item_details,omitempty"`
 	}
+	TicketTransaction struct {
+		TicketType string `json:"ticket_type"`
+		EventName  string `json:"event_name"`
+		Location   string `json:"location"`
+		Date       string `json:"date"`
+		HostedBy   string `json:"hosted_by"`
+		Qty        int    `json:"-"`
+	}
 
 	Response struct {
 		Csrf  string `json:"csrf,omitempty"`

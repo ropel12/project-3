@@ -349,4 +349,42 @@ var _ = Describe("user", func() {
 			})
 		})
 	})
+
+	Context("Get Ticket Transaction", func() {
+		When("Tidak terdapat data pada invoice yang dimasukan", func() {
+			BeforeEach(func() {
+				Mock.On("GetTicketByInvoice", mock.Anything, mock.Anything, mock.Anything).Return(nil, errors.New("Data not found"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Data not found", func() {
+				res, err := TrxService.GetTickets(ctx, "INV-999999999999", 99)
+				Expect(err).ShouldNot(BeNil())
+				Expect(res).Should(BeNil())
+				Expect(err.Error()).To(Equal("Data not found"))
+			})
+		})
+		When("Terjadi kesalahan query database", func() {
+			BeforeEach(func() {
+				Mock.On("GetTicketByInvoice", mock.Anything, mock.Anything, mock.Anything).Return(nil, errors.New("Internal server error"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Internal server error", func() {
+				res, err := TrxService.GetTickets(ctx, "INV-1231113", 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(res).Should(BeNil())
+				Expect(err.Error()).To(Equal("Internal server error"))
+			})
+		})
+		When("Terdapat data pada invoice yang dimasukan", func() {
+			BeforeEach(func() {
+				event := entity2.Event{Name: "Dota2", Location: "Senayan"}
+				trxitems := []entity2.TransactionItems{entity2.TransactionItems{Qty: 1, Type: entity2.Type{Name: "regular"}}}
+				res := entity2.Transaction{Event: event, TransactionItems: trxitems}
+				Mock.On("GetTicketByInvoice", mock.Anything, mock.Anything, mock.Anything).Return(&res, nil)
+			})
+			It("Akan Mengembalikan data ticket dari invoice tersebut", func() {
+				res, err := TrxService.GetTickets(ctx, "INV-1231113", 1)
+				Expect(err).Should(BeNil())
+				Expect(res).ShouldNot(BeNil())
+			})
+		})
+	})
 })

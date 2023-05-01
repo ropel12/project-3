@@ -19,10 +19,13 @@ type (
 		GetDetailUserById(db *gorm.DB, uid int) *entity.User
 		GetDetailUserByInvoice(db *gorm.DB, invoice string) *entity.Transaction
 		UpdateStatusTrasansaction(db *gorm.DB, invoice string, status string) error
+		UpdateQuotaEvent(db *gorm.DB, eventid int, quota int) error
 		GetByInvoice(db *gorm.DB, invoice string, uid int) (*entity.Transaction, error)
 		GetHistory(db *gorm.DB, uid int) ([]entity.Transaction, error)
 		GetByStatus(db *gorm.DB, uid int, status string) ([]entity.Transaction, error)
 		CheckQuota(db *gorm.DB, eventid, qty int) error
+		GetQtyByInvoice(db *gorm.DB, invoice string) (int, int, error)
+		GetTicketByInvoice(db *gorm.DB, invoice string, uid int) (*entity.Transaction, error)
 	}
 )
 
@@ -107,6 +110,22 @@ func (t *transaction) UpdateStatusTrasansaction(db *gorm.DB, invoice string, sta
 	}
 	return nil
 }
+func (t *transaction) UpdateQuotaEvent(db *gorm.DB, eventid int, quota int) error {
+	return db.Transaction(func(tx *gorm.DB) error {
+		var equota int
+		if err := db.Model(&entity.Event{}).Select("quota").Where("id=?", eventid).Scan(&equota).Error; err != nil {
+			t.log.Errorf("error db :%v", err)
+			return err
+		}
+		newquota := equota - quota
+		if err := db.Model(&entity.Event{}).Where("id = ?", eventid).Update("quota", newquota).Error; err != nil {
+			t.log.Errorf("error db :%v", err)
+			return err
+		}
+		return nil
+	})
+
+}
 
 func (t *transaction) GetByInvoice(db *gorm.DB, invoice string, uid int) (*entity.Transaction, error) {
 	res := entity.Transaction{}
@@ -146,6 +165,20 @@ func (t *transaction) CheckQuota(db *gorm.DB, eventid, qty int) error {
 	}
 	return nil
 }
+func (t *transaction) GetQtyByInvoice(db *gorm.DB, invoice string) (int, int, error) {
+	res := struct {
+		Qty     int
+		EventID int
+	}{}
+	if err := db.Model(&entity.Transaction{}).Joins("join transaction_items ti on ti.transaction_invoice = transactions.invoice").Where("transactions.invoice=?", invoice).Group("ti.transaction_invoice").Select("SUM(ti.qty) AS qty,transactions.event_id").Scan(&res).Error; err != nil {
+		t.log.Errorf("error DB: %v", err)
+		return 0, 0, errorr.NewInternal("Internal server error")
+	}
+	if res.Qty == 0 || res.EventID == 0 {
+		return 0, 0, errorr.NewBad("Data not found")
+	}
+	return res.EventID, res.Qty, nil
+}
 
 func (t *transaction) GetByStatus(db *gorm.DB, uid int, status string) ([]entity.Transaction, error) {
 	res := []entity.Transaction{}
@@ -159,4 +192,21 @@ func (t *transaction) GetByStatus(db *gorm.DB, uid int, status string) ([]entity
 		return nil, errorr.NewBad("data not found")
 	}
 	return res, nil
+}
+
+func (t *transaction) GetTicketByInvoice(db *gorm.DB, invoice string, uid int) (*entity.Transaction, error) {
+	res := entity.Transaction{}
+	if err := db.Preload("TransactionItems", func(db *gorm.DB) *gorm.DB {
+		return db.Preload("Type", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id,name")
+		}).Select("type_id,transaction_invoice,qty")
+	}).Preload("Event", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id,name,start_date,location,hosted_by")
+	}).Where("invoice=? AND user_id=? AND status='paid'", invoice, uid).Find(&res).Error; err != nil {
+		return nil, errorr.NewInternal("Internal server error")
+	}
+	if res.Event.Name == "" {
+		return nil, errorr.NewBad("Data not found")
+	}
+	return &res, nil
 }

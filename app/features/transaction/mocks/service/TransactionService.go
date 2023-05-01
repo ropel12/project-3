@@ -159,6 +159,32 @@ func (_m *TransactionService) GetHistoryByuid(ctx context.Context, uid int) (*tr
 	return r0, r1
 }
 
+// GetTickets provides a mock function with given fields: ctx, invoice, uid
+func (_m *TransactionService) GetTickets(ctx context.Context, invoice string, uid int) (*transaction.Response, error) {
+	ret := _m.Called(ctx, invoice, uid)
+
+	var r0 *transaction.Response
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, int) (*transaction.Response, error)); ok {
+		return rf(ctx, invoice, uid)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string, int) *transaction.Response); ok {
+		r0 = rf(ctx, invoice, uid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*transaction.Response)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string, int) error); ok {
+		r1 = rf(ctx, invoice, uid)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // UpdateStatus provides a mock function with given fields: ctx, status, invoice
 func (_m *TransactionService) UpdateStatus(ctx context.Context, status string, invoice string) error {
 	ret := _m.Called(ctx, status, invoice)

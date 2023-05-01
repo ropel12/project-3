@@ -51,4 +51,7 @@ func (r *Routes) RegisterRoutes() {
 	rauth.POST("/transactions/checkout", r.Trx.CreateTransaction)
 	rauth.GET("/transactions/:invoice", r.Trx.GetDetail)
 
+	// Tickets
+	rauth.GET("/tickets/:invoice", r.Trx.GetTickets)
+
 }
