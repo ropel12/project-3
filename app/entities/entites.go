@@ -25,12 +25,12 @@ type (
 	}
 
 	Type struct {
-		ID               uint   `gorm:"primaryKey;not null;autoIncrement" json:"id,omitempty"`
-		Name             string `gorm:"not null" form:"name" json:"name,omitempty" validate:"required" `
-		Price            int    `gorm:"not null" form:"price" json:"price,omitempty" validate:"required"`
-		EventID          uint   `gorm:"not null"`
-		Carts            []Carts
-		TransactionItems []TransactionItems
+		gorm.Model
+		Name             string             `gorm:"not null" form:"type_name" json:"type_name,omitempty" validate:"required" `
+		Price            int                `gorm:"not null" form:"price" json:"price,omitempty" validate:"required"`
+		EventID          uint               `gorm:"not null"`
+		Carts            []Carts            `json:"-"`
+		TransactionItems []TransactionItems `json:"-"`
 	}
 
 	User struct {

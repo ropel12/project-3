@@ -26,6 +26,7 @@ type (
 		GetAll(db *gorm.DB, rds *redis.Client, limit int, offset int) ([]*entity.Event, int, error)
 		GetById(db *gorm.DB, id int) (*entity.Event, error)
 		Update(db *gorm.DB, event entity.Event) (*entity.Event, error)
+		CreateComment(db *gorm.DB, comment entity.UserComments) (*entity.UserComments, error)
 	}
 )
 
@@ -64,7 +65,7 @@ func (e *event) GetByUid(db *gorm.DB, rds *redis.Client, uid int, limit int, off
 			return nil, 0, errorr.NewInternal("Server internal Error")
 		}
 		dbval, _ := json.Marshal(dbres)
-		if op := rds.Set(ctx, key, dbval, time.Duration(2)*time.Hour); op.Err() != nil {
+		if op := rds.Set(ctx, key, dbval, time.Duration(2)*time.Minute); op.Err() != nil {
 			e.log.Errorf("error set redis val : %v", err)
 			return nil, 0, errorr.NewInternal("Server internal Error")
 		}
@@ -117,7 +118,7 @@ func (e *event) GetAll(db *gorm.DB, rds *redis.Client, limit int, offset int) ([
 			return nil, 0, errorr.NewInternal("Server internal Error")
 		}
 		dbval, _ := json.Marshal(dbres)
-		if op := rds.Set(ctx, key, dbval, time.Duration(2)*time.Hour); op.Err() != nil {
+		if op := rds.Set(ctx, key, dbval, time.Duration(2)*time.Minute); op.Err() != nil {
 			e.log.Errorf("error set redis val : %v", err)
 			return nil, 0, errorr.NewInternal("Server internal Error")
 		}
@@ -152,7 +153,7 @@ func (e *event) GetById(db *gorm.DB, id int) (*entity.Event, error) {
 
 func (e *event) Update(db *gorm.DB, newdata entity.Event) (*entity.Event, error) {
 	data := entity.Event{}
-	if err := db.First(&data, newdata.ID).Error; err != nil {
+	if err := db.Preload("Types").First(&data, newdata.ID).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, errorr.NewBad("Data not found")
 		}
@@ -164,9 +165,29 @@ func (e *event) Update(db *gorm.DB, newdata entity.Event) (*entity.Event, error)
 	}
 	newdata.CreatedAt = data.CreatedAt
 	newdata.UserID = data.UserID
-	if err := db.Save(&newdata).Error; err != nil {
-		e.log.Errorf("error db :%v", err)
-		return nil, errorr.NewInternal("Internal Server Error")
+	err := db.Transaction(func(db *gorm.DB) error {
+		if err := db.Save(&newdata).Error; err != nil {
+			e.log.Errorf("error db :%v", err)
+			return errorr.NewInternal("Internal Server Error")
+		}
+		for _, val := range newdata.Types {
+			if err := db.Model(&entity.Type{}).Where("id=?", val.ID).Updates(val).Error; err != nil {
+				e.log.Errorf("error db :%v", err)
+				return errorr.NewInternal("Internal Server Error")
+			}
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
 	}
 	return &newdata, nil
+}
+
+func (e *event) CreateComment(db *gorm.DB, comment entity.UserComments) (*entity.UserComments, error) {
+
+	if err := db.Create(&comment).Error; err != nil {
+		return nil, errorr.NewInternal("Internal Server error")
+	}
+	return &comment, nil
 }

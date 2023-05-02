@@ -642,3 +642,406 @@ e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail
 {"level":"info","msg":"Shutting down server","time":"2023-05-01T19:28:08+07:00"}
 {"level":"info","msg":"Starting server on port 8000","time":"2023-05-01T19:28:16+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-05-01T19:30:44+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T03:23:12+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T03:23:14+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T03:25:35+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T03:28:02+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:33:57+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T04:36:03+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:37:01+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T04:37:41+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:41:31+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T04:41:44+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:42:07+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T04:42:24+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:44:17+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T04:45:19+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:45:26+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T04:47:14+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:47:25+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:49:14+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T04:49:39+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:49:47+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T04:50:11+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:50:18+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:51:11+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T04:51:36+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:51:52+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:53:14+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T04:53:50+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T04:56:44+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T04:56:59+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:07:37+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:08:25+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:08:57+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:09:26+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:09:46+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:11:21+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:11:43+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:12:25+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:13:32+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:13:41+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:16:59+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:18:11+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:18:25+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:18:43+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:21:53+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:22:15+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:22:37+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:26:11+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:26:28+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:27:02+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:27:51+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:29:30+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:35:41+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:35:57+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:37:18+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:37:44+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:38:23+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:40:52+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:41:02+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:42:51+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:44:03+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:44:17+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:44:31+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:44:42+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:45:32+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:45:51+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:46:26+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:47:32+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:48:43+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:48:50+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:53:55+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:54:09+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:54:47+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T05:54:59+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T05:56:22+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:02:21+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:03:53+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:18:03+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:18:26+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:19:29+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:19:56+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:22:54+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:23:04+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:23:24+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:24:44+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:27:06+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:27:30+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:27:37+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:28:23+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:28:53+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:29:52+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:31:05+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:31:35+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:31:42+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:32:20+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:34:35+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:34:52+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:37:23+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:37:33+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:40:34+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:40:42+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:41:34+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:41:41+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:42:23+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:46:15+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:46:47+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:47:05+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:48:39+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:49:17+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:49:42+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:50:25+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:51:38+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:51:53+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:53:30+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:53:43+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:54:45+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:55:36+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:56:58+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T06:57:10+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T06:57:23+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:03:35+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:03:42+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:04:07+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:04:33+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:05:15+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:06:04+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:06:28+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:07:16+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:07:45+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:08:08+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:08:32+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:08:46+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:09:18+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:11:48+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:12:15+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:13:39+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:15:06+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:15:54+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:16:14+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:16:30+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:16:49+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:17:24+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:18:00+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:18:19+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:19:51+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:20:23+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:21:08+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:21:45+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:22:58+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:33:17+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:33:35+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:35:33+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:35:57+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:36:20+07:00"}
+{"level":"error","msg":"Failed to start server: listen tcp :8000: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.","time":"2023-05-02T07:36:20+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:36:20+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:36:25+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:37:15+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:37:39+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:38:03+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:43:19+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:43:45+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:44:50+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:44:55+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:46:57+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:47:26+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:48:12+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:48:43+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:49:16+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:49:27+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:50:06+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:50:17+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:51:05+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:51:22+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:51:34+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:51:46+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T07:52:11+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:54:13+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:56:55+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:58:07+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T07:58:49+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:14:04+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:14:12+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:15:25+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:15:41+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:16:02+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:16:21+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:17:02+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:17:24+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:18:02+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:18:15+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:18:27+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:19:57+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:20:37+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:21:03+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:21:55+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:22:34+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:23:00+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:23:14+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:23:49+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:39:12+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:47:04+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:47:10+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:48:18+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:48:44+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:49:57+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:50:55+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:51:28+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T08:51:39+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T08:51:59+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:02:12+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:12:07+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:12:40+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:21:46+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:21:53+07:00"}
+{"level":"error","msg":"Error redis : context deadline exceeded","time":"2023-05-02T09:23:38+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:25:51+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:25:58+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:29:54+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:29:59+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:30:23+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:31:47+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:31:50+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:32:20+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:33:29+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:33:34+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:35:36+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:35:45+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:38:28+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:38:50+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:39:13+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:40:13+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:41:18+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:41:46+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:43:15+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:43:21+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:46:20+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:46:26+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:50:23+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:50:29+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:56:26+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:56:31+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:56:34+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:56:47+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T09:58:46+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T09:58:55+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T10:01:00+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T10:01:35+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T10:02:33+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T10:05:19+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T10:06:33+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T10:06:40+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T10:09:02+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T10:09:08+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T10:09:47+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T10:10:49+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T10:12:49+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T10:12:56+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T12:14:54+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T12:15:23+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T12:15:23+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T12:16:35+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:17:53+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:19:27+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:28:19+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:28:23+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:29:37+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:31:24+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:34:41+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:34:44+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:37:21+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:38:23+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:39:04+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:39:13+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:39:34+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:40:21+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag","time":"2023-05-02T12:42:58+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:44:29+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:46:51+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag","time":"2023-05-02T12:47:16+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:47:45+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:48:10+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:48:55+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:49:04+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:50:21+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag\nKey: 'ReqCreate.Duration' Error:Field validation for 'Duration' failed on the 'required' tag\nKey: 'ReqCreate.Details' Error:Field validation for 'Details' failed on the 'required' tag\nKey: 'ReqCreate.Quota' Error:Field validation for 'Quota' failed on the 'required' tag\nKey: 'ReqCreate.HostedBy' Error:Field validation for 'HostedBy' failed on the 'required' tag\nKey: 'ReqCreate.Location' Error:Field validation for 'Location' failed on the 'required' tag\nKey: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:50:57+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T12:51:17+07:00"}
+{"level":"error","msg":"Error handler: code=400, message=no multipart boundary param in Content-Type, internal=no multipart boundary param in Content-Type","time":"2023-05-02T12:54:52+07:00"}
+{"level":"error","msg":"Error handler: code=400, message=multipart: NextPart: EOF, internal=multipart: NextPart: EOF","time":"2023-05-02T12:57:18+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T12:59:08+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T13:00:00+07:00"}
+{"level":"error","msg":"Error handler: code=400, message=multipart: NextPart: EOF, internal=multipart: NextPart: EOF","time":"2023-05-02T13:01:18+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T13:07:06+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T13:07:15+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T13:08:29+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T13:22:53+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T13:23:01+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-02T13:24:19+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T13:24:48+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T13:25:37+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Types.Price' Error:Field validation for 'Price' failed on the 'required' tag","time":"2023-05-02T13:34:34+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T13:43:17+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T14:07:02+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T14:10:43+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T14:10:51+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T14:20:04+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T14:20:19+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T14:23:14+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T14:35:14+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T14:35:37+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T14:36:05+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T14:36:51+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T14:37:53+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T14:43:33+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T14:43:46+07:00"}
+{"level":"error","msg":"error db :Error 1292 (22007): Incorrect datetime value: '1687734671000' for column 'start_date' at row 1","time":"2023-05-02T14:48:24+07:00"}
+{"level":"error","msg":"error db :Error 1054 (42S22): Unknown column 'id1' in 'where clause'","time":"2023-05-02T14:49:55+07:00"}
+{"level":"error","msg":"error db :Error 1054 (42S22): Unknown column 'id1' in 'where clause'","time":"2023-05-02T14:50:04+07:00"}
+{"level":"error","msg":"error db :Error 1054 (42S22): Unknown column 'id1' in 'where clause'","time":"2023-05-02T14:50:13+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T14:50:36+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T14:56:22+07:00"}
+{"level":"error","msg":"Error service: code=400, message=parsing time \"2023-05-19T14:50:32\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"Z07:00\", internal=parsing time \"2023-05-19T14:50:32\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"Z07:00\"","time":"2023-05-02T14:56:45+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T14:58:06+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T14:58:28+07:00"}
+{"level":"error","msg":"Error service: code=400, message=parsing time \"2023-04-23 01:27:44.879\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \" 01:27:44.879\" as \"T\", internal=parsing time \"2023-04-23 01:27:44.879\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \" 01:27:44.879\" as \"T\"","time":"2023-05-02T15:00:10+07:00"}
+{"level":"error","msg":"Error service: code=400, message=parsing time \"2023-05-19T14:50:32\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"Z07:00\", internal=parsing time \"2023-05-19T14:50:32\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"Z07:00\"","time":"2023-05-02T15:06:44+07:00"}
+{"level":"error","msg":"Error service: code=400, message=parsing time \"2023-05-1914:50:32\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"14:50:32\" as \"T\", internal=parsing time \"2023-05-1914:50:32\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"14:50:32\" as \"T\"","time":"2023-05-02T15:06:56+07:00"}
+{"level":"error","msg":"Error service: code=400, message=parsing time \"2023-05-19 14:50:32\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \" 14:50:32\" as \"T\", internal=parsing time \"2023-05-19 14:50:32\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \" 14:50:32\" as \"T\"","time":"2023-05-02T15:07:10+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:08:50+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:08:56+07:00"}
+{"level":"error","msg":"error db :Error 1292 (22007): Incorrect datetime value: '' for column 'end_date' at row 1","time":"2023-05-02T15:09:26+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:10:13+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:10:21+07:00"}
+{"level":"error","msg":"error db :Error 1292 (22007): Incorrect datetime value: '' for column 'end_date' at row 1","time":"2023-05-02T15:10:41+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:11:27+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:11:37+07:00"}
+{"level":"error","msg":"error db :Error 1292 (22007): Incorrect datetime value: '' for column 'end_date' at row 1","time":"2023-05-02T15:11:58+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:12:34+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:12:43+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:23:13+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:23:40+07:00"}
+{"level":"error","msg":"error db :Error 1292 (22007): Incorrect datetime value: '' for column 'end_date' at row 1","time":"2023-05-02T15:24:23+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:24:38+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:26:53+07:00"}
+{"level":"error","msg":"error db :Error 1292 (22007): Incorrect datetime value: '50511-00-05 07:115:55' for column 'start_date' at row 1","time":"2023-05-02T15:27:12+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:28:03+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:28:45+07:00"}
+{"level":"error","msg":"Error service: code=400, message=parsing time \"2023-05-04T08:03+07:00\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"+07:00\" as \":\", internal=parsing time \"2023-05-04T08:03+07:00\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"+07:00\" as \":\"","time":"2023-05-02T15:28:59+07:00"}
+{"level":"error","msg":"Error service: code=400, message=parsing time \"5/3/2023, 7:43:00 AM\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"2023, 7:43:00 AM\" as \"2006\", internal=parsing time \"5/3/2023, 7:43:00 AM\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"2023, 7:43:00 AM\" as \"2006\"","time":"2023-05-02T15:29:37+07:00"}
+{"level":"error","msg":"Error service: code=400, message=parsing time \"5/3/2023, 7:43:00 AM\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"2023, 7:43:00 AM\" as \"2006\", internal=parsing time \"5/3/2023, 7:43:00 AM\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"2023, 7:43:00 AM\" as \"2006\"","time":"2023-05-02T15:30:52+07:00"}
+{"level":"error","msg":"Error service: code=400, message=parsing time \"2023-05-19T14:50:32\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"Z07:00\", internal=parsing time \"2023-05-19T14:50:32\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"Z07:00\"","time":"2023-05-02T15:31:01+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:31:05+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:32:43+07:00"}
+{"level":"error","msg":"error db :Error 1292 (22007): Incorrect datetime value: '' for column 'end_date' at row 1","time":"2023-05-02T15:32:56+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:33:03+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:33:34+07:00"}
+{"level":"error","msg":"error db :Error 1292 (22007): Incorrect datetime value: '' for column 'end_date' at row 1","time":"2023-05-02T15:33:50+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:33:56+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:35:04+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:36:08+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:37:35+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:38:30+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:39:24+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:40:47+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T15:40:57+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T15:48:11+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T16:31:28+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T16:41:51+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T16:43:34+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T16:45:52+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T16:46:12+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag","time":"2023-05-02T16:49:29+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag","time":"2023-05-02T16:50:36+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.StartDate' Error:Field validation for 'StartDate' failed on the 'required' tag","time":"2023-05-02T16:53:05+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T18:14:41+07:00"}
+{"level":"error","msg":"Failed to start server: listen tcp :8000: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.","time":"2023-05-02T18:14:41+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T18:14:41+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T18:14:53+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T18:15:00+07:00"}
+{"level":"error","msg":"Error redis : context deadline exceeded","time":"2023-05-02T18:16:30+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T18:19:36+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T18:23:21+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T18:24:42+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T18:25:38+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T18:31:02+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T18:31:12+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T18:31:47+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T18:39:08+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T18:45:56+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T18:46:04+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T18:46:48+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T18:50:23+07:00"}
+{"level":"error","msg":"Error redis : dial tcp [::1]:6379: connectex: No connection could be made because the target machine actively refused it.","time":"2023-05-02T18:53:37+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T18:55:51+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T18:56:37+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T18:58:33+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T18:58:46+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T18:59:30+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T19:02:10+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T19:07:52+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T19:08:19+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T19:10:06+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T19:11:22+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-02T19:17:31+07:00"}

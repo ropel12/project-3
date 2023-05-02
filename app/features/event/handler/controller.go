@@ -86,7 +86,7 @@ func (e *Event) GetAll(c echo.Context) error {
 	page := c.QueryParam("page")
 	limit := c.QueryParam("limit")
 	if page == "" || limit == "" {
-		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Missing limit and page query params", nil))
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "query params limit and page is missing", nil))
 	}
 	newpage, err := strconv.Atoi(page)
 	newlimit, err1 := strconv.Atoi(limit)
@@ -125,6 +125,7 @@ func (e *Event) Update(c echo.Context) error {
 		e.Dep.Log.Errorf("Error service: %v", err)
 		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid Request Body", nil))
 	}
+	err := json.Unmarshal([]byte(req.Rtype), &req.Types)
 	var file multipart.File
 	fileh, err1 := c.FormFile("image")
 	if err1 == nil {
@@ -136,6 +137,20 @@ func (e *Event) Update(c echo.Context) error {
 		file = files
 	}
 	id, err := e.Service.Update(c.Request().Context(), req, file)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", map[string]any{"id": id}))
+}
+
+func (e *Event) CreateComment(c echo.Context) error {
+	var req entity.ReqCreateComment
+	if err := c.Bind(&req); err != nil {
+		e.Dep.Log.Errorf("Error service: %v", err)
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid Request Body", nil))
+	}
+	req.Uid = helper.GetUid(c.Get("user").(*jwt.Token))
+	id, err := e.Service.CreateComment(c.Request().Context(), req)
 	if err != nil {
 		return CreateErrorResponse(err, c)
 	}
