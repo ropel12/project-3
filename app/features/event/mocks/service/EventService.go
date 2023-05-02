@@ -102,6 +102,30 @@ func (_m *EventService) Delete(ctx context.Context, id int, uid int) error {
 	return r0
 }
 
+// DeleteTicket provides a mock function with given fields: ctx, ticketid
+func (_m *EventService) DeleteTicket(ctx context.Context, ticketid int) (int, error) {
+	ret := _m.Called(ctx, ticketid)
+
+	var r0 int
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) (int, error)); ok {
+		return rf(ctx, ticketid)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int) int); ok {
+		r0 = rf(ctx, ticketid)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, ticketid)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Detail provides a mock function with given fields: ctx, id
 func (_m *EventService) Detail(ctx context.Context, id int) (*event.ResponseDetailEvent, error) {
 	ret := _m.Called(ctx, id)

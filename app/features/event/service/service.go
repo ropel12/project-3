@@ -31,6 +31,7 @@ type (
 		Update(ctx context.Context, req entity.ReqUpdate, file multipart.File) (int, error)
 		CreateComment(ctx context.Context, req entity.ReqCreateComment) (int, error)
 		CreateTicket(ctx context.Context, req entity.ReqCreateTicket) (int, error)
+		DeleteTicket(ctx context.Context, ticketid int) (int, error)
 	}
 )
 
@@ -263,6 +264,14 @@ func (e *event) CreateTicket(ctx context.Context, req entity.ReqCreateTicket) (i
 		return 0, errorr.NewBad("Invalid or missing request body")
 	}
 	res, err := e.repo.CreateTicket(e.dep.Db.WithContext(ctx), entity2.Type{Name: req.TypeName, Price: req.Price, EventID: uint(req.EventId)})
+	if err != nil {
+		return 0, err
+	}
+	return int(res.EventID), nil
+}
+
+func (e *event) DeleteTicket(ctx context.Context, ticketid int) (int, error) {
+	res, err := e.repo.DeleteTicket(e.dep.Db.WithContext(ctx), ticketid)
 	if err != nil {
 		return 0, err
 	}

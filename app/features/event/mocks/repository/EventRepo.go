@@ -108,6 +108,32 @@ func (_m *EventRepo) Delete(db *gorm.DB, id int, uid int) error {
 	return r0
 }
 
+// DeleteTicket provides a mock function with given fields: db, id
+func (_m *EventRepo) DeleteTicket(db *gorm.DB, id int) (*entities.Type, error) {
+	ret := _m.Called(db, id)
+
+	var r0 *entities.Type
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int) (*entities.Type, error)); ok {
+		return rf(db, id)
+	}
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int) *entities.Type); ok {
+		r0 = rf(db, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entities.Type)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*gorm.DB, int) error); ok {
+		r1 = rf(db, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetAll provides a mock function with given fields: db, rds, limit, offset
 func (_m *EventRepo) GetAll(db *gorm.DB, rds *redis.Client, limit int, offset int) ([]*entities.Event, int, error) {
 	ret := _m.Called(db, rds, limit, offset)

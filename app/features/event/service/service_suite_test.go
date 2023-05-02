@@ -473,4 +473,39 @@ var _ = Describe("event", func() {
 			})
 		})
 	})
+	Context("Delete Ticket", func() {
+		When("Tidak terdapat data pada ticketid yang dimasukan", func() {
+			BeforeEach(func() {
+				Mock.On("DeleteTicket", mock.Anything, mock.Anything).Return(nil, errors.New("Ticketid doesn't exist")).Once()
+			})
+			It("Akan Mengembalikan error dengna pesan 'Ticketid doesn't exist'", func() {
+				id, err := EventService.DeleteTicket(ctx, 999)
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+				Expect(err.Error()).To(Equal("Ticketid doesn't exist"))
+			})
+		})
+		When("Terjadi kesalahan query database", func() {
+			BeforeEach(func() {
+				Mock.On("DeleteTicket", mock.Anything, mock.Anything).Return(nil, errors.New("Internal server error")).Once()
+			})
+			It("Akan Mengembalikan error dengna pesan 'Internal server error'", func() {
+				id, err := EventService.DeleteTicket(ctx, 1)
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+				Expect(err.Error()).To(Equal("Internal server error"))
+			})
+		})
+		When("Berhasil menghapus ticket", func() {
+			BeforeEach(func() {
+				typee := entity2.Type{EventID: 1}
+				Mock.On("DeleteTicket", mock.Anything, mock.Anything).Return(&typee, nil).Once()
+			})
+			It("Akan Mengembalikan id event", func() {
+				id, err := EventService.DeleteTicket(ctx, 1)
+				Expect(err).Should(BeNil())
+				Expect(id).To(Equal(1))
+			})
+		})
+	})
 })

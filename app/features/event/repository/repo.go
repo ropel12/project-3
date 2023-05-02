@@ -28,6 +28,7 @@ type (
 		Update(db *gorm.DB, event entity.Event) (*entity.Event, error)
 		CreateComment(db *gorm.DB, comment entity.UserComments) (*entity.UserComments, error)
 		CreateTicket(db *gorm.DB, comment entity.Type) (*entity.Type, error)
+		DeleteTicket(db *gorm.DB, id int) (*entity.Type, error)
 	}
 )
 
@@ -199,4 +200,26 @@ func (e *event) CreateTicket(db *gorm.DB, comment entity.Type) (*entity.Type, er
 		return nil, errorr.NewInternal("Internal Server error")
 	}
 	return &comment, nil
+}
+
+func (e *event) DeleteTicket(db *gorm.DB, id int) (*entity.Type, error) {
+	res := entity.Type{}
+	err := db.Transaction(func(db *gorm.DB) error {
+		if err := db.Find(&res, id).Error; err != nil {
+			e.log.Errorf("Error db: %v", err)
+			return errorr.NewInternal("Internal server error")
+		}
+		if res.ID == 0 {
+			return errorr.NewBad("TicketId doesn't exist")
+		}
+		if err := db.Delete(&res).Error; err != nil {
+			e.log.Errorf("Error db: %v", err)
+			return errorr.NewInternal("Internal server error")
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
 }
