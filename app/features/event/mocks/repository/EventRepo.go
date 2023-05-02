@@ -68,6 +68,32 @@ func (_m *EventRepo) CreateComment(db *gorm.DB, comment entities.UserComments) (
 	return r0, r1
 }
 
+// CreateTicket provides a mock function with given fields: db, comment
+func (_m *EventRepo) CreateTicket(db *gorm.DB, comment entities.Type) (*entities.Type, error) {
+	ret := _m.Called(db, comment)
+
+	var r0 *entities.Type
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, entities.Type) (*entities.Type, error)); ok {
+		return rf(db, comment)
+	}
+	if rf, ok := ret.Get(0).(func(*gorm.DB, entities.Type) *entities.Type); ok {
+		r0 = rf(db, comment)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entities.Type)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*gorm.DB, entities.Type) error); ok {
+		r1 = rf(db, comment)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Delete provides a mock function with given fields: db, id, uid
 func (_m *EventRepo) Delete(db *gorm.DB, id int, uid int) error {
 	ret := _m.Called(db, id, uid)

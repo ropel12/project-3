@@ -28,7 +28,7 @@ func (u *Transaction) CreateCart(c echo.Context) error {
 	if err := u.Service.CreateCart(c.Request().Context(), req); err != nil {
 		return CreateErrorResponse(err, c)
 	}
-	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success Operation", nil))
+	return c.JSON(http.StatusCreated, CreateWebResponse(http.StatusCreated, "StatusCreated", nil))
 }
 
 func (u *Transaction) GetCart(c echo.Context) error {

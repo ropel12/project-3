@@ -154,5 +154,18 @@ func (e *Event) CreateComment(c echo.Context) error {
 	if err != nil {
 		return CreateErrorResponse(err, c)
 	}
-	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", map[string]any{"id": id}))
+	return c.JSON(http.StatusCreated, CreateWebResponse(http.StatusOK, "StatusCreated", map[string]any{"id": id}))
+}
+
+func (e *Event) CreateTicket(c echo.Context) error {
+	var req entity.ReqCreateTicket
+	if err := c.Bind(&req); err != nil {
+		e.Dep.Log.Errorf("Error service: %v", err)
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid Request Body", nil))
+	}
+	id, err := e.Service.CreateTicket(c.Request().Context(), req)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusCreated, CreateWebResponse(http.StatusOK, "StatusCreated", map[string]any{"id": id}))
 }

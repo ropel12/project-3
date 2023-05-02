@@ -182,6 +182,10 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 		if err != nil {
 			t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)
 		}
+	} else {
+		if err := t.repo.UpdateQuotaEvent(t.dep.Db.WithContext(ctx), req.EventId, totalqty); err != nil {
+			return nil, err
+		}
 	}
 	res := entity.Transaction{
 		Total:         int64(total),

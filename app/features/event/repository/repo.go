@@ -27,6 +27,7 @@ type (
 		GetById(db *gorm.DB, id int) (*entity.Event, error)
 		Update(db *gorm.DB, event entity.Event) (*entity.Event, error)
 		CreateComment(db *gorm.DB, comment entity.UserComments) (*entity.UserComments, error)
+		CreateTicket(db *gorm.DB, comment entity.Type) (*entity.Type, error)
 	}
 )
 
@@ -185,6 +186,14 @@ func (e *event) Update(db *gorm.DB, newdata entity.Event) (*entity.Event, error)
 }
 
 func (e *event) CreateComment(db *gorm.DB, comment entity.UserComments) (*entity.UserComments, error) {
+
+	if err := db.Create(&comment).Error; err != nil {
+		return nil, errorr.NewInternal("Internal Server error")
+	}
+	return &comment, nil
+}
+
+func (e *event) CreateTicket(db *gorm.DB, comment entity.Type) (*entity.Type, error) {
 
 	if err := db.Create(&comment).Error; err != nil {
 		return nil, errorr.NewInternal("Internal Server error")

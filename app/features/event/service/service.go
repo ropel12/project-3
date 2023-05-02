@@ -30,6 +30,7 @@ type (
 		Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent, error)
 		Update(ctx context.Context, req entity.ReqUpdate, file multipart.File) (int, error)
 		CreateComment(ctx context.Context, req entity.ReqCreateComment) (int, error)
+		CreateTicket(ctx context.Context, req entity.ReqCreateTicket) (int, error)
 	}
 )
 
@@ -45,6 +46,9 @@ func (e *event) Create(ctx context.Context, req entity.ReqCreate, file multipart
 	if err := e.validator.Struct(req); err != nil {
 		e.dep.Log.Errorf("Error Service: %v", err)
 		return 0, errorr.NewBad("Invalid or missing request body")
+	}
+	if len(req.Types) == 0 {
+		return 0, errorr.NewBad("At least one ticket must be created for the event")
 	}
 	if err := e.dep.Gcp.UploadFile(file, req.Image); err != nil {
 		return 0, errorr.NewBad(err.Error())
@@ -248,6 +252,17 @@ func (e *event) CreateComment(ctx context.Context, req entity.ReqCreateComment) 
 		return 0, errorr.NewBad("Your comment contains bad words")
 	}
 	res, err := e.repo.CreateComment(e.dep.Db.WithContext(ctx), entity2.UserComments{UserID: uint(req.Uid), EventID: uint(req.EventId), Comment: req.Comment})
+	if err != nil {
+		return 0, err
+	}
+	return int(res.EventID), nil
+}
+
+func (e *event) CreateTicket(ctx context.Context, req entity.ReqCreateTicket) (int, error) {
+	if err := e.validator.Struct(req); err != nil {
+		return 0, errorr.NewBad("Invalid or missing request body")
+	}
+	res, err := e.repo.CreateTicket(e.dep.Db.WithContext(ctx), entity2.Type{Name: req.TypeName, Price: req.Price, EventID: uint(req.EventId)})
 	if err != nil {
 		return 0, err
 	}
