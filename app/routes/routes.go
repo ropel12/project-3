@@ -26,9 +26,12 @@ func (r *Routes) RegisterRoutes() {
 	//No Auth
 	ro.POST("/login", r.User.Login)
 	ro.POST("/register", r.User.Register)
+	ro.GET("/events", r.Event.GetAll)
+	ro.GET("/events/:id", r.Event.Detail)
 
 	///Third-Party Payment Notification
 	ro.POST("/notif", r.Trx.MidtransNotification)
+
 	//Auth Area
 	rauth := ro.Group("", middleware.JWT([]byte(r.Depend.Config.JwtSecret)))
 	/// Users
@@ -42,9 +45,7 @@ func (r *Routes) RegisterRoutes() {
 	///Events
 	rauth.POST("/events", r.Event.Create)
 	rauth.PUT("/events", r.Event.Update)
-	rauth.GET("/events", r.Event.GetAll)
 	rauth.DELETE("/events/:id", r.Event.Delete)
-	rauth.GET("/events/:id", r.Event.Detail)
 
 	/// Trasanction
 	rauth.POST("/transactions/cart", r.Trx.CreateCart)
@@ -54,5 +55,8 @@ func (r *Routes) RegisterRoutes() {
 
 	// Tickets
 	rauth.GET("/tickets/:invoice", r.Trx.GetTickets)
+
+	//Comments
+	rauth.POST("/comments", r.Event.CreateComment)
 
 }

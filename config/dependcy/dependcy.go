@@ -12,13 +12,14 @@ import (
 
 type Depend struct {
 	dig.In
-	Db     *gorm.DB
-	Config *config.Config
-	Echo   *echo.Echo
-	Log    *logrus.Logger
-	Gcp    *pkg.StorageGCP
-	Rds    *redis.Client
-	Mds    *pkg.Midtrans
-	Nsq    *pkg.NSQProducer
-	Pusher *pkg.Pusher
+	Db         *gorm.DB
+	Config     *config.Config
+	Echo       *echo.Echo
+	Log        *logrus.Logger
+	Gcp        *pkg.StorageGCP
+	Rds        *redis.Client
+	Mds        *pkg.Midtrans
+	Nsq        *pkg.NSQProducer
+	Pusher     *pkg.Pusher
+	Validation *pkg.Validation
 }

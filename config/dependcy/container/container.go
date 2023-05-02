@@ -2,6 +2,8 @@ package container
 
 import (
 	"context"
+	"encoding/csv"
+	"io"
 	"os"
 
 	"cloud.google.com/go/storage"
@@ -48,6 +50,9 @@ func RunAll() {
 		panic(err)
 	}
 	if err := Container.Provide(NewPusher); err != nil {
+		panic(err)
+	}
+	if err := Container.Provide(NewValidation); err != nil {
 		panic(err)
 	}
 	if err := feat.RegisterRepo(Container); err != nil {
@@ -120,4 +125,27 @@ func NewPusher(conf *config.Config) (ps *pkg.Pusher) {
 		Secure:  ps.Env.Secure,
 	}
 	return ps
+}
+
+func NewValidation() (*pkg.Validation, error) {
+	badwords := make(map[string]struct{})
+	wd, _ := os.Getwd()
+	file, err := os.Open(wd + "/pkg/badword.csv")
+	if err != nil {
+		return nil, err
+	}
+
+	defer file.Close()
+
+	csvReader := csv.NewReader(file)
+	for {
+		record, err := csvReader.Read()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			panic(err)
+		}
+		badwords[record[0]] = struct{}{}
+	}
+	return &pkg.Validation{Badwords: badwords}, nil
 }

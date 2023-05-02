@@ -16,6 +16,7 @@ import (
 	event "github.com/ropel12/project-3/app/features/event/service"
 	"github.com/ropel12/project-3/config"
 	"github.com/ropel12/project-3/config/dependcy"
+	"github.com/ropel12/project-3/config/dependcy/container"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/mock"
 )
@@ -30,17 +31,15 @@ var _ = Describe("event", func() {
 	var EventService event.EventService
 	var Depend dependcy.Depend
 	var ctx context.Context
-	var FailedReq entity.ReqCreate
-	var SuccessReq entity.ReqCreate
 	BeforeEach(func() {
 		Depend.Db = config.GetConnectionTes()
 		log := logrus.New()
 		Depend.Log = log
 		Depend.Rds = redis.NewClient(&redis.Options{})
 		Mock = mocks.NewEventRepo(GinkgoT())
+		validation, _ := container.NewValidation()
+		Depend.Validation = validation
 		EventService = event.NewEventService(Mock, Depend)
-		FailedReq = entity.ReqCreate{Image: "gambar.js", Name: "tes", StartDate: "2006-01-02 15:04:05", Duration: 2.5, Details: "tes", Location: "jakarta", Quota: 100, Rtype: `[{"name":"vip","price":2000},{"name":"regular","price":1000}]`, HostedBy: "ropel"}
-		SuccessReq = entity.ReqCreate{Image: "gambar.jpg", Name: "tes", StartDate: "2006-01-02 15:04:05", Duration: 2.5, Details: "tes", Location: "jakarta", Quota: 100, Rtype: `[{"name":"vip","price":2000},{"name":"regular","price":1000}]`, HostedBy: "ropel"}
 	})
 	Context("Create Event", func() {
 		When("Request Body kosong", func() {
@@ -65,7 +64,18 @@ var _ = Describe("event", func() {
 			It("Akan Mengembalikan Eror dengan pesan 'File type not allowed'", func() {
 				var file multipart.File
 				file = os.NewFile(uintptr(2), "2")
-				id, err := EventService.Create(ctx, FailedReq, file)
+				req := entity.ReqCreate{
+					Name:      "Linux",
+					Location:  "JKT",
+					Duration:  2.5,
+					Details:   "Belajar Linux",
+					HostedBy:  "Claudio delvin",
+					StartDate: "2023-05-19T14:50:32",
+					Quota:     10,
+					Image:     "image.js",
+					Rtype:     `[{"id":55,"type_name":"vvvip","price":200000}]`,
+				}
+				id, err := EventService.Create(ctx, req, file)
 				Expect(err).ShouldNot(BeNil())
 				Expect(err.Error()).To(Equal("File type not allowed"))
 				Expect(id).To(Equal(0))
@@ -81,7 +91,18 @@ var _ = Describe("event", func() {
 			It("Akan Mengembalikan Eror dengan pesan 'error database'", func() {
 				var file multipart.File
 				file = os.NewFile(uintptr(2), "2")
-				id, err := EventService.Create(ctx, SuccessReq, file)
+				req := entity.ReqCreate{
+					Name:      "Linux",
+					Location:  "JKT",
+					Duration:  2.5,
+					Details:   "Belajar Linux",
+					HostedBy:  "Claudio delvin",
+					StartDate: "2023-05-19T14:50:32",
+					Quota:     10,
+					Image:     "image.jpg",
+					Rtype:     `[{"id":55,"type_name":"vvvip","price":200000}]`,
+				}
+				id, err := EventService.Create(ctx, req, file)
 				Expect(err).ShouldNot(BeNil())
 				Expect(err.Error()).To(Equal("error database"))
 				Expect(id).To(Equal(0))
@@ -96,8 +117,19 @@ var _ = Describe("event", func() {
 			})
 			It("Akan Mengembalikan id event", func() {
 				var file multipart.File
+				req := entity.ReqCreate{
+					Name:      "Linux",
+					Location:  "JKT",
+					Duration:  2.5,
+					Details:   "Belajar Linux",
+					HostedBy:  "Claudio delvin",
+					StartDate: "2023-05-19T14:50:32",
+					Quota:     10,
+					Image:     "image.jpg",
+					Rtype:     `[{"id":55,"type_name":"vvvip","price":200000}]`,
+				}
 				file = os.NewFile(uintptr(2), "2")
-				id, err := EventService.Create(ctx, SuccessReq, file)
+				id, err := EventService.Create(ctx, req, file)
 				Expect(err).Should(BeNil())
 				Expect(id).To(Equal(1))
 			})
@@ -303,6 +335,7 @@ var _ = Describe("event", func() {
 					StartDate: "2022-05-06 15:04:05",
 					Quota:     10,
 					Image:     "image.js",
+					Rtype:     "[{\"id\":55,\"type_name\":\"vvvip\",\"price\":200000}]",
 				}
 				id, err := EventService.Update(ctx, req, file)
 				Expect(err).ShouldNot(BeNil())
@@ -327,6 +360,7 @@ var _ = Describe("event", func() {
 					StartDate: "2022-05-06 15:04:05",
 					Quota:     10,
 					Image:     "image.jpg",
+					Rtype:     `[{"id":55,"type_name":"vvvip","price":200000}]`,
 				}
 				id, err := EventService.Update(ctx, req, file)
 				Expect(err).ShouldNot(BeNil())
@@ -362,8 +396,42 @@ var _ = Describe("event", func() {
 					StartDate: "2022-05-06 15:04:05",
 					Quota:     10,
 					Image:     "image.jpg",
+					Rtype:     `[{"id":55,"type_name":"vvvip","price":200000}]`,
+					Types:     []entity.TypeEvent{entity.TypeEvent{Id: 1, TypeName: "Dota", Price: 2000}},
 				}
 				id, err := EventService.Update(ctx, req, file)
+				Expect(err).Should(BeNil())
+				Expect(id).To(Equal(1))
+			})
+		})
+	})
+	Context("Create comment", func() {
+		When("Request body kosong atau tidak sesuai", func() {
+			It("Akan Mengembalikan error dengna pesan 'Invalid or missing request body'", func() {
+
+				id, err := EventService.CreateComment(ctx, entity.ReqCreateComment{})
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+				Expect(err.Error()).To(Equal("Invalid or missing request body"))
+			})
+		})
+		When("Terdapat kesalahan database", func() {
+			BeforeEach(func() {
+				Mock.On("CreateComment", mock.Anything, mock.Anything).Return(nil, errors.New("Internal server error")).Once()
+			})
+			It("Akan Mengembalikan error dengna pesan 'Internal server error'", func() {
+				id, err := EventService.CreateComment(ctx, entity.ReqCreateComment{EventId: 1, Comment: "Eventnya bagus"})
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+				Expect(err.Error()).To(Equal("Internal server error"))
+			})
+		})
+		When("Berhasil membuat comment", func() {
+			BeforeEach(func() {
+				Mock.On("CreateComment", mock.Anything, mock.Anything).Return(&entity2.UserComments{EventID: 1}, nil).Once()
+			})
+			It("Akan Mengembalikan event id", func() {
+				id, err := EventService.CreateComment(ctx, entity.ReqCreateComment{EventId: 1, Comment: "Eventnya bagus"})
 				Expect(err).Should(BeNil())
 				Expect(id).To(Equal(1))
 			})

@@ -42,6 +42,32 @@ func (_m *EventRepo) Create(db *gorm.DB, data entities.Event) (*int, error) {
 	return r0, r1
 }
 
+// CreateComment provides a mock function with given fields: db, comment
+func (_m *EventRepo) CreateComment(db *gorm.DB, comment entities.UserComments) (*entities.UserComments, error) {
+	ret := _m.Called(db, comment)
+
+	var r0 *entities.UserComments
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, entities.UserComments) (*entities.UserComments, error)); ok {
+		return rf(db, comment)
+	}
+	if rf, ok := ret.Get(0).(func(*gorm.DB, entities.UserComments) *entities.UserComments); ok {
+		r0 = rf(db, comment)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entities.UserComments)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*gorm.DB, entities.UserComments) error); ok {
+		r1 = rf(db, comment)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Delete provides a mock function with given fields: db, id, uid
 func (_m *EventRepo) Delete(db *gorm.DB, id int, uid int) error {
 	ret := _m.Called(db, id, uid)

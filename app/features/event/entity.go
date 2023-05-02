@@ -9,6 +9,7 @@ type (
 		Id           int    `json:"id"`
 		Name         string `json:"name"`
 		Date         string `json:"date"`
+		Quota        int    `json:"quota"`
 		Location     string `json:"location"`
 		EndDate      string `json:"end_date"`
 		HostedBy     string `json:"hosted_by"`
@@ -37,7 +38,19 @@ type (
 		Quota     int     `form:"quota" validate:"required"`
 		HostedBy  string  `form:"hosted_by" validate:"required"`
 		Location  string  `form:"location" validate:"required"`
+		Rtype     string  `form:"type" validate:"required"`
 		Image     string  `form:"image"`
+		Types     []TypeEvent
+	}
+	TypeEvent struct {
+		Id       int    `json:"id"`
+		TypeName string `json:"type_name"`
+		Price    int    `json:"price"`
+	}
+	ReqCreateComment struct {
+		EventId int    `json:"event_id" validate:"required"`
+		Comment string `json:"comment" validate:"required"`
+		Uid     int
 	}
 	Response struct {
 		Limit     int `json:"limit,omitempty"`
@@ -48,13 +61,13 @@ type (
 	}
 
 	UserComments struct {
-		Name    string
-		Image   string
-		Comment string
+		Name    string `json:"name,omitempty"`
+		Image   string `json:"image,omitempty"`
+		Comment string `json:"comment,omitempty"`
 	}
 	UserParticipant struct {
-		Name  string
-		Image string
+		Name  string `json:"name,omitempty"`
+		Image string `json:"image,omitempty"`
 	}
 	DetailEvent struct {
 		Id           int               `json:"id"`
@@ -66,7 +79,7 @@ type (
 		HostedBy     string            `json:"hosted_by"`
 		Quota        int               `json:"quota"`
 		Image        string            `json:"image"`
-		Types        []entity.Type     `json:"types"`
+		Types        []TypeEvent       `json:"types"`
 		Participants []UserParticipant `json:"participants"`
 		UserComments []UserComments    `json:"comments"`
 	}

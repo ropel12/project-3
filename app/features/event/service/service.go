@@ -29,6 +29,7 @@ type (
 		GetAll(ctx context.Context, limit, page int) (*entity.Response, error)
 		Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent, error)
 		Update(ctx context.Context, req entity.ReqUpdate, file multipart.File) (int, error)
+		CreateComment(ctx context.Context, req entity.ReqCreateComment) (int, error)
 	}
 )
 
@@ -87,6 +88,7 @@ func (e *event) MyEvent(ctx context.Context, uid, limit, page int) (*entity.Resp
 		newdata.Name = val.Name
 		newdata.Date = val.StartDate
 		newdata.EndDate = val.EndDate
+		newdata.Quota = val.Quota
 		newdata.Location = val.Location
 		newdata.HostedBy = val.HostedBy
 		newdata.Image = val.Image
@@ -120,6 +122,7 @@ func (e *event) GetAll(ctx context.Context, limit, page int) (*entity.Response, 
 		newdata := new(entity.ResponseEvent)
 		newdata.Id = int(val.ID)
 		newdata.Name = val.Name
+		newdata.Quota = val.Quota
 		newdata.Date = val.StartDate
 		newdata.EndDate = val.EndDate
 		newdata.Location = val.Location
@@ -147,12 +150,12 @@ func (e *event) Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent
 		Duration: data.Duration,
 		Details:  data.Detail,
 		Image:    data.Image,
-		Types:    data.Types,
 	}
 	Participants := []entity.UserParticipant{}
 	UserComments := []entity.UserComments{}
+	EventTypes := []entity.TypeEvent{}
 	wg := &sync.WaitGroup{}
-	wg.Add(2)
+	wg.Add(3)
 	go func() {
 		defer wg.Done()
 		if len(data.UserComments) > 0 {
@@ -163,6 +166,19 @@ func (e *event) Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent
 					Comment: val.Comment,
 				}
 				UserComments = append(UserComments, UserComment)
+			}
+		}
+	}()
+	go func() {
+		defer wg.Done()
+		if len(data.Types) > 0 {
+			for _, val := range data.Types {
+				Type := entity.TypeEvent{
+					Id:       int(val.ID),
+					TypeName: val.Name,
+					Price:    val.Price,
+				}
+				EventTypes = append(EventTypes, Type)
 			}
 		}
 	}()
@@ -181,6 +197,7 @@ func (e *event) Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent
 	wg.Wait()
 	res.Participants = Participants
 	res.UserComments = UserComments
+	res.Types = EventTypes
 	return &entity.ResponseDetailEvent{Data: res}, nil
 }
 
@@ -206,10 +223,33 @@ func (e *event) Update(ctx context.Context, req entity.ReqUpdate, file multipart
 		Quota:     req.Quota,
 		Image:     req.Image,
 	}
+	types := []entity2.Type{}
+	for _, val := range req.Types {
+		typee := entity2.Type{
+			Name:  val.TypeName,
+			Price: val.Price,
+		}
+		typee.ID = uint(val.Id)
+		types = append(types, typee)
+	}
 	reqdata.ID = req.Id
+	reqdata.Types = types
 	resdata, err := e.repo.Update(e.dep.Db.WithContext(ctx), reqdata)
 	if err != nil {
 		return 0, err
 	}
 	return int(resdata.ID), nil
+}
+func (e *event) CreateComment(ctx context.Context, req entity.ReqCreateComment) (int, error) {
+	if err := e.validator.Struct(req); err != nil {
+		return 0, errorr.NewBad("Invalid or missing request body")
+	}
+	if !e.dep.Validation.Validate(req.Comment) {
+		return 0, errorr.NewBad("Your comment contains bad words")
+	}
+	res, err := e.repo.CreateComment(e.dep.Db.WithContext(ctx), entity2.UserComments{UserID: uint(req.Uid), EventID: uint(req.EventId), Comment: req.Comment})
+	if err != nil {
+		return 0, err
+	}
+	return int(res.EventID), nil
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -44,12 +45,12 @@ func GenerateJWT(id int, dp depedency.Depend) string {
 }
 
 func GenerateEndTime(timee string, duration float32) string {
-	t, err := time.Parse("2006-01-02 15:04:05", timee)
+	t, err := time.Parse("2006-01-02 15:04:05", strings.Replace(timee, "T", " ", 1))
 	if err != nil {
+		log.Printf("error when generate endtime : %v", err)
 		return ""
 	}
 	minute := duration * 60
-
 	return t.Add(time.Minute * time.Duration(int(minute))).Format("2006-01-02 15:04:05")
 }
 func GenerateExpiretime(timee string, duration int) string {
