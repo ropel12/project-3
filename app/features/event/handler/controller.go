@@ -167,5 +167,21 @@ func (e *Event) CreateTicket(c echo.Context) error {
 	if err != nil {
 		return CreateErrorResponse(err, c)
 	}
-	return c.JSON(http.StatusCreated, CreateWebResponse(http.StatusOK, "StatusCreated", map[string]any{"id": id}))
+	return c.JSON(http.StatusCreated, CreateWebResponse(http.StatusCreated, "StatusCreated", map[string]any{"id": id}))
+}
+
+func (e *Event) DeleteTicket(c echo.Context) error {
+	eventid := c.Param("id")
+	if eventid == "" {
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Missing param id", nil))
+	}
+	neweventid, err := strconv.Atoi(eventid)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid param id", nil))
+	}
+	id, err := e.Service.DeleteTicket(c.Request().Context(), neweventid)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Succes Operation", map[string]any{"id": id}))
 }
