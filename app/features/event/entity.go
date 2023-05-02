@@ -59,7 +59,11 @@ type (
 		TotalData int `json:"total_data,omitempty"`
 		Data      any `json:"data"`
 	}
-
+	ReqCreateTicket struct {
+		EventId  int    `json:"event_id" validate:"required"`
+		TypeName string `json:"type_name" validate:"required"`
+		Price    int    `json:"type_price" validate:"required"`
+	}
 	UserComments struct {
 		Name    string `json:"name,omitempty"`
 		Image   string `json:"image,omitempty"`

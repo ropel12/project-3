@@ -1045,3 +1045,28 @@ e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail
 {"level":"info","msg":"Shutting down server","time":"2023-05-02T19:10:06+07:00"}
 {"level":"info","msg":"Starting server on port 8000","time":"2023-05-02T19:11:22+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-05-02T19:17:31+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T01:44:04+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-03T01:50:33+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-03T01:50:36+07:00"}
+{"level":"error","msg":"Error Service: Key: 'ReqCreate.Rtype' Error:Field validation for 'Rtype' failed on the 'required' tag","time":"2023-05-03T01:50:43+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T01:52:23+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T01:52:28+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T01:53:08+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T01:56:42+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T02:20:06+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T02:20:11+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T02:24:35+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T02:56:26+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T03:02:37+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T03:42:28+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T03:47:20+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T03:47:26+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T03:48:49+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T03:49:02+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T03:49:28+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T03:50:51+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T03:51:09+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T04:19:41+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T04:21:07+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T04:21:26+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T04:22:45+07:00"}

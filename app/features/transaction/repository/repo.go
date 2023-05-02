@@ -34,19 +34,44 @@ func NewTransactionRepo(log *logrus.Logger) TransactionRepo {
 }
 
 func (t *transaction) Create(db *gorm.DB, cart entity.Carts) error {
-	res := db.Where("user_id = ? AND type_id = ? AND deleted_at IS NULL", cart.UserID, cart.TypeID).FirstOrCreate(&cart)
-	if res.Error != nil {
-		t.log.Errorf("error db : %v", res.Error)
-		return errorr.NewInternal("Internal server error")
-	}
-	if res.RowsAffected == 0 {
-		cart.Qty += 1
-		if err := db.Model(&cart).Where("user_id = ? AND type_id = ? AND deleted_at IS NULL", cart.UserID, cart.TypeID).Update("qty", cart.Qty).Error; err != nil {
-			t.log.Errorf("error db : %v", err)
+
+	return db.Transaction(func(db *gorm.DB) error {
+		var Carts entity.Carts
+		var EventId uint
+		var countCart int64
+		db.Model(&entity.Carts{}).Where("user_id = ? AND deleted_at IS NULL", cart.UserID).Count(&countCart)
+		if countCart > 0 {
+			if err := db.Preload("Type").Where("user_id = ? AND deleted_at IS NULL", cart.UserID).First(&Carts).Error; err != nil {
+				t.log.Errorf("error db %v", err)
+				return errorr.NewInternal("Internal server error")
+			}
+			if err := db.Model(&entity.Type{}).Where("id=?", cart.TypeID).Select("event_id").Scan(&EventId).Error; err != nil {
+				if err == gorm.ErrRecordNotFound {
+					return errorr.NewBad("data not found")
+				}
+				t.log.Errorf("error db : %v", err)
+				return errorr.NewInternal("Internal Server error")
+			}
+			if Carts.Type.EventID != EventId {
+				return errorr.NewBad("cannot purchase more than one event")
+			}
+
+		}
+		res := db.Where("user_id = ? AND type_id = ? AND deleted_at IS NULL", cart.UserID, cart.TypeID).FirstOrCreate(&cart)
+		if res.Error != nil {
+			t.log.Errorf("error db : %v", res.Error)
 			return errorr.NewInternal("Internal server error")
 		}
-	}
-	return nil
+		if res.RowsAffected == 0 {
+			cart.Qty += 1
+			if err := db.Model(&cart).Where("user_id = ? AND type_id = ? AND deleted_at IS NULL", cart.UserID, cart.TypeID).Update("qty", cart.Qty).Error; err != nil {
+				t.log.Errorf("error db : %v", err)
+				return errorr.NewInternal("Internal server error")
+			}
+		}
+		return nil
+	})
+
 }
 
 func (t *transaction) GetCart(db *gorm.DB, uid int) ([]entity.Carts, error) {

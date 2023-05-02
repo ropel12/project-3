@@ -64,6 +64,30 @@ func (_m *EventService) CreateComment(ctx context.Context, req event.ReqCreateCo
 	return r0, r1
 }
 
+// CreateTicket provides a mock function with given fields: ctx, req
+func (_m *EventService) CreateTicket(ctx context.Context, req event.ReqCreateTicket) (int, error) {
+	ret := _m.Called(ctx, req)
+
+	var r0 int
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, event.ReqCreateTicket) (int, error)); ok {
+		return rf(ctx, req)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, event.ReqCreateTicket) int); ok {
+		r0 = rf(ctx, req)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, event.ReqCreateTicket) error); ok {
+		r1 = rf(ctx, req)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Delete provides a mock function with given fields: ctx, id, uid
 func (_m *EventService) Delete(ctx context.Context, id int, uid int) error {
 	ret := _m.Called(ctx, id, uid)

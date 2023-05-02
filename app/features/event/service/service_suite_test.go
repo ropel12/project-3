@@ -297,9 +297,11 @@ var _ = Describe("event", func() {
 			BeforeEach(func() {
 				var Users []entity2.User
 				var Comments []entity2.UserComments
+				var Types []entity2.Type
 				Comments = append(Comments, entity2.UserComments{UserID: 1})
 				Users = append(Users, entity2.User{Name: "satrio"})
-				res := &entity2.Event{Name: "Dota 2", Users: Users, UserComments: Comments}
+				Types = append(Types, entity2.Type{Name: "dota2", Price: 9000})
+				res := &entity2.Event{Name: "Dota 2", Users: Users, UserComments: Comments, Types: Types}
 				Mock.On("GetById", mock.Anything, 1).Return(res, nil).Once()
 			})
 			It("Akan Mengembalikan data event", func() {
@@ -432,6 +434,40 @@ var _ = Describe("event", func() {
 			})
 			It("Akan Mengembalikan event id", func() {
 				id, err := EventService.CreateComment(ctx, entity.ReqCreateComment{EventId: 1, Comment: "Eventnya bagus"})
+				Expect(err).Should(BeNil())
+				Expect(id).To(Equal(1))
+			})
+		})
+	})
+	Context("Create Ticket", func() {
+		When("Request body kosong atau tidak sesuai", func() {
+			It("Akan Mengembalikan error dengna pesan 'Invalid or missing request body'", func() {
+				id, err := EventService.CreateTicket(ctx, entity.ReqCreateTicket{})
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+				Expect(err.Error()).To(Equal("Invalid or missing request body"))
+			})
+		})
+
+		When("Terjadi kesalahan query database", func() {
+			BeforeEach(func() {
+				Mock.On("CreateTicket", mock.Anything, mock.Anything).Return(nil, errors.New("Internal server error")).Once()
+			})
+			It("Akan Mengembalikan error dengna pesan 'Internal server error'", func() {
+				id, err := EventService.CreateTicket(ctx, entity.ReqCreateTicket{EventId: 1, TypeName: "VIp", Price: 2000})
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+				Expect(err.Error()).To(Equal("Internal server error"))
+			})
+		})
+		When("Terjadi kesalahan query database", func() {
+			BeforeEach(func() {
+				typee := entity2.Type{EventID: 1}
+
+				Mock.On("CreateTicket", mock.Anything, mock.Anything).Return(&typee, nil).Once()
+			})
+			It("Akan Mengembalikan error dengna pesan 'Internal server error'", func() {
+				id, err := EventService.CreateTicket(ctx, entity.ReqCreateTicket{EventId: 1, TypeName: "VIp", Price: 2000})
 				Expect(err).Should(BeNil())
 				Expect(id).To(Equal(1))
 			})
