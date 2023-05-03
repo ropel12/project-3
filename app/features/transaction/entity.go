@@ -14,8 +14,8 @@ type (
 		Subtotal  int    `json:"sub_total"`
 	}
 	ItemDetails struct {
-		Name     string `json:"name,omitempty" validate:"required"`
-		Price    int    `json:"price,omitempty" validate:"required"`
+		Name     string `json:"type_name,omitempty" validate:"required"`
+		Price    int    `json:"type_price,omitempty" validate:"required"`
 		TypeId   int    `json:"type_id,omitempty" validate:"required"`
 		SubTotal int    `json:"sub_total,omitempty" validate:"required"`
 		Qty      int    `json:"qty,omitempty" validate:"required"`
