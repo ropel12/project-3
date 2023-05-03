@@ -152,25 +152,49 @@ func (_m *EventService) Detail(ctx context.Context, id int) (*event.ResponseDeta
 	return r0, r1
 }
 
-// GetAll provides a mock function with given fields: ctx, limit, page
-func (_m *EventService) GetAll(ctx context.Context, limit int, page int) (*event.Response, error) {
-	ret := _m.Called(ctx, limit, page)
+// GetAll provides a mock function with given fields: ctx, limit, page, search
+func (_m *EventService) GetAll(ctx context.Context, limit int, page int, search string) (*event.Response, error) {
+	ret := _m.Called(ctx, limit, page, search)
 
 	var r0 *event.Response
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int, int) (*event.Response, error)); ok {
-		return rf(ctx, limit, page)
+	if rf, ok := ret.Get(0).(func(context.Context, int, int, string) (*event.Response, error)); ok {
+		return rf(ctx, limit, page, search)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int, int) *event.Response); ok {
-		r0 = rf(ctx, limit, page)
+	if rf, ok := ret.Get(0).(func(context.Context, int, int, string) *event.Response); ok {
+		r0 = rf(ctx, limit, page, search)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*event.Response)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, int, int) error); ok {
-		r1 = rf(ctx, limit, page)
+	if rf, ok := ret.Get(1).(func(context.Context, int, int, string) error); ok {
+		r1 = rf(ctx, limit, page, search)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// JoinEvent provides a mock function with given fields: ctx, req
+func (_m *EventService) JoinEvent(ctx context.Context, req event.ReqJoinEvent) (int, error) {
+	ret := _m.Called(ctx, req)
+
+	var r0 int
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, event.ReqJoinEvent) (int, error)); ok {
+		return rf(ctx, req)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, event.ReqJoinEvent) int); ok {
+		r0 = rf(ctx, req)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, event.ReqJoinEvent) error); ok {
+		r1 = rf(ctx, req)
 	} else {
 		r1 = ret.Error(1)
 	}

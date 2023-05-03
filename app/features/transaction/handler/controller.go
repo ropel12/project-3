@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/golang-jwt/jwt"
@@ -104,9 +105,7 @@ func (u *Transaction) MyHistory(c echo.Context) error {
 func (u *Transaction) GetByStatus(c echo.Context) error {
 	uid := helper.GetUid(c.Get("user").(*jwt.Token))
 	status := c.QueryParam("status")
-	if status == "" {
-		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "status query param is missing", nil))
-	}
+	fmt.Println(status)
 	res, err := u.Service.GetByStatus(c.Request().Context(), uid, status)
 	if err != nil {
 		return CreateErrorResponse(err, c)

@@ -1082,3 +1082,58 @@ e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail
 {"level":"info","msg":"Shutting down server","time":"2023-05-03T05:51:45+07:00"}
 {"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T05:52:18+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-05-03T05:53:03+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T16:38:21+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T16:41:46+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T16:41:52+07:00"}
+{"level":"error","msg":"Error Service : crypto/bcrypt: hashedPassword is not the hash of the given password","time":"2023-05-03T17:01:15+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T17:02:54+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T17:03:01+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T17:06:38+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T17:11:21+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T17:13:49+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T17:13:55+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T17:15:18+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T17:16:14+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T17:16:49+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T17:16:56+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T17:17:01+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T17:17:33+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T17:19:40+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T17:24:36+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T17:25:24+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T17:26:05+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T17:29:44+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T17:30:12+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T17:31:01+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T17:31:16+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T17:38:18+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T17:46:25+07:00"}
+{"level":"error","msg":"Error handler: request Content-Type isn't multipart/form-data","time":"2023-05-03T17:46:46+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:06:28+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:06:35+07:00"}
+{"level":"error","msg":"Error db : Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '? or start_date like '%?%' or duration like '%?%' or location like '%?%' or host' at line 1","time":"2023-05-03T18:06:49+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:07:58+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:08:05+07:00"}
+{"level":"error","msg":"Error db : sql: expected 0 arguments, got 5","time":"2023-05-03T18:08:15+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:08:38+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:09:19+07:00"}
+{"level":"error","msg":"Error db : Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%?% or start_date like %?% or duration like %?% or location like %?% or hosted_b' at line 1","time":"2023-05-03T18:10:07+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:10:54+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:11:01+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:11:35+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:11:48+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:12:05+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:12:20+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:14:21+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:14:35+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:18:45+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:18:51+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:23:49+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:27:59+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:30:37+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:31:29+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:32:44+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:33:18+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:34:32+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:34:38+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T18:37:37+07:00"}

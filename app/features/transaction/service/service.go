@@ -331,7 +331,7 @@ func (t *transaction) GetHistoryByuid(ctx context.Context, uid int) (*entity.Res
 }
 
 func (t *transaction) GetByStatus(ctx context.Context, uid int, status string) (*entity.Response, error) {
-	if status != "paid" && status != "pending" {
+	if status != "paid" && status != "pending" && status != "" {
 		return nil, errorr.NewBad("Data not found")
 	}
 	data, err := t.repo.GetByStatus(t.dep.Db.WithContext(ctx), uid, status)

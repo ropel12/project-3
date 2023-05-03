@@ -134,32 +134,32 @@ func (_m *EventRepo) DeleteTicket(db *gorm.DB, id int) (*entities.Type, error) {
 	return r0, r1
 }
 
-// GetAll provides a mock function with given fields: db, rds, limit, offset
-func (_m *EventRepo) GetAll(db *gorm.DB, rds *redis.Client, limit int, offset int) ([]*entities.Event, int, error) {
-	ret := _m.Called(db, rds, limit, offset)
+// GetAll provides a mock function with given fields: db, rds, limit, offset, search
+func (_m *EventRepo) GetAll(db *gorm.DB, rds *redis.Client, limit int, offset int, search string) ([]*entities.Event, int, error) {
+	ret := _m.Called(db, rds, limit, offset, search)
 
 	var r0 []*entities.Event
 	var r1 int
 	var r2 error
-	if rf, ok := ret.Get(0).(func(*gorm.DB, *redis.Client, int, int) ([]*entities.Event, int, error)); ok {
-		return rf(db, rds, limit, offset)
+	if rf, ok := ret.Get(0).(func(*gorm.DB, *redis.Client, int, int, string) ([]*entities.Event, int, error)); ok {
+		return rf(db, rds, limit, offset, search)
 	}
-	if rf, ok := ret.Get(0).(func(*gorm.DB, *redis.Client, int, int) []*entities.Event); ok {
-		r0 = rf(db, rds, limit, offset)
+	if rf, ok := ret.Get(0).(func(*gorm.DB, *redis.Client, int, int, string) []*entities.Event); ok {
+		r0 = rf(db, rds, limit, offset, search)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]*entities.Event)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(*gorm.DB, *redis.Client, int, int) int); ok {
-		r1 = rf(db, rds, limit, offset)
+	if rf, ok := ret.Get(1).(func(*gorm.DB, *redis.Client, int, int, string) int); ok {
+		r1 = rf(db, rds, limit, offset, search)
 	} else {
 		r1 = ret.Get(1).(int)
 	}
 
-	if rf, ok := ret.Get(2).(func(*gorm.DB, *redis.Client, int, int) error); ok {
-		r2 = rf(db, rds, limit, offset)
+	if rf, ok := ret.Get(2).(func(*gorm.DB, *redis.Client, int, int, string) error); ok {
+		r2 = rf(db, rds, limit, offset, search)
 	} else {
 		r2 = ret.Error(2)
 	}
@@ -224,6 +224,32 @@ func (_m *EventRepo) GetByUid(db *gorm.DB, rds *redis.Client, uid int, limit int
 	}
 
 	return r0, r1, r2
+}
+
+// JoinEvent provides a mock function with given fields: db, participant
+func (_m *EventRepo) JoinEvent(db *gorm.DB, participant entities.Participants) (*entities.Participants, error) {
+	ret := _m.Called(db, participant)
+
+	var r0 *entities.Participants
+	var r1 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, entities.Participants) (*entities.Participants, error)); ok {
+		return rf(db, participant)
+	}
+	if rf, ok := ret.Get(0).(func(*gorm.DB, entities.Participants) *entities.Participants); ok {
+		r0 = rf(db, participant)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entities.Participants)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(*gorm.DB, entities.Participants) error); ok {
+		r1 = rf(db, participant)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // Update provides a mock function with given fields: db, event

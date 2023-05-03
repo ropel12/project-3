@@ -209,7 +209,7 @@ func (t *transaction) GetByStatus(db *gorm.DB, uid int, status string) ([]entity
 	res := []entity.Transaction{}
 	if err := db.Preload("Event", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id,name")
-	}).Where("user_id = ? AND status=?", uid, status).Find(&res).Error; err != nil {
+	}).Where("user_id = ? AND status LIKE ?", uid, "%"+status+"%").Find(&res).Error; err != nil {
 		t.log.Errorf("error db : %v", err)
 		return nil, errorr.NewInternal("Internal server error")
 	}

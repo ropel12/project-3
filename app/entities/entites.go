@@ -24,6 +24,11 @@ type (
 		Transactions []Transaction
 	}
 
+	Participants struct {
+		UserID  uint
+		EventID uint
+	}
+
 	Type struct {
 		gorm.Model
 		Name             string             `gorm:"not null" form:"type_name" json:"type_name,omitempty" validate:"required" `
@@ -64,8 +69,8 @@ type (
 		Status           string `gorm:"not null"`
 		PaymentCode      string `gorm:"not null"`
 		Total            int    `gorm:"not null"`
-		Expire           string `gorm:"not null"`
-		Date             string `gorm:"not null"`
+		Expire           string `gorm:"type:timestamp;not null"`
+		Date             string `gorm:"type:timestamp;not null"`
 		UserID           uint   `gorm:"not null"`
 		EventID          uint   `gorm:"not null"`
 		User             User

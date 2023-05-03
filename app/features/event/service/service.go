@@ -26,12 +26,13 @@ type (
 		Create(ctx context.Context, req entity.ReqCreate, file multipart.File) (int, error)
 		MyEvent(ctx context.Context, uid, limit, page int) (*entity.Response, error)
 		Delete(ctx context.Context, id int, uid int) error
-		GetAll(ctx context.Context, limit, page int) (*entity.Response, error)
+		GetAll(ctx context.Context, limit, page int, search string) (*entity.Response, error)
 		Detail(ctx context.Context, id int) (*entity.ResponseDetailEvent, error)
 		Update(ctx context.Context, req entity.ReqUpdate, file multipart.File) (int, error)
 		CreateComment(ctx context.Context, req entity.ReqCreateComment) (int, error)
 		CreateTicket(ctx context.Context, req entity.ReqCreateTicket) (int, error)
 		DeleteTicket(ctx context.Context, ticketid int) (int, error)
+		JoinEvent(ctx context.Context, req entity.ReqJoinEvent) (int, error)
 	}
 )
 
@@ -111,9 +112,9 @@ func (e *event) Delete(ctx context.Context, id int, uid int) error {
 	return nil
 }
 
-func (e *event) GetAll(ctx context.Context, limit, page int) (*entity.Response, error) {
+func (e *event) GetAll(ctx context.Context, limit, page int, search string) (*entity.Response, error) {
 	offset := (page - 1) * limit
-	data, total, err := e.repo.GetAll(e.dep.Db.WithContext(ctx), e.dep.Rds, limit, offset)
+	data, total, err := e.repo.GetAll(e.dep.Db.WithContext(ctx), e.dep.Rds, limit, offset, search)
 	if err != nil {
 		return nil, err
 	}
@@ -247,6 +248,7 @@ func (e *event) Update(ctx context.Context, req entity.ReqUpdate, file multipart
 }
 func (e *event) CreateComment(ctx context.Context, req entity.ReqCreateComment) (int, error) {
 	if err := e.validator.Struct(req); err != nil {
+		e.dep.Log.Errorf("error service : %v", err)
 		return 0, errorr.NewBad("Invalid or missing request body")
 	}
 	if !e.dep.Validation.Validate(req.Comment) {
@@ -261,6 +263,7 @@ func (e *event) CreateComment(ctx context.Context, req entity.ReqCreateComment) 
 
 func (e *event) CreateTicket(ctx context.Context, req entity.ReqCreateTicket) (int, error) {
 	if err := e.validator.Struct(req); err != nil {
+		e.dep.Log.Errorf("error service : %v", err)
 		return 0, errorr.NewBad("Invalid or missing request body")
 	}
 	res, err := e.repo.CreateTicket(e.dep.Db.WithContext(ctx), entity2.Type{Name: req.TypeName, Price: req.Price, EventID: uint(req.EventId)})
@@ -272,6 +275,18 @@ func (e *event) CreateTicket(ctx context.Context, req entity.ReqCreateTicket) (i
 
 func (e *event) DeleteTicket(ctx context.Context, ticketid int) (int, error) {
 	res, err := e.repo.DeleteTicket(e.dep.Db.WithContext(ctx), ticketid)
+	if err != nil {
+		return 0, err
+	}
+	return int(res.EventID), nil
+}
+
+func (e *event) JoinEvent(ctx context.Context, req entity.ReqJoinEvent) (int, error) {
+	if err := e.validator.Struct(req); err != nil {
+		e.dep.Log.Errorf("error service : %v", err)
+		return 0, errorr.NewBad("Invalid or missing request body")
+	}
+	res, err := e.repo.JoinEvent(e.dep.Db.WithContext(ctx), entity2.Participants{UserID: uint(req.UserId), EventID: uint(req.EventId)})
 	if err != nil {
 		return 0, err
 	}
