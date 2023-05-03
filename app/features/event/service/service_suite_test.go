@@ -233,10 +233,10 @@ var _ = Describe("event", func() {
 			limit := 5
 			offset := 0
 			BeforeEach(func() {
-				Mock.On("GetAll", mock.Anything, mock.Anything, limit, offset).Return(nil, 0, errors.New("Internal Server Error")).Once()
+				Mock.On("GetAll", mock.Anything, mock.Anything, limit, offset, "").Return(nil, 0, errors.New("Internal Server Error")).Once()
 			})
 			It("Akan Mengembalikan error dengan pesan 'Internal Server Error'", func() {
-				_, err := EventService.GetAll(ctx, limit, 1)
+				_, err := EventService.GetAll(ctx, limit, 1, "")
 				Expect(err).ShouldNot(BeNil())
 				Expect(err.Error()).To(Equal("Internal Server Error"))
 			})
@@ -246,10 +246,10 @@ var _ = Describe("event", func() {
 			limit := 5
 			offset := 0
 			BeforeEach(func() {
-				Mock.On("GetAll", mock.Anything, mock.Anything, limit, offset).Return(nil, 0, errors.New("data not found")).Once()
+				Mock.On("GetAll", mock.Anything, mock.Anything, limit, offset, "").Return(nil, 0, errors.New("data not found")).Once()
 			})
 			It("Akan Mengembalikan error dengan pesan 'data not found'", func() {
-				_, err := EventService.GetAll(ctx, limit, 1)
+				_, err := EventService.GetAll(ctx, limit, 1, "")
 				Expect(err).ShouldNot(BeNil())
 				Expect(err.Error()).To(Equal("data not found"))
 			})
@@ -261,10 +261,10 @@ var _ = Describe("event", func() {
 			BeforeEach(func() {
 				res := []*entity2.Event{}
 				res = append(res, &entity2.Event{Name: "Dota 2"})
-				Mock.On("GetAll", mock.Anything, mock.Anything, limit, offset).Return(res, 10, nil).Once()
+				Mock.On("GetAll", mock.Anything, mock.Anything, limit, offset, "").Return(res, 10, nil).Once()
 			})
 			It("Akan Mengembalikan data event", func() {
-				res, err := EventService.GetAll(ctx, limit, 1)
+				res, err := EventService.GetAll(ctx, limit, 1, "")
 				Expect(err).Should(BeNil())
 				Expect(res.Data).ShouldNot(BeNil())
 				Expect(res.Limit).To(Equal(5))
@@ -505,6 +505,46 @@ var _ = Describe("event", func() {
 				id, err := EventService.DeleteTicket(ctx, 1)
 				Expect(err).Should(BeNil())
 				Expect(id).To(Equal(1))
+			})
+		})
+	})
+	Context("Join Event", func() {
+		When("Request body kosong", func() {
+			It("Akan Mengembalikan error dengan pesan 'Invalid or missing request body'", func() {
+				id, err := EventService.JoinEvent(ctx, entity.ReqJoinEvent{})
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+			})
+		})
+		When("Terjadi kesalahn pada database", func() {
+			BeforeEach(func() {
+				Mock.On("JoinEvent", mock.Anything, mock.Anything).Return(nil, errors.New("Internal Server error")).Once()
+			})
+			It("Akan Mengembalikan error dengan pesan 'Internal Server Error'", func() {
+				id, err := EventService.JoinEvent(ctx, entity.ReqJoinEvent{EventId: 2})
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+			})
+		})
+		When("User sudah join sebelumnya", func() {
+			BeforeEach(func() {
+				Mock.On("JoinEvent", mock.Anything, mock.Anything).Return(nil, errors.New("you have already joined the event")).Once()
+			})
+			It("Akan Mengembalikan error dengan pesan 'you have already joined the event'", func() {
+				id, err := EventService.JoinEvent(ctx, entity.ReqJoinEvent{EventId: 1})
+				Expect(err).ShouldNot(BeNil())
+				Expect(id).To(Equal(0))
+			})
+		})
+		When("Berhasil join event", func() {
+			BeforeEach(func() {
+				res := entity2.Participants{EventID: 2}
+				Mock.On("JoinEvent", mock.Anything, mock.Anything).Return(&res, nil).Once()
+			})
+			It("Akan Mengembalikan error dengan pesan 'you have already joined the event'", func() {
+				id, err := EventService.JoinEvent(ctx, entity.ReqJoinEvent{EventId: 2})
+				Expect(err).Should(BeNil())
+				Expect(id).To(Equal(2))
 			})
 		})
 	})

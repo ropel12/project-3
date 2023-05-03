@@ -85,6 +85,7 @@ func (e *Event) Delete(c echo.Context) error {
 func (e *Event) GetAll(c echo.Context) error {
 	page := c.QueryParam("page")
 	limit := c.QueryParam("limit")
+	search := c.QueryParam("search")
 	if page == "" || limit == "" {
 		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "query params limit and page is missing", nil))
 	}
@@ -94,7 +95,7 @@ func (e *Event) GetAll(c echo.Context) error {
 		e.Dep.Log.Errorf("error handler : %v", err)
 		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid query param", nil))
 	}
-	res, err := e.Service.GetAll(c.Request().Context(), newlimit, newpage)
+	res, err := e.Service.GetAll(c.Request().Context(), newlimit, newpage, search)
 	if err != nil {
 		return CreateErrorResponse(err, c)
 	}
@@ -180,6 +181,20 @@ func (e *Event) DeleteTicket(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid param id", nil))
 	}
 	id, err := e.Service.DeleteTicket(c.Request().Context(), neweventid)
+	if err != nil {
+		return CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Succes Operation", map[string]any{"id": id}))
+}
+
+func (e *Event) JoinEvent(c echo.Context) error {
+	var req entity.ReqJoinEvent
+	if err := c.Bind(&req); err != nil {
+		e.Dep.Log.Errorf("Error service: %v", err)
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid Request Body", nil))
+	}
+	req.UserId = helper.GetUid(c.Get("user").(*jwt.Token))
+	id, err := e.Service.JoinEvent(c.Request().Context(), req)
 	if err != nil {
 		return CreateErrorResponse(err, c)
 	}

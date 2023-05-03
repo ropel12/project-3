@@ -42,6 +42,10 @@ type (
 		Image     string  `form:"image"`
 		Types     []TypeEvent
 	}
+	ReqJoinEvent struct {
+		UserId  int
+		EventId int `json:"event_id" validate:"required"`
+	}
 	TypeEvent struct {
 		Id       int    `json:"id"`
 		TypeName string `json:"type_name"`

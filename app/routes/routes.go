@@ -46,6 +46,7 @@ func (r *Routes) RegisterRoutes() {
 	rauth.POST("/events", r.Event.Create)
 	rauth.PUT("/events", r.Event.Update)
 	rauth.DELETE("/events/:id", r.Event.Delete)
+	rauth.POST("/events/participant", r.Event.JoinEvent)
 
 	/// Trasanction
 	rauth.POST("/transactions/cart", r.Trx.CreateCart)
