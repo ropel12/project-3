@@ -156,7 +156,7 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 	} else {
 		status = "paid"
 		date = time.Now().Format("2006-01-02 15:04:05")
-		expire = "0000-00-00 00:00:00"
+		expire = time.Now().Format("2006-01-02 15:04:05")
 		paymentcode = "-"
 	}
 
