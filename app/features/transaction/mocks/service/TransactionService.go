@@ -133,25 +133,25 @@ func (_m *TransactionService) GetDetail(ctx context.Context, invoice string, uid
 	return r0, r1
 }
 
-// GetHistoryByuid provides a mock function with given fields: ctx, uid
-func (_m *TransactionService) GetHistoryByuid(ctx context.Context, uid int) (*transaction.Response, error) {
-	ret := _m.Called(ctx, uid)
+// GetHistoryByuid provides a mock function with given fields: ctx, uid, page, limit
+func (_m *TransactionService) GetHistoryByuid(ctx context.Context, uid int, page int, limit int) (*transaction.Response, error) {
+	ret := _m.Called(ctx, uid, page, limit)
 
 	var r0 *transaction.Response
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int) (*transaction.Response, error)); ok {
-		return rf(ctx, uid)
+	if rf, ok := ret.Get(0).(func(context.Context, int, int, int) (*transaction.Response, error)); ok {
+		return rf(ctx, uid, page, limit)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int) *transaction.Response); ok {
-		r0 = rf(ctx, uid)
+	if rf, ok := ret.Get(0).(func(context.Context, int, int, int) *transaction.Response); ok {
+		r0 = rf(ctx, uid, page, limit)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*transaction.Response)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
-		r1 = rf(ctx, uid)
+	if rf, ok := ret.Get(1).(func(context.Context, int, int, int) error); ok {
+		r1 = rf(ctx, uid, page, limit)
 	} else {
 		r1 = ret.Error(1)
 	}

@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
@@ -95,7 +96,18 @@ func (u *Transaction) GetDetail(c echo.Context) error {
 
 func (u *Transaction) MyHistory(c echo.Context) error {
 	uid := helper.GetUid(c.Get("user").(*jwt.Token))
-	res, err := u.Service.GetHistoryByuid(c.Request().Context(), uid)
+	page := c.QueryParam("page")
+	limit := c.QueryParam("limit")
+	if page == "" || limit == "" {
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "query params limit and page is missing", nil))
+	}
+	newpage, err := strconv.Atoi(page)
+	newlimit, err1 := strconv.Atoi(limit)
+	if err != nil || err1 != nil {
+		u.Dep.Log.Errorf("error handler : %v", err)
+		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid query param", nil))
+	}
+	res, err := u.Service.GetHistoryByuid(c.Request().Context(), uid, newpage, newlimit)
 	if err != nil {
 		return CreateErrorResponse(err, c)
 	}

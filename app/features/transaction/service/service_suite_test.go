@@ -279,10 +279,10 @@ var _ = Describe("user", func() {
 	Context("Get History By Uid", func() {
 		When("Tidak Terdapat data pada user id yang di inputkan", func() {
 			BeforeEach(func() {
-				Mock.On("GetHistory", mock.Anything, 99).Return(nil, errors.New("Data not found"))
+				Mock.On("GetHistory", mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil, 0, errors.New("Data not found"))
 			})
 			It("Akan Mengembalikan error dengan pesan 'Data not found'", func() {
-				res, err := TrxService.GetHistoryByuid(ctx, 99)
+				res, err := TrxService.GetHistoryByuid(ctx, 99, 1, 20)
 				Expect(err).ShouldNot(BeNil())
 				Expect(res).Should(BeNil())
 				Expect(err.Error()).To(Equal("Data not found"))
@@ -290,10 +290,10 @@ var _ = Describe("user", func() {
 		})
 		When("Terdapat kesalahan query database", func() {
 			BeforeEach(func() {
-				Mock.On("GetHistory", mock.Anything, 99).Return(nil, errors.New("Internal server error"))
+				Mock.On("GetHistory", mock.Anything, 99, mock.Anything, mock.Anything).Return(nil, 0, errors.New("Internal server error"))
 			})
 			It("Akan Mengembalikan error dengan pesan 'Internal server error'", func() {
-				res, err := TrxService.GetHistoryByuid(ctx, 99)
+				res, err := TrxService.GetHistoryByuid(ctx, 99, 1, 10)
 				Expect(err).ShouldNot(BeNil())
 				Expect(res).Should(BeNil())
 				Expect(err.Error()).To(Equal("Internal server error"))
@@ -305,10 +305,10 @@ var _ = Describe("user", func() {
 				trx := entity2.Transaction{Invoice: "INV-12121212121", Event: Event}
 				datatrx := []entity2.Transaction{}
 				datatrx = append(datatrx, trx)
-				Mock.On("GetHistory", mock.Anything, 1).Return(datatrx, nil)
+				Mock.On("GetHistory", mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(datatrx, 0, nil)
 			})
 			It("Akan Mengembalikan data transaksi user", func() {
-				res, err := TrxService.GetHistoryByuid(ctx, 1)
+				res, err := TrxService.GetHistoryByuid(ctx, 1, 10, 20)
 				Expect(err).Should(BeNil())
 				Expect(res.Data).ShouldNot(BeNil())
 			})

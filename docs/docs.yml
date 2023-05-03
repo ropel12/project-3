@@ -7,9 +7,9 @@ servers:
    # Added by API Auto Mocking Plugin
    - description: SwaggerHub API Auto Mocking
      url: https://virtserver.swaggerhub.com/ropel12/tes/1.0.0
-   - url: https://virtserver.swaggerhub.com/ropel12/Api-Documentation/1.0.0  
+   - url: http://34.124.170.4:8000/ 
      description: testing
-   - url : https://domain.com/api
+   - url : https://go-event.online/
      description: production
 components:
   parameters:
@@ -22,27 +22,20 @@ components:
         type: integer
         example: 5
     offset:
-      name: offset
+      name: page
       in: query
-      description: start index
+      description: page
       required: true
       schema: 
         type: integer
         example: 0
     name:
-      name: name
+      name: search
       in: query
-      description: filter by name
+      description: filter by search value
       schema: 
         type: string
         example: linux
-    location:
-      name: location
-      in: query
-      description: filter by location
-      schema:
-        type:  string
-        example: jakarta
     id:
       name: id
       in: path
@@ -168,6 +161,29 @@ components:
               code:
                 type: integer
                 example: 201
+    StatusCreatedComment:
+      description: Success in adding data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: StatusCreated
+              code:
+                type: integer
+                example: 201
+              data:
+                type: object
+                properties:
+                  csrf:
+                    type: string
+                    example: qweqweei2iwiew
+                  id:
+                    type: integer
+                    example: 1
+                    
     StatusOkAllEvent:
       description: Fetch all event Data
       content:
@@ -411,7 +427,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/EventsSchemaCreateComment'
+    ReqJoinEvent:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              event_id: 
+                type: integer
+            example: {event_id:1}
     ReqCreateTransaction:
+      required: true
       content:
         application/json:
           schema:
@@ -470,8 +497,12 @@ components:
           data :
             type: object
             properties:
+              id:
+                type: integer
+                example: 1
               name:
                 type: string
+                example: satrio w
               email:
                 type: string
                 example: satrio@gmail.com 
@@ -522,12 +553,16 @@ components:
             location:
               type: string
               example: senayan jakarta pusat
-            qty:
+            quota:
               type: integer
               example: 10
+            hosted_by:
+              type: string
+              example: Michael Takeuchi
             duration:
-              type: integer
-              example: 2
+              type: number
+              format: float
+              example: 2.5
             type:
               type: array
               example: [{type_name: regular, price: 2000}]
@@ -557,9 +592,9 @@ components:
          date:
             type: string
             example: 2022-01-02
-         price:
-            type: integer
-            example: 20000
+         hosted_by:
+            type: string
+            example: Irwan
          qouta:
             type: integer
             example: 20
@@ -571,14 +606,17 @@ components:
               example: "Linuxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
          type:
               type: array
-              example: [{type_name: regular, price: 2000}]
+              example: [{id:3,type_name: regular, price: 2000}]
               items:
                 type: object
                 properties:
+                  id:
+                    type: integer
                   type_name:
                     type: string
                   price:
                     type: integer
+                    
          location:
             type: string
             example: senayan jakarta pusat
@@ -615,6 +653,8 @@ components:
                   type: string
                 hosted_by:
                   type: string
+                qouta:
+                  type: integer
                 image:
                   type: string
                 participants:
@@ -626,13 +666,15 @@ components:
                   location: Senayan 
                   end_date: 2023-04-13T18:17:02    
                   hosted_by: IndoxPloit
+                  quota: 10
                   image: Linux.jpg
                   participants: 10
                 - id: 2
                   name: "Dota2"
                   date: 2023-04-13T17:17:02
                   location: Senayan 
-                  end_date: 2023-04-13T18:17:02    
+                  end_date: 2023-04-13T18:17:02
+                  qouta: 20
                   hosted_by: Ana
                   image: Dota2.jpg
                   participants: 10
@@ -701,13 +743,15 @@ components:
               type: string
             location:
               type: string
+            quota:
+              type: integer
             qouta:
               type: integer
             hosted_by:
               type: string
             image:
               type: string
-            type:
+            types:
               type: array
               items:
                 type: object
@@ -721,7 +765,12 @@ components:
             participants:
               type: array
               items:
-                type: string
+                type: object
+                properties:
+                  name:
+                    type: string
+                  image:
+                    type: string
             comments: 
               type: array
               items:
@@ -739,20 +788,24 @@ components:
          id: 1
          name: "Webinar: Belajar dasar linux "
          date: 2023-04-13T21:17:02
-         price: 2000
          details: linuxxxxxxxxxxxxxxxxxxxxxxx
          location: Senayan 
+         quota: 10
          duration: 2   
          hosted_by: IndoxPloit
          image: Linux.jpg
-         type:
+         types:
           - type_id: 1
             type_name: Regular 
             price: 10000
           - type_id: 2
             type_name: Vip 
             price: 50000 
-         participants: [satrio,alfian,irwan]
+         participants:
+           - name: satrio
+             image: default.jpg
+           - name: irwan
+             image: default.jpg
          comments:
            - name: satrio
              image: satrio.jpg
@@ -776,9 +829,6 @@ components:
         comment: Eventnya Bagus
     TransactionsSchemaCreate:
       type: object
-      required:
-        - event_id
-        - payment_type
       properties:
         event_id:
           type: integer
@@ -786,28 +836,32 @@ components:
           
         payment_type:
           type: integer
-          example: bank_transfer
-        bank:
-          description: If you choose the bank transfer option, it is mandatory. If not, then it is considered optional.
-          type: string
-          example: bni || mandiri || cimb || bca || bri || maybank|| permata || mega 
+          example: BCA || MANDIRI || INDOMARET || Alfamaret
         items_detail:
           type: array
           items:
             type: object
             properties:
-              name:
+              type_id:
+                type: integer
+              type_name:
                 type: string
-              price:
+              tpye_price:
+                type: integer
+              sub_total:
                 type: integer
               qty:
                 type: integer
           example:
-            - name: Regular
-              price: 10000
+            - type_name: Regular
+              type_price: 10000
+              type_id: 1
+              sub_total: 10000
               qty: 1
-            - name: vip
-              price: 50000
+            - type_name: vip
+              type_price: 50000
+              type_id: 2
+              sub_total: 100000
               qty: 2      
               
     TransactionsSchemaCreateCart:
@@ -817,39 +871,49 @@ components:
           type: integer
           example: 1
     TransactionsSchemaCartGetAll:
-      type: array
-      items:
-        type: object
-        properties:
-          event_id:
-            type: integer
-          type_id:
-            type: integer
-          type_name:
-            type: string
-          type_price:
-            type: integer
-          qty:
-            type: integer
-          sub_total:
-            type: integer
+      type: object
+      properties:
+        csrf : 
+          type: string
+        total: 
+          type: integer
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              event_id:
+                type: integer
+              type_id:
+                type: integer
+              type_name:
+                type: string
+              type_price:
+                type: integer
+              qty:
+                type: integer
+              sub_total:
+                type: integer
       example:
-        - event_id: 1
-          type_id: 1
-          type_name: Regular
-          type_price: 20000
-          qty: 1
-          sub_total: 20000
-        - event_id: 1
-          type_id: 2
-          type_name: Vip
-          type_price: 60000
-          qty: 2
-          sub_total: 120000
+        total : 140000
+        csrf: ewqewqewqeqeq
+        data:
+          - event_id: 1
+            type_id: 1
+            type_name: Regular
+            type_price: 20000
+            qty: 1
+            sub_total: 20000
+          - event_id: 1
+            type_id: 2
+            type_name: Vip
+            type_price: 60000
+            qty: 2
+            sub_total: 120000
     TicketsSchemaAdd:
       type: object
       properties:
-        id_event:
+        event_id:
           type: integer
           example: 1
         type_name:
@@ -1098,8 +1162,6 @@ paths:
           schema:
             type: string
           example: "?status=unpaid || ?status=paid"
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
 
       security:
         - bearerAuth: []
@@ -1164,7 +1226,6 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/name'
-        - $ref: '#/components/parameters/location'
       responses:
         '200':
          $ref: '#/components/responses/StatusOkAllEvent'
@@ -1214,6 +1275,27 @@ paths:
            $ref: '#/components/responses/Unauthorized'
           '500':
            $ref: '#/components/responses/InternalServerError'
+  /events/participant:
+    post:
+      tags:
+        - Events
+      summary: Join the event
+      security:
+        - bearerAuth: []
+        - CSRFToken: []
+      requestBody:
+        $ref: '#/components/requestBodies/ReqJoinEvent'
+        
+      responses:
+        '201':
+          $ref: '#/components/responses/StatusCreatedComment'
+        '400':
+         $ref: '#/components/responses/BadRequest'
+        '401':
+         $ref: '#/components/responses/Unauthorized'
+        '500':
+         $ref: '#/components/responses/InternalServerError'
+      
   
   /comments:
     post:
@@ -1227,7 +1309,7 @@ paths:
         $ref: '#/components/requestBodies/ReqCreateComment'
       responses:
         '201':
-          $ref: '#/components/responses/StatusCreated'
+          $ref: '#/components/responses/StatusCreatedComment'
         '400':
          $ref: '#/components/responses/BadRequest'
         '401':
@@ -1374,4 +1456,3 @@ paths:
          $ref: '#/components/responses/Unauthorized'
         '500':
          $ref: '#/components/responses/InternalServerError'
-      

@@ -166,30 +166,37 @@ func (_m *TransactionRepo) GetDetailUserByInvoice(db *gorm.DB, invoice string) *
 	return r0
 }
 
-// GetHistory provides a mock function with given fields: db, uid
-func (_m *TransactionRepo) GetHistory(db *gorm.DB, uid int) ([]entities.Transaction, error) {
-	ret := _m.Called(db, uid)
+// GetHistory provides a mock function with given fields: db, uid, limit, offset
+func (_m *TransactionRepo) GetHistory(db *gorm.DB, uid int, limit int, offset int) ([]entities.Transaction, int, error) {
+	ret := _m.Called(db, uid, limit, offset)
 
 	var r0 []entities.Transaction
-	var r1 error
-	if rf, ok := ret.Get(0).(func(*gorm.DB, int) ([]entities.Transaction, error)); ok {
-		return rf(db, uid)
+	var r1 int
+	var r2 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int, int, int) ([]entities.Transaction, int, error)); ok {
+		return rf(db, uid, limit, offset)
 	}
-	if rf, ok := ret.Get(0).(func(*gorm.DB, int) []entities.Transaction); ok {
-		r0 = rf(db, uid)
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int, int, int) []entities.Transaction); ok {
+		r0 = rf(db, uid, limit, offset)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]entities.Transaction)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(*gorm.DB, int) error); ok {
-		r1 = rf(db, uid)
+	if rf, ok := ret.Get(1).(func(*gorm.DB, int, int, int) int); ok {
+		r1 = rf(db, uid, limit, offset)
 	} else {
-		r1 = ret.Error(1)
+		r1 = ret.Get(1).(int)
 	}
 
-	return r0, r1
+	if rf, ok := ret.Get(2).(func(*gorm.DB, int, int, int) error); ok {
+		r2 = rf(db, uid, limit, offset)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
 }
 
 // GetQtyByInvoice provides a mock function with given fields: db, invoice

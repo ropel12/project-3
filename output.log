@@ -1137,3 +1137,16 @@ e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail
 {"level":"info","msg":"Shutting down server","time":"2023-05-03T18:34:32+07:00"}
 {"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T18:34:38+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-05-03T18:37:37+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T19:46:38+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T19:49:46+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T19:55:07+07:00"}
+{"level":"error","msg":"Error handler: request Content-Type isn't multipart/form-data","time":"2023-05-03T19:57:01+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T19:59:36+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T21:14:42+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T21:23:30+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T21:23:36+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T21:24:15+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T21:24:21+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T21:25:52+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-03T21:40:14+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-03T21:41:13+07:00"}

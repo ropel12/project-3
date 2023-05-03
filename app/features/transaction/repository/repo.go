@@ -21,7 +21,7 @@ type (
 		UpdateStatusTrasansaction(db *gorm.DB, invoice string, status string) error
 		UpdateQuotaEvent(db *gorm.DB, eventid int, quota int) error
 		GetByInvoice(db *gorm.DB, invoice string, uid int) (*entity.Transaction, error)
-		GetHistory(db *gorm.DB, uid int) ([]entity.Transaction, error)
+		GetHistory(db *gorm.DB, uid int, limit, offset int) ([]entity.Transaction, int, error)
 		GetByStatus(db *gorm.DB, uid int, status string) ([]entity.Transaction, error)
 		CheckQuota(db *gorm.DB, eventid, qty int) error
 		GetQtyByInvoice(db *gorm.DB, invoice string) (int, int, error)
@@ -163,20 +163,23 @@ func (t *transaction) GetByInvoice(db *gorm.DB, invoice string, uid int) (*entit
 	}
 	return &res, nil
 }
-func (t *transaction) GetHistory(db *gorm.DB, uid int) ([]entity.Transaction, error) {
+func (t *transaction) GetHistory(db *gorm.DB, uid int, limit, offset int) ([]entity.Transaction, int, error) {
+
 	res := []entity.Transaction{}
+	var count int64
+	db.Model(&entity.Transaction{}).Where("transactions.user_id = ? AND transactions.status='paid' AND e.start_date < NOW() AND e.deleted_at IS NULL", uid).Joins("join events e on e.id = transactions.event_id").Count(&count)
 	if err := db.Preload("Event", func(db *gorm.DB) *gorm.DB {
 		return db.Preload("Users", func(db *gorm.DB) *gorm.DB {
 			return db.Select("id")
 		}).Select("id,start_date,end_date,name,hosted_by,image,location")
-	}).Where("transactions.user_id = ? AND transactions.status='paid' AND e.start_date < NOW()", uid).Joins("join events e on e.id = transactions.event_id").Find(&res).Error; err != nil {
+	}).Where("transactions.user_id = ? AND transactions.status='paid' AND e.start_date < NOW() AND e.deleted_at IS NULL", uid).Joins("join events e on e.id = transactions.event_id").Limit(limit).Offset(offset).Find(&res).Error; err != nil {
 		t.log.Errorf("error db : %v", err)
-		return nil, errorr.NewInternal("Internal server error")
+		return nil, 0, errorr.NewInternal("Internal server error")
 	}
 	if len(res) == 0 {
-		return nil, errorr.NewBad("data not found")
+		return nil, 0, errorr.NewBad("data not found")
 	}
-	return res, nil
+	return res, int(count), nil
 }
 
 func (t *transaction) CheckQuota(db *gorm.DB, eventid, qty int) error {

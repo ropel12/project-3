@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math"
 	"sync"
 	"time"
 
@@ -29,7 +30,7 @@ type (
 		CreateTransaction(ctx context.Context, req entity.ReqCheckout) (*entity.Transaction, error)
 		UpdateStatus(ctx context.Context, status, invoice string) error
 		GetDetail(ctx context.Context, invoice string, uid int) (*entity.Response, error)
-		GetHistoryByuid(ctx context.Context, uid int) (*entity.Response, error)
+		GetHistoryByuid(ctx context.Context, uid int, page, limit int) (*entity.Response, error)
 		GetByStatus(ctx context.Context, uid int, status string) (*entity.Response, error)
 		GetTickets(ctx context.Context, invoice string, uid int) (*entity.Response, error)
 	}
@@ -294,9 +295,10 @@ func (t *transaction) GetDetail(ctx context.Context, invoice string, uid int) (*
 	}
 	return &res, nil
 }
-func (t *transaction) GetHistoryByuid(ctx context.Context, uid int) (*entity.Response, error) {
+func (t *transaction) GetHistoryByuid(ctx context.Context, uid int, page, limit int) (*entity.Response, error) {
 	restrx := []entity.EventTransaction{}
-	data, err := t.repo.GetHistory(t.dep.Db.WithContext(ctx), uid)
+	offset := (page - 1) * limit
+	data, total, err := t.repo.GetHistory(t.dep.Db.WithContext(ctx), uid, limit, offset)
 	if err != nil {
 		return nil, err
 	}
@@ -325,7 +327,11 @@ func (t *transaction) GetHistoryByuid(ctx context.Context, uid int) (*entity.Res
 	wg.Wait()
 	close(trxchan)
 	res := entity.Response{
-		Data: restrx,
+		Limit:     limit,
+		Page:      page,
+		TotalData: total,
+		TotalPage: int(math.Ceil(float64(total) / float64(limit))),
+		Data:      restrx,
 	}
 	return &res, nil
 }

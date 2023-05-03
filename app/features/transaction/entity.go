@@ -57,8 +57,12 @@ type (
 	}
 
 	Response struct {
-		Csrf  string `json:"csrf,omitempty"`
-		Total int    `json:"total,omitempty"`
-		Data  any    `json:"data"`
+		Csrf      string `json:"csrf,omitempty"`
+		Limit     int    `json:"limit,omitempty"`
+		Page      int    `json:"page,omitempty"`
+		TotalPage int    `json:"total_page,omitempty"`
+		TotalData int    `json:"total_data,omitempty"`
+		Total     int    `json:"total,omitempty"`
+		Data      any    `json:"data"`
 	}
 )
