@@ -82,10 +82,22 @@
 </details>
 
 <details>
-  <summary>👋 Events Participant</summary>
+  <summary>👋 Events Participants</summary>
   
 | Method      | Endpoint            | Params      |q-Params            | JWT Token   | Function                                |
 | ----------- | ------------------- | ----------- |--------------------| ----------- | --------------------------------------- |
 | POST        | /comments           | -           |-                   | YES         | Create a new comment                |
+  
+</details>
+
+<details>
+  <summary>🛍️ Transactions</summary>
+  
+| Method      | Endpoint            | Params      |q-Params            | JWT Token   | Function                                |
+| ----------- | ------------------- | ----------- |--------------------| ----------- | --------------------------------------- |
+| POST        | /transaction/checkout           | -           |-                   | YES         | User checkout products                |
+| POST        | /transactions/cart      | -           |-                   | YES         | User add products to cart        |
+| GET        | /transactions/cart      | -           |-                   | YES         | User show their products in cart        |
+| GET        | /transactions/{invoice}      | -           | invoice                   | YES         | Show User invoices        |
   
 </details>
