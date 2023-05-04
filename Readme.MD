@@ -123,3 +123,7 @@ $ go run .
 ```
 
 - Voila! 🪄
+
+# UNIT TEST COVERAGE ALL
+
+<img src="UNITTEST_COOKIT.png">
