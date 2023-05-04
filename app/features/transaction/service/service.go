@@ -362,6 +362,7 @@ func (t *transaction) GetByStatus(ctx context.Context, uid int, status string) (
 	for _, val := range data {
 		res := entity.Transaction{
 			Invoice:   val.Invoice,
+			EventID:   int(val.EventID),
 			EventName: val.Event.Name,
 		}
 		trxchan <- res

@@ -39,6 +39,7 @@ type (
 	Transaction struct {
 		Total         int64         `json:"total,omitempty"`
 		Date          string        `json:"date,omitempty"`
+		EventID       int           `json:"event_id,omitempty"`
 		Expire        string        `json:"expire,omitempty"`
 		PaymentMethod string        `json:"payment_method,omitempty"`
 		Invoice       string        `json:"invoice,omitempty"`
