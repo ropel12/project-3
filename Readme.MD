@@ -101,3 +101,14 @@
 | GET        | /transactions/{invoice}      | -           | invoice                   | YES         | Show User invoices        |
   
 </details>
+
+<details>
+  <summary>🎟️ Tickets</summary>
+  
+| Method      | Endpoint            | Params      |q-Params            | JWT Token   | Function                                |
+| ----------- | ------------------- | ----------- |--------------------| ----------- | --------------------------------------- |
+| POST        | /tickets           | -           |-                   | YES         | Post new ticket                |
+| DELETE        | /tickets/{id_ticket}      | -           |-                   | YES         | Delete ticket by ID        |
+| GET        | /tickets/{invoices}      | -           | invoice                   | YES         | Show all tickets        |
+  
+</details>
