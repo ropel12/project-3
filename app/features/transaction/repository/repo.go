@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+
 	entity "github.com/ropel12/project-3/app/entities"
 	"github.com/ropel12/project-3/errorr"
 	"github.com/sirupsen/logrus"
@@ -38,6 +40,7 @@ func (t *transaction) Create(db *gorm.DB, cart entity.Carts) error {
 	return db.Transaction(func(db *gorm.DB) error {
 		var Carts entity.Carts
 		var EventId uint
+		var UserEvent entity.Type
 		var countCart int64
 		db.Model(&entity.Carts{}).Where("user_id = ? AND deleted_at IS NULL", cart.UserID).Count(&countCart)
 		if countCart > 0 {
@@ -54,6 +57,16 @@ func (t *transaction) Create(db *gorm.DB, cart entity.Carts) error {
 			}
 			if Carts.Type.EventID != EventId {
 				return errorr.NewBad("cannot purchase more than one event")
+			}
+
+		} else {
+			if err := db.Preload("Event").Where("id=?", cart.TypeID).First(&UserEvent).Error; err != nil {
+				t.log.Errorf("error db %v", err)
+				return errorr.NewInternal("Internal server error")
+			}
+			fmt.Println(UserEvent.Event.UserID, "user event", "====", cart.UserID)
+			if UserEvent.Event.UserID == cart.UserID {
+				return errorr.NewBad("cannot buy own event")
 			}
 
 		}
@@ -230,7 +243,7 @@ func (t *transaction) GetTicketByInvoice(db *gorm.DB, invoice string, uid int) (
 		}).Select("type_id,transaction_invoice,qty")
 	}).Preload("Event", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id,name,start_date,location,hosted_by")
-	}).Where("invoice=? AND user_id=? AND status='paid'", invoice, uid).Find(&res).Error; err != nil {
+	}).Unscoped().Joins("join transaction_items ti on ti.transaction_invoice=transactions.invoice join types t on t.id = ti.type_id AND (t.deleted_at IS NULL or t.deleted_at IS NOT NULL)").Where("invoice=? AND user_id=? AND status='paid'", invoice, uid).Find(&res).Error; err != nil {
 		return nil, errorr.NewInternal("Internal server error")
 	}
 	if res.Event.Name == "" {

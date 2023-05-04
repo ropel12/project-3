@@ -31,9 +31,10 @@ type (
 
 	Type struct {
 		gorm.Model
-		Name             string             `gorm:"not null" form:"type_name" json:"type_name,omitempty" validate:"required" `
-		Price            int                `gorm:"not null" form:"price" json:"price,omitempty" validate:"required"`
-		EventID          uint               `gorm:"not null"`
+		Name             string `gorm:"not null" form:"type_name" json:"type_name,omitempty" validate:"required" `
+		Price            int    `gorm:"not null" form:"price" json:"price,omitempty" validate:"required"`
+		EventID          uint   `gorm:"not null"`
+		Event            Event
 		Carts            []Carts            `json:"-"`
 		TransactionItems []TransactionItems `json:"-"`
 	}

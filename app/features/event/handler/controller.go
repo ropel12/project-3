@@ -126,7 +126,12 @@ func (e *Event) Update(c echo.Context) error {
 		e.Dep.Log.Errorf("Error service: %v", err)
 		return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid Request Body", nil))
 	}
-	err := json.Unmarshal([]byte(req.Rtype), &req.Types)
+	if req.Rtype != "" {
+		if err := json.Unmarshal([]byte(req.Rtype), &req.Types); err != nil {
+			e.Dep.Log.Errorf("error hanlder %v", err)
+			return c.JSON(http.StatusBadRequest, CreateWebResponse(http.StatusBadRequest, "Invalid Type", nil))
+		}
+	}
 	var file multipart.File
 	fileh, err1 := c.FormFile("image")
 	if err1 == nil {

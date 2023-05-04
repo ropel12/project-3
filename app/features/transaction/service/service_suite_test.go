@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	entity2 "github.com/ropel12/project-3/app/entities"
+	mocks2 "github.com/ropel12/project-3/app/features/event/mocks/repository"
 	entity "github.com/ropel12/project-3/app/features/transaction"
 	mocks "github.com/ropel12/project-3/app/features/transaction/mocks/repository"
 	trx "github.com/ropel12/project-3/app/features/transaction/service"
@@ -26,6 +27,7 @@ func TestService(t *testing.T) {
 
 var _ = Describe("user", func() {
 	var Mock *mocks.TransactionRepo
+	var Mock2 *mocks2.EventRepo
 	var TrxService trx.TransactionService
 	var Depend dependcy.Depend
 	var ctx context.Context
@@ -35,7 +37,8 @@ var _ = Describe("user", func() {
 		Depend.Log = log
 		Depend.Mds = container.NewMidtrans(&config.Config{Midtrans: config.MidtransConfig{ServerKey: "SB-Mid-server-TvgWB_Y9s81-rbMBH7zZ8BHW", ClientKey: "SB-Mid-client-nKsqvar5cn60u2Lv", Env: 1, ExpiryDuration: 1}})
 		Mock = mocks.NewTransactionRepo(GinkgoT())
-		TrxService = trx.NewTransactionService(Mock, Depend)
+		Mock2 = mocks2.NewEventRepo(GinkgoT())
+		TrxService = trx.NewTransactionService(Mock, Mock2, Depend)
 	})
 	Context("Create Cart", func() {
 		When("Request Body kosong", func() {

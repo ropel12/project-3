@@ -58,7 +58,6 @@ func GenerateExpiretime(timee string, duration int) string {
 	if err != nil {
 		return ""
 	}
-
 	return t.Add(time.Minute * time.Duration(duration)).Format("2006-01-02 15:04:05")
 }
 func GenerateInvoice(eventid int, userid int) string {

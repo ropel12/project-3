@@ -11,6 +11,7 @@ import (
 	"github.com/go-playground/validator"
 	"github.com/midtrans/midtrans-go"
 	entity2 "github.com/ropel12/project-3/app/entities"
+	repo2 "github.com/ropel12/project-3/app/features/event/repository"
 	entity "github.com/ropel12/project-3/app/features/transaction"
 	"github.com/ropel12/project-3/app/features/transaction/repository"
 	"github.com/ropel12/project-3/config/dependcy"
@@ -21,6 +22,7 @@ import (
 type (
 	transaction struct {
 		repo      repository.TransactionRepo
+		repoevent repo2.EventRepo
 		validator *validator.Validate
 		dep       dependcy.Depend
 	}
@@ -36,9 +38,10 @@ type (
 	}
 )
 
-func NewTransactionService(repo repository.TransactionRepo, dep dependcy.Depend) TransactionService {
+func NewTransactionService(repo repository.TransactionRepo, repoevent repo2.EventRepo, dep dependcy.Depend) TransactionService {
 	return &transaction{
 		repo:      repo,
+		repoevent: repoevent,
 		dep:       dep,
 		validator: validator.New(),
 	}
@@ -187,6 +190,7 @@ func (t *transaction) CreateTransaction(ctx context.Context, req entity.ReqCheck
 		if err := t.repo.UpdateQuotaEvent(t.dep.Db.WithContext(ctx), req.EventId, totalqty); err != nil {
 			return nil, err
 		}
+		t.repoevent.JoinEvent(t.dep.Db.WithContext(ctx), entity2.Participants{UserID: uint(req.UserId), EventID: uint(req.EventId)})
 	}
 	res := entity.Transaction{
 		Total:         int64(total),
@@ -218,6 +222,7 @@ func (t *transaction) UpdateStatus(ctx context.Context, status, invoice string) 
 		if err := t.repo.UpdateQuotaEvent(t.dep.Db.WithContext(ctx), eventId, qty); err != nil {
 			return err
 		}
+		t.repoevent.JoinEvent(t.dep.Db.WithContext(ctx), entity2.Participants{UserID: user.UserID, EventID: uint(eventId)})
 		go func() {
 			if err := t.dep.Nsq.Publish("2", encodeddata); err != nil {
 				t.dep.Log.Errorf("Failed to publish to NSQ: %v", err)

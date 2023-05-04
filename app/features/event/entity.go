@@ -31,14 +31,14 @@ type (
 	}
 	ReqUpdate struct {
 		Id        uint    `form:"id" validate:"required"`
-		Name      string  `form:"name" validate:"required"`
-		StartDate string  `form:"date" validate:"required"`
-		Duration  float32 `form:"duration" validate:"required"`
-		Details   string  `form:"details" validate:"required"`
-		Quota     int     `form:"quota" validate:"required"`
-		HostedBy  string  `form:"hosted_by" validate:"required"`
-		Location  string  `form:"location" validate:"required"`
-		Rtype     string  `form:"type" validate:"required"`
+		Name      string  `form:"name"`
+		StartDate string  `form:"date"`
+		Duration  float32 `form:"duration"`
+		Details   string  `form:"details"`
+		Quota     int     `form:"quota"`
+		HostedBy  string  `form:"hosted_by"`
+		Location  string  `form:"location"`
+		Rtype     string  `form:"type"`
 		Image     string  `form:"image"`
 		Types     []TypeEvent
 	}

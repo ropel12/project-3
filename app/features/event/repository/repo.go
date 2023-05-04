@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"reflect"
 	"time"
 
 	"github.com/go-redis/redis/v8"
@@ -82,6 +83,11 @@ func (e *event) GetByUid(db *gorm.DB, rds *redis.Client, uid int, limit int, off
 }
 
 func (e *event) Delete(db *gorm.DB, id int, uid int) error {
+	var eventtrx int64
+	db.Model(&entity.Transaction{}).Where("event_id=?", id).Count(&eventtrx)
+	if eventtrx > 0 {
+		return errorr.NewBad("Cannot delete event")
+	}
 	eventdata := entity.Event{}
 	db.Find(&eventdata, id)
 	if eventdata.Name == "" {
@@ -103,7 +109,8 @@ func (e *event) GetAll(db *gorm.DB, rds *redis.Client, limit int, offset int, se
 		redisres []byte
 	)
 	var count int64
-	db.Model(&entity.Event{}).Count(&count)
+	search = "%" + search + "%"
+	db.Model(&entity.Event{}).Where("start_date > NOW() AND quota > 0 AND (name like ? or start_date like ? or duration like ? or location like ? or hosted_by like ?)", search, search, search, search, search).Count(&count)
 	ctx, redisCancel := context.WithTimeout(context.Background(), 7*time.Second)
 	defer redisCancel()
 	key := fmt.Sprintf("eventall:limit:%d:offset:%d:search:%s", limit, offset, search)
@@ -113,8 +120,7 @@ func (e *event) GetAll(db *gorm.DB, rds *redis.Client, limit int, offset int, se
 			e.log.Errorf("Error redis : %v", err)
 			return nil, 0, errorr.NewInternal("Server internal Error")
 		}
-		search = "%" + search + "%"
-		if err := db.Preload("Users").Where("start_date > NOW() AND (name like ? or start_date like ? or duration like ? or location like ? or hosted_by like ?)", search, search, search, search, search).Order("id DESC").Limit(limit).Offset(offset).Find(&dbres).Error; err != nil {
+		if err := db.Preload("Users").Where("start_date > NOW() AND quota > 0 AND (name like ? or start_date like ? or duration like ? or location like ? or hosted_by like ?)", search, search, search, search, search).Order("id DESC").Limit(limit).Offset(offset).Find(&dbres).Error; err != nil {
 			if err == gorm.ErrRecordNotFound {
 				return nil, 0, errorr.NewBad("Data not found")
 			}
@@ -157,27 +163,45 @@ func (e *event) GetById(db *gorm.DB, id int) (*entity.Event, error) {
 
 func (e *event) Update(db *gorm.DB, newdata entity.Event) (*entity.Event, error) {
 	data := entity.Event{}
-	if err := db.Preload("Types").First(&data, newdata.ID).Error; err != nil {
+	if err := db.First(&data, newdata.ID).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, errorr.NewBad("Data not found")
 		}
 		e.log.Errorf("error db :%v", err)
 		return nil, errorr.NewInternal("Internal Server Error")
 	}
-	if newdata.Image == "" {
-		newdata.Image = data.Image
+	v := reflect.ValueOf(newdata)
+	n := reflect.ValueOf(&data).Elem()
+	for i := 0; i < v.NumField(); i++ {
+		switch v.Field(i).Interface().(type) {
+		case string:
+			val := v.Field(i).Interface().(string)
+			if val != "" {
+				n.Field(i).SetString(val)
+			}
+		case float32:
+			val := v.Field(i).Interface().(float32)
+			if val != 0 {
+				n.Field(i).SetFloat(float64(val))
+			}
+		case int:
+			val := v.Field(i).Interface().(int)
+			if val != 0 {
+				n.Field(i).SetInt(int64(val))
+			}
+		}
 	}
-	newdata.CreatedAt = data.CreatedAt
-	newdata.UserID = data.UserID
 	err := db.Transaction(func(db *gorm.DB) error {
-		if err := db.Save(&newdata).Error; err != nil {
+		if err := db.Save(&data).Error; err != nil {
 			e.log.Errorf("error db :%v", err)
 			return errorr.NewInternal("Internal Server Error")
 		}
-		for _, val := range newdata.Types {
-			if err := db.Model(&entity.Type{}).Where("id=?", val.ID).Updates(val).Error; err != nil {
-				e.log.Errorf("error db :%v", err)
-				return errorr.NewInternal("Internal Server Error")
+		if len(newdata.Types) > 0 {
+			for _, val := range newdata.Types {
+				if err := db.Model(&entity.Type{}).Where("id=?", val.ID).Updates(val).Error; err != nil {
+					e.log.Errorf("error db :%v", err)
+					return errorr.NewInternal("Internal Server Error")
+				}
 			}
 		}
 		return nil
@@ -228,7 +252,6 @@ func (e *event) DeleteTicket(db *gorm.DB, id int) (*entity.Type, error) {
 
 func (e *event) JoinEvent(db *gorm.DB, participant entity.Participants) (*entity.Participants, error) {
 	var count int64
-
 	db.Model(&entity.Participants{}).Where("user_id=? AND event_id=?", participant.UserID, participant.EventID).Count(&count)
 	if count > 0 {
 		return nil, errorr.NewBad("you have already joined the event")
