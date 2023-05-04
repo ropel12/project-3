@@ -54,3 +54,16 @@
 | POST        | /login      | -           |-                   | NO         | Login to the system        |
   
 </details>
+
+<details>
+  <summary>🙍‍♂️ Users</summary>
+  
+| Method      | Endpoint            | Params      |q-Params            | JWT Token   | Function                                |
+| ----------- | ------------------- | ----------- |--------------------| ----------- | --------------------------------------- |
+| GET        | /users           | -           |-                   | YES         | Show profile                |
+| PUT        | /users      | -           |-                   | YES         | Update profile data        |
+| DELETE        | /users      | -           |-                   | YES         | Delete user data        |
+| GET        | /users/events      | -           |-                   | YES         | Show list user event's        |
+| GET        | /users/history      | -           |-                   | YES         | Show history        |
+| GET        | /users/transaction      | -           |-                   | YES         | show data of user ticket's        |
+</details>
