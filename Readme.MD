@@ -80,3 +80,12 @@
 | GET        | /events/{id_event}      | id_event           |-                   | YES         | Show detail event        |
 | POST        | /events/participant      | -           |-                   | YES         | Join the event        |
 </details>
+
+<details>
+  <summary>👋 Events Participant</summary>
+  
+| Method      | Endpoint            | Params      |q-Params            | JWT Token   | Function                                |
+| ----------- | ------------------- | ----------- |--------------------| ----------- | --------------------------------------- |
+| POST        | /comments           | -           |-                   | YES         | Create a new comment                |
+  
+</details>
