@@ -10,7 +10,7 @@ import (
 )
 
 func GetConnection(c *Config) (*gorm.DB, error) {
-	dataSource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Asia%%2FJakarta",
+	dataSource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		c.Database.Username,
 		c.Database.Password,
 		c.Database.Host,

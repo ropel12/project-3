@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-redis/redis/v8"
 	entity "github.com/ropel12/project-3/app/entities"
+	"github.com/ropel12/project-3/helper"
 
 	"github.com/ropel12/project-3/errorr"
 	"github.com/sirupsen/logrus"
@@ -170,6 +171,16 @@ func (e *event) Update(db *gorm.DB, newdata entity.Event) (*entity.Event, error)
 		e.log.Errorf("error db :%v", err)
 		return nil, errorr.NewInternal("Internal Server Error")
 	}
+	t, err := time.Parse(time.RFC3339, data.StartDate)
+	t2, err2 := time.Parse(time.RFC3339, data.EndDate)
+	if err != nil || err2 != nil {
+		e.log.Error("[ERROR]When parse time, %v", err)
+	}
+	data.StartDate = t.Format("2006-01-02 15:04:05")
+	data.EndDate = t2.Format("2006-01-02 15:04:05")
+	if newdata.Duration != 0 {
+		data.EndDate = helper.GenerateEndTime(data.StartDate, newdata.Duration)
+	}
 	v := reflect.ValueOf(newdata)
 	n := reflect.ValueOf(&data).Elem()
 	for i := 0; i < v.NumField(); i++ {
@@ -191,7 +202,7 @@ func (e *event) Update(db *gorm.DB, newdata entity.Event) (*entity.Event, error)
 			}
 		}
 	}
-	err := db.Transaction(func(db *gorm.DB) error {
+	err = db.Transaction(func(db *gorm.DB) error {
 		if err := db.Save(&data).Error; err != nil {
 			e.log.Errorf("error db :%v", err)
 			return errorr.NewInternal("Internal Server Error")
