@@ -28,6 +28,7 @@ type (
 		CheckQuota(db *gorm.DB, eventid, qty int) error
 		GetQtyByInvoice(db *gorm.DB, invoice string) (int, int, error)
 		GetTicketByInvoice(db *gorm.DB, invoice string, uid int) (*entity.Transaction, error)
+		DeleteCart(db *gorm.DB, uid int) error
 	}
 )
 
@@ -101,9 +102,14 @@ func (t *transaction) GetCart(db *gorm.DB, uid int) ([]entity.Carts, error) {
 
 func (t *transaction) DeleteCart(db *gorm.DB, uid int) error {
 
-	if rowaffc := db.Where("user_id = ?", uid).Delete(&entity.Carts{}); rowaffc.RowsAffected == 0 {
+	rowaffc := db.Where("user_id = ?", uid).Delete(&entity.Carts{})
+	if err := rowaffc.Error; err != nil {
+		t.log.Errorf("Error Db : %v", err)
+		return errorr.NewInternal("Internal Server Error")
+	}
+	if rowaffc.RowsAffected == 0 {
 		t.log.Errorf("Error Db : %s", "Cart data does not exist")
-		return errorr.NewBad("Cannot Create transaction")
+		return errorr.NewBad("Cannot delete cart")
 	}
 	return nil
 }

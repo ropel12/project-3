@@ -56,6 +56,20 @@ func (_m *TransactionRepo) CreateTransaction(db *gorm.DB, data entities.Transact
 	return r0
 }
 
+// DeleteCart provides a mock function with given fields: db, uid
+func (_m *TransactionRepo) DeleteCart(db *gorm.DB, uid int) error {
+	ret := _m.Called(db, uid)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*gorm.DB, int) error); ok {
+		r0 = rf(db, uid)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // GetByInvoice provides a mock function with given fields: db, invoice, uid
 func (_m *TransactionRepo) GetByInvoice(db *gorm.DB, invoice string, uid int) (*entities.Transaction, error) {
 	ret := _m.Called(db, invoice, uid)

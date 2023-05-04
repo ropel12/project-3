@@ -35,6 +35,7 @@ type (
 		GetHistoryByuid(ctx context.Context, uid int, page, limit int) (*entity.Response, error)
 		GetByStatus(ctx context.Context, uid int, status string) (*entity.Response, error)
 		GetTickets(ctx context.Context, invoice string, uid int) (*entity.Response, error)
+		DeleteCart(ctx context.Context, uid int) error
 	}
 )
 
@@ -409,4 +410,10 @@ func (t *transaction) GetTickets(ctx context.Context, invoice string, uid int) (
 		Data: tickets,
 	}
 	return &res, nil
+}
+func (t *transaction) DeleteCart(ctx context.Context, uid int) error {
+	if err := t.repo.DeleteCart(t.dep.Db.WithContext(ctx), uid); err != nil {
+		return err
+	}
+	return nil
 }

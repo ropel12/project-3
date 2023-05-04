@@ -50,6 +50,7 @@ func (r *Routes) RegisterRoutes() {
 
 	/// Trasanction
 	rauth.POST("/transactions/cart", r.Trx.CreateCart)
+	rauth.DELETE("/transactions/cart", r.Trx.DeleteCart)
 	rauth.GET("/transactions/cart", r.Trx.GetCart)
 	rauth.POST("/transactions/checkout", r.Trx.CreateTransaction)
 	rauth.GET("/transactions/:invoice", r.Trx.GetDetail)
