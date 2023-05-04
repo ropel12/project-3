@@ -1,8 +1,8 @@
-# Ticket Event Shop
+# Go Event
 
 <div align="center">
   <p>
-    Ticket Event Shop
+    Go Event
   </p>
 
   <p align="center">
@@ -16,7 +16,7 @@
 
 ## 🧑‍💻 About the Project
 
-<p align="justify">Event Ticket Shop is a web application-based online market place for selling event ticket. Users can also discuss with other users about the event to be held. Here you can sell paid or free tickets. We implement midtrans for payment gateway</p>
+<p align="justify">Go Event is a web application-based online market place for selling event ticket. Users can also discuss with other users about the event to be held. Here you can sell paid or free tickets. We implement midtrans for payment gateway</p>
 
 
 ## 🛠 Technology Stack
@@ -127,3 +127,15 @@ $ go run .
 # UNIT TEST COVERAGE ALL
 
 <img src="UNITTEST_COOKIT.png">
+
+## Authors 👑
+
+- Satrio Wibowo <br> [![GitHub](https://img.shields.io/badge/Satrio-Wibowo-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ropel12)
+
+- Alfian Aditya <br> [![GitHub](https://img.shields.io/badge/alfian-aditya-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/alfianadityads)
+
+ <p align="right">(<a href="#top">back to top</a>)</p>
+<h3>
+<p align="center">Built with ❤️ by Group 1</p>
+<p align="center">©️ May 2023 </p>
+</h3>
