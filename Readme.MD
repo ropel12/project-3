@@ -67,3 +67,16 @@
 | GET        | /users/history      | -           |-                   | YES         | Show history        |
 | GET        | /users/transaction      | -           |-                   | YES         | show data of user ticket's        |
 </details>
+
+<details>
+  <summary>🕺Events</summary>
+  
+| Method      | Endpoint            | Params      |q-Params            | JWT Token   | Function                                |
+| ----------- | ------------------- | ----------- |--------------------| ----------- | --------------------------------------- |
+| PUT        | /events      | -           |-                   | YES         | Update event data        |
+| POST        | /events      | -           |-                   | YES         | Post new event        |
+| GET        | /events           | -           |-                   | YES         | Show all events                |
+| DELETE        | /events/{id_event}     | id_event           |-                   | YES         | Delete event by ID        |
+| GET        | /events/{id_event}      | id_event           |-                   | YES         | Show detail event        |
+| POST        | /events/participant      | -           |-                   | YES         | Join the event        |
+</details>
