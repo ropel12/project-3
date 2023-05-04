@@ -126,7 +126,7 @@ $ go run .
 
 # UNIT TEST COVERAGE ALL
 
-<img src="UNITTEST_COOKIT.png">
+<img src="docs/UT_GoEvent.png">
 
 ## Authors 👑
 
