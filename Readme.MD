@@ -126,6 +126,7 @@ $ go run .
 
 # UNIT TEST COVERAGE ALL
 
+<<<<<<< HEAD
 <img src="docs/UT_GoEvent.png">
 
 ## Authors 👑
@@ -139,3 +140,6 @@ $ go run .
 <p align="center">Built with ❤️ by Group 1</p>
 <p align="center">©️ May 2023 </p>
 </h3>
+=======
+<img src="UNITTEST_COOKIT.png">
+>>>>>>> edb8c59 (doc: add unit test documentation)
