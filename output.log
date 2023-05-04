@@ -1270,3 +1270,17 @@ e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail
 {"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-05-04T15:45:50+07:00"}
 {"level":"error","msg":"Error Db : Cart data does not exist","time":"2023-05-04T15:47:06+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-05-04T15:52:48+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-04T16:19:10+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-04T16:33:19+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-04T16:33:36+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-04T16:35:04+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-04T16:35:11+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-04T16:36:09+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-04T16:38:55+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-04T16:48:38+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-04T16:49:13+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-04T16:54:16+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-04T16:54:23+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-04T16:56:05+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-04T16:56:11+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-04T16:56:33+07:00"}
