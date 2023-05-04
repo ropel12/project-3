@@ -1296,3 +1296,5 @@ e\":\"2023-05-02T17:34:05+07:00\",\"Quota\":60,\"Location\":\"senayan\",\"Detail
 {"level":"info","msg":"Shutting down server","time":"2023-05-04T18:06:55+07:00"}
 {"level":"info","msg":"Starting server on port 8000","time":"2023-05-04T20:01:47+07:00"}
 {"level":"info","msg":"Shutting down server","time":"2023-05-04T20:02:47+07:00"}
+{"level":"info","msg":"Starting server on port 8000","time":"2023-05-04T23:40:23+07:00"}
+{"level":"info","msg":"Shutting down server","time":"2023-05-04T23:43:52+07:00"}

@@ -390,4 +390,27 @@ var _ = Describe("user", func() {
 			})
 		})
 	})
+	Context("Delete Cart", func() {
+		When("Tidak terdapat data pada uid yang dimasukan", func() {
+			BeforeEach(func() {
+				Mock.On("DeleteCart", mock.Anything, mock.Anything).Return(errors.New("Cart data does not exist"))
+			})
+			It("Akan Mengembalikan error dengan pesan 'Cart data does not exist", func() {
+				err := TrxService.DeleteCart(ctx, 99)
+				Expect(err).ShouldNot(BeNil())
+				Expect(err.Error()).To(Equal("Cart data does not exist"))
+			})
+		})
+
+		When("Terdapat data pada uid yang dimasukan", func() {
+			BeforeEach(func() {
+				Mock.On("DeleteCart", mock.Anything, mock.Anything).Return(nil)
+			})
+			It("Akan Mengembalikan nil error", func() {
+				err := TrxService.DeleteCart(ctx, 1)
+				Expect(err).Should(BeNil())
+			})
+		})
+
+	})
 })

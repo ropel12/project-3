@@ -55,6 +55,20 @@ func (_m *TransactionService) CreateTransaction(ctx context.Context, req transac
 	return r0, r1
 }
 
+// DeleteCart provides a mock function with given fields: ctx, uid
+func (_m *TransactionService) DeleteCart(ctx context.Context, uid int) error {
+	ret := _m.Called(ctx, uid)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) error); ok {
+		r0 = rf(ctx, uid)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // GetByStatus provides a mock function with given fields: ctx, uid, status
 func (_m *TransactionService) GetByStatus(ctx context.Context, uid int, status string) (*transaction.Response, error) {
 	ret := _m.Called(ctx, uid, status)

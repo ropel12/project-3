@@ -135,3 +135,11 @@ func (u *Transaction) GetTickets(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", res))
 }
+
+func (u *Transaction) DeleteCart(c echo.Context) error {
+	uid := helper.GetUid(c.Get("user").(*jwt.Token))
+	if err := u.Service.DeleteCart(c.Request().Context(), uid); err != nil {
+		CreateErrorResponse(err, c)
+	}
+	return c.JSON(http.StatusOK, CreateWebResponse(http.StatusOK, "Success operation", nil))
+}
