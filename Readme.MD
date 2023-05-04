@@ -101,3 +101,25 @@
 | GET        | /tickets/{invoices}      | -           | invoice                   | YES         | Show all tickets        |
   
 </details>
+
+## How to Install To Your Local And Run
+
+- Clone it
+
+```
+$ git clone https://github.com/ropel12/project-3
+```
+
+- Go to directory
+
+```
+$ cd project-3
+```
+
+- Run the project
+
+```
+$ go run .
+```
+
+- Voila! 🪄
